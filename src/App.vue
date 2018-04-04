@@ -1,0 +1,102 @@
+<template>
+  <div id="app">
+    
+    <div class="appBox">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive">
+        <!-- 这里是会被缓存的视图组件-->
+        </router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive">
+        <!-- 这里是不被缓存的视图组件-->
+      </router-view>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { reguser } from './views/common/api'
+  export default {
+    name: 'App',
+    created() {
+      // let y =document.body.clientHeight;
+      // document.getElementById("app").style.height = y + 'px';
+      // console.log("App onload--------------------------------------------------->");
+      let userData = this.urlDataTurnObj(window.location.href);
+      userData = JSON.parse(userData);
+      // alert(window.location.href);
+      window.isAttestation = false;
+      if (location.href.indexOf('sellerHome') !== -1) {
+        this.checkIsShop(userData);
+      }else {
+      }
+      
+      let pushData = this.reguserinfo(userData);
+      // console.log(pushData)
+      reguser(pushData).then(res => {
+        //注册成功
+        // console.log(res)
+        // if (Data !== {} && Data !== null) {
+        let userData2 = JSON.stringify(res.data);
+        // console.log(res.data);
+        sessionStorage.setItem("userData", userData2);
+        // console.log(sessionStorage.getItem("userData"));
+        // }
+
+
+      },(err => {
+        console.log(err)
+      }))
+      // console.log(userData);
+      // sessionStorage.setItem("userData", userData);
+    },
+    data () {
+      return {
+        active: false
+      }
+    },
+    methods: {
+      async checkIsShop (userData) {
+        
+        let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: userData.openid});
+        if (res.code == 4004) {
+          this.$router.push('/enterRules');
+          return;
+        }
+        console.log(res.data);
+        if (res.data.qualificationState !== '正常') {
+          this.$router.push('/wait');
+          return;
+        }
+        sessionStorage.setItem('userData', userData.openid);
+        window.isAttestation = true;
+        localStorage.setItem('shopData', JSON.stringify(res.data));
+        this.$router.push('/sellerHome')
+      }
+    }
+  }
+</script>
+
+
+<style scoped>
+  #app{
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* height: 97%;
+    min-height: 550px; */
+  }
+  .van-field input, .van-field textarea{
+    text-align: right;
+  }
+  .appBox{
+    width: 100%;
+    height: 92%;
+    min-height: 480px;
+    overflow: scroll;
+  }
+  .nav{
+    position: relative;
+    top: 0;
+  }
+</style>
