@@ -19,36 +19,14 @@
   export default {
     name: 'App',
     created() {
-      // let y =document.body.clientHeight;
-      // document.getElementById("app").style.height = y + 'px';
-      // console.log("App onload--------------------------------------------------->");
-      let userData = this.urlDataTurnObj(window.location.href);
-      userData = JSON.parse(userData);
-      // alert(window.location.href);
-      window.isAttestation = false;
-      if (location.href.indexOf('sellerHome') !== -1) {
-        this.checkIsShop(userData);
-      }else {
-      }
-      
-      let pushData = this.reguserinfo(userData);
-      // console.log(pushData)
-      reguser(pushData).then(res => {
-        //注册成功
-        // console.log(res)
-        // if (Data !== {} && Data !== null) {
-        let userData2 = JSON.stringify(res.data);
-        // console.log(res.data);
-        sessionStorage.setItem("userData", userData2);
-        // console.log(sessionStorage.getItem("userData"));
-        // }
+      // let userData = this.urlDataTurnObj(window.location.href);
+      // userData = JSON.parse(userData);
+      // if (location.href.indexOf('sellerHome') !== -1) {
+      //   this.checkIsShop(userData);
+      // }
 
+      this.checkIsApp();
 
-      },(err => {
-        console.log(err)
-      }))
-      // console.log(userData);
-      // sessionStorage.setItem("userData", userData);
     },
     data () {
       return {
@@ -57,21 +35,23 @@
     },
     methods: {
       async checkIsShop (userData) {
-        
         let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: userData.openid});
         if (res.code == 4004) {
           this.$router.push('/enterRules');
           return;
         }
-        console.log(res.data);
-        if (res.data.qualificationState !== '正常') {
-          this.$router.push('/wait');
-          return;
-        }
-        sessionStorage.setItem('userData', userData.openid);
-        window.isAttestation = true;
         localStorage.setItem('shopData', JSON.stringify(res.data));
         this.$router.push('/sellerHome')
+      },
+      // 是不是app，用接口判断是否有openid
+      async checkIsApp (userData) {
+        let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: userData.openid});
+        if (res.code !== 200) {
+          this.$router.push('/enterRules');
+          return;
+        }
+        localStorage.setItem('shopData', JSON.stringify(res.data));
+        this.$router.push('/login');
       }
     }
   }

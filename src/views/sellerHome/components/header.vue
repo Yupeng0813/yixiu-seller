@@ -7,6 +7,11 @@
 
 <script>
   export default {
+		watch: {
+			shopData: function(val) {
+				this.shopData = val;
+			}
+		},
 		props: {
 			shopData: Object
 		}
