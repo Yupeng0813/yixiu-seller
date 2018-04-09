@@ -54,6 +54,8 @@
         } else {
           // 不存在的情况下, 让他注册, 进入用户条款
           this.$router.push('/enterRules');
+
+          alert(222)
         }
 
         // this.isWeixin();
@@ -67,7 +69,7 @@
     data () {
       return {
         active: false,
-        // openid: ''
+        openid: ''
       }
     },
     methods: {
