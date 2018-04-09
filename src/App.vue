@@ -27,6 +27,13 @@
 
       // this.$router.push('/login');
 
+      let code = location.href.split('=')[1].split('&')[0];
+
+      // let code = '001W2XZ60rUfsH1Tsa070l93070W2XZn'
+
+      let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
+
+      alert(JSON.stringify(res));
 
     },
     data () {
