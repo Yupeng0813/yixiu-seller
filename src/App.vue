@@ -45,7 +45,9 @@
           // 不存在的情况下, 让他注册, 进入用户条款
           this.$router.push('/enterRules');
 
-          alert(222)
+          alert(222);
+
+          return;
         } else {
           // 进商家首页
 
@@ -56,7 +58,10 @@
           })
           
           alert(123);
+
           alert(JSON.stringify(shop));
+
+          return;
         }
 
         // this.isWeixin();
