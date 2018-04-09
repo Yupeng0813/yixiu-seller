@@ -358,7 +358,7 @@ export default {
 				return;
 			}
 
-			this.infos.owner = register._id;
+			this.infos.owner = register.data._id;
 
 			// 再创建店铺
 			let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
