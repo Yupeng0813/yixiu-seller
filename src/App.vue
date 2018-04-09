@@ -25,15 +25,14 @@
       //   this.checkIsShop(userData);
       // }
 
-      // this.$router.push('/login');
 
       let code = location.href.split('=')[1].split('&')[0];
 
       let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
       sessionStorage.setItem('openid', res.openid);
-      alert(sessionStorage.getItem('openid'));
 
+      this.checkIsApp();
     },
     data () {
       return {
@@ -41,15 +40,6 @@
       }
     },
     methods: {
-      async checkIsShop (userData) {
-        let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: userData.openid});
-        if (res.code == 4004) {
-          this.$router.push('/enterRules');
-          return;
-        }
-        localStorage.setItem('shopData', JSON.stringify(res.data));
-        this.$router.push('/sellerHome')
-      },
       // 是不是app，用接口判断是否有openid
       async checkIsApp (userData) {
         let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: userData.openid});
