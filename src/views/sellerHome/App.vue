@@ -55,7 +55,7 @@
 					// { name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' },
 					// { name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
 				],
-				shop: JSON.parse(localStorage.getItem('shopData'))._id,
+				shop: '',
 				modules: [
 					{ name: '待接单', num: 0, state: 11},
 					{ name: '维修中', num: 0, state: 12 },
@@ -85,7 +85,9 @@
 			// userData !== undefined ? localStorage.setItem('openid', userData) : null;
 			let openid = sessionStorage.getItem('userInfo').openid;
 
-			let shopData = JSON.parse(sessionStorage.getItem('shopData'));
+			this.shopData = JSON.parse(sessionStorage.getItem('shopData'));
+
+			this.shop = this.shopData._id;
 
 			alert(sessionStorage.getItem('shopData'));
 			
@@ -95,13 +97,13 @@
 			// this.shopData = res.data;
 			toast.hide();
 
-			if (shopData.qualificationState !== '正常') {
+			if (this.shopData.qualificationState !== '正常') {
 				this.waitStatus = true;
 				return;
 			}
 
 
-			if (shopData.pay) { //已缴纳保证金
+			if (this.shopData.pay) { //已缴纳保证金
 				this.content = [
 					{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
 					{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
