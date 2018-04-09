@@ -46,17 +46,26 @@
     methods: {
       async isWeixin () {
         // let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
-        let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-          collection: 'Shop',
+
+        let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+          collection: 'User',
           findType: 'findOne',
-          owner: '5acb640168b9f01ee807e7bd'
+          'wx.openid': this.openid
         })
-        if (res.code !== 200) {
-          this.$router.push('/enterRules');
-          return;
-        }
-        localStorage.setItem('shopData', JSON.stringify(res.data));
-        this.$router.push('/login');
+
+        console.log(user);
+
+        // let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        //   collection: 'Shop',
+        //   findType: 'findOne',
+        //   owner: '5acb640168b9f01ee807e7bd'
+        // })
+        // if (res.code !== 200) {
+        //   this.$router.push('/enterRules');
+        //   return;
+        // }
+        // localStorage.setItem('shopData', JSON.stringify(res.data));
+        // this.$router.push('/login');
       }
     }
   }
