@@ -19,26 +19,22 @@
   export default {
     name: 'App',
     async created() {
-      // let userData = this.urlDataTurnObj(window.location.href);
-      // userData = JSON.parse(userData);
-      // if (location.href.indexOf('sellerHome') !== -1) {
-      //   this.checkIsShop(userData);
-      // }
-
-
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      if (code) {
-        let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
+      // if (code) {
+      //   let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
-        sessionStorage.setItem('userInfo', res);
+      //   sessionStorage.setItem('userInfo', res);
 
-        this.openid = res.openid;
+      //   this.openid = res.openid;
 
-        this.isWeixin();
-      } else {
-        this.$router.push('/login');
-      }
+      //   this.isWeixin();
+      // } else {
+
+      //   this.$router.push('/login');
+
+      // }
+
 
       
     },

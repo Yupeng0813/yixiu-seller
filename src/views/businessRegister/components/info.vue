@@ -69,6 +69,13 @@
 			/>
 
 			<van-field
+				v-model="infos.password"
+				type="password"
+				label="密码"
+				placeholder="请输入密码"
+			/>
+
+			<van-field
 				v-model="infos.contactNumber"
 				label="联系电话"
 				placeholder="请输入联系电话"
@@ -85,7 +92,6 @@
 				placeholder="如街道、楼层、门牌号等"
 			/>
 
-			
 
 			<div class="info-item">
 				<p class="info-item__title">开始营业时间</p>
@@ -162,7 +168,13 @@ import file from '@/assets/file.png'
 import areaList from '../../my/components/data/area.json'
 import selects from '../../sellerHome/components/select'
 export default {
-	mounted () {
+	async mounted () {
+		// let req = {
+		// 	_id: "5acb562168b9f01ee807e7b6"
+		// }
+		// let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
+		// console.log(res);
+		window.status = false;
 		this.startPicker = this.$createPicker({
       title: '选择开始营业时间',
       data: [this.time],
@@ -328,14 +340,26 @@ export default {
           this.prompt('您还有信息未填写').show();
           return;
         }
-      })
-			// for (var key in this.infos) {
-			// 	console.log(this.infos[ key ])
-			// }
+			})
 			const toast = this.$createToast({
 				message: '加载中...'
 			})
 			toast.show();
+			// 先隐式注册成为用户
+			let register = await this.$api.sendData('https://m.yixiutech.com/reg', 
+				{
+					mobile: this.infos.contactNumber, 
+					password: this.infos.password
+			})
+
+			if (register.code !== 200) {
+				alert(register.errMsg);
+				return;
+			}
+
+			this.infos.owner = register._id;
+
+			// 再创建店铺
 			let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
 			toast.hide();
 			const wait  = this.$createToast({
