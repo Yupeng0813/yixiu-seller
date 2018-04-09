@@ -34,23 +34,22 @@
     // },
     methods: {
       async login () {
-        // for (var key in this.user) {
-        //   if (this.user[ key ] == '') {
-        //     this.prompt('您还有信息未填写', 'error').show();
-        //     return;
-        //   }
-        // }
-        // let res = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
+        for (var key in this.user) {
+          if (this.user[ key ] == '') {
+            this.prompt('您还有信息未填写', 'error').show();
+            return;
+          }
+        }
+        let res = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
 
         let userInfo  = await this.$api.getData('https://m.yixiutech.com/user/mobile/' + this.user.username);
 
-        console.log(userInfo);
-        // if (res.code !== 200) {
-        //   this.prompt(res.errMsg, 'error').show();
-        //   return;
-        // }
-        // localStorage.setItem('shopData', JSON.stringify(res.data));
-        // this.$router.push('/sellerHome');
+        if (res.code !== 200) {
+          this.prompt(res.errMsg, 'error').show();
+          return;
+        }
+        localStorage.setItem('shopData', JSON.stringify(res.data));
+        this.$router.push('/sellerHome');
       }
     },
     components: {},

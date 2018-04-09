@@ -31,6 +31,8 @@
       if (code) {
         let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
+        alert(JSON.stringify(res));
+
         sessionStorage.setItem('openid', res.openid);
 
         this.openid = res.openid;
