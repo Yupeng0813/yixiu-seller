@@ -232,8 +232,8 @@ export default {
 					{condition: '', denomination: ''}
 				],
 				owner: '',
-				ownerOpenid: sessionStorage.getItem('userInfo').openid,
-				wx: sessionStorage.getItem('userInfo'),
+				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')).openid,
+				wx: JSON.parse(sessionStorage.getItem('userInfo')),
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
