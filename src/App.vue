@@ -51,7 +51,7 @@
     methods: {
       async isWeixin () {
         let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
-        alert(JSON.stringify(res));
+        alert(this.openid);
         if (res.code !== 200) {
           this.$router.push('/enterRules');
           return;
