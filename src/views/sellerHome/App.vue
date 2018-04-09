@@ -92,34 +92,34 @@
 			// this.shopData = res.data;
 			toast.hide();
 
-			// if (res.data.qualificationState !== '正常') {
-			// 	this.waitStatus = true;
-			// 	return;
-			// }
+			if (res.data.qualificationState !== '正常') {
+				this.waitStatus = true;
+				return;
+			}
 
 
-			// if (res.data.pay) { //已缴纳保证金
-			// 	this.content = [
-			// 		{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-			// 		{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
-			// 		{ name: '修改手机维修服务', icon: 'update', link: '/updateService' },
-			// 		// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
-			// 		// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
-			// 		{ name: '完善信息', icon: 'identification', link: '/updateMsg' },
-			// 		{ name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
-			// 	];
-			// } else { // 未缴纳保证金
-			// 	this.content = [
-			// 		{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
-			// 	]
-			// 	this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show()
-			// }
+			if (res.data.pay) { //已缴纳保证金
+				this.content = [
+					{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
+					{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
+					{ name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+					// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
+					// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
+					{ name: '完善信息', icon: 'identification', link: '/updateMsg' },
+					{ name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
+				];
+			} else { // 未缴纳保证金
+				this.content = [
+					{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
+				]
+				this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show()
+			}
 
-			// this.modules.slice(0, 3).map( async item => {
-			// 	let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
-			// 	item.num = res.data.length;
-			// })
-			// this.modules[3].num = this.shopData.pv;
+			this.modules.slice(0, 3).map( async item => {
+				let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
+				item.num = res.data.length;
+			})
+			this.modules[3].num = this.shopData.pv;
 		},
 		methods: {
 			async onRefresh() {

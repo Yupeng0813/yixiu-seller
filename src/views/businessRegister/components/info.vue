@@ -160,15 +160,9 @@ import timeJson from '../data/data.json'
 import logo from '@/assets/logo.png'
 import file from '@/assets/file.png'
 import areaList from '../../my/components/data/area.json'
-import wx from 'weixin-js-sdk'
 import selects from '../../sellerHome/components/select'
 export default {
 	mounted () {
-		wx.getLocation({
-			success: function (res) {
-				alert(res);
-			}
-		})
 		this.startPicker = this.$createPicker({
       title: '选择开始营业时间',
       data: [this.time],
@@ -224,7 +218,7 @@ export default {
 				promotion: [
 					{condition: '', denomination: ''}
 				],
-				ownerOpenid: JSON.parse(sessionStorage.getItem('userData')).wx.openid,
+				ownerOpenid: sessionStorage.getItem('openid'),
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },

@@ -26,15 +26,21 @@
       // }
 
 
-      let code = location.href.split('=')[1].split('&')[0];
+      let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
+      if (code) {
+        let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
-      sessionStorage.setItem('openid', res.openid);
+        sessionStorage.setItem('openid', res.openid);
 
-      this.openid = res.openid;
+        this.openid = res.openid;
 
-      this.checkIsApp();
+        this.isWeixin();
+      } else {
+        this.$router.push('/login');
+      }
+
+      
     },
     data () {
       return {
@@ -43,8 +49,7 @@
       }
     },
     methods: {
-      // 是不是app，用接口判断是否有openid
-      async checkIsApp (userData) {
+      async isWeixin () {
         let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
         alert(this.openid);
         if (res.code !== 200) {
@@ -72,7 +77,7 @@
   }
   .appBox{
     width: 100%;
-    /* height: 92%; */
+    height: 100%;
     min-height: 480px;
     overflow: scroll;
   }
