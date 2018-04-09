@@ -31,9 +31,7 @@
       if (code) {
         let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
-        alert(JSON.stringify(res));
-
-        sessionStorage.setItem('openid', res.openid);
+        sessionStorage.setItem('userInfo', res);
 
         this.openid = res.openid;
 
@@ -53,7 +51,7 @@
     methods: {
       async isWeixin () {
         let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
-        alert(this.openid);
+        alert(JSON.stringify(res));
         if (res.code !== 200) {
           this.$router.push('/enterRules');
           return;

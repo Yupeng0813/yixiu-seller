@@ -83,9 +83,8 @@
 			toast.show();
 			// let userData = JSON.parse(this.urlDataTurnObj(window.location.href)).openid;
 			// userData !== undefined ? localStorage.setItem('openid', userData) : null;
-			let openid = sessionStorage.getItem('openid');
+			let openid = sessionStorage.getItem('userInfo').openid;
 			
-
 			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: openid});
 
 			// alert(JSON.stringify(res.data));
