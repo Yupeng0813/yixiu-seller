@@ -29,8 +29,6 @@
 
         sessionStorage.setItem('userInfo', JSON.stringify(res));
 
-        alert(JSON.stringify(res));
-
         this.openid = res.openid;
 
         let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
@@ -53,7 +51,7 @@
           let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
             collection: 'Shop',
             findType: 'findOne',
-            owner: user._id
+            owner: user.data._id
           })
 
           alert(JSON.stringify(shop));
