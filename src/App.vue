@@ -18,14 +18,15 @@
   import { reguser } from './views/common/api'
   export default {
     name: 'App',
-    created() {
+    async created() {
       // let userData = this.urlDataTurnObj(window.location.href);
       // userData = JSON.parse(userData);
       // if (location.href.indexOf('sellerHome') !== -1) {
       //   this.checkIsShop(userData);
       // }
 
-      this.checkIsApp();
+      this.$router.push('/login');
+
 
     },
     data () {
@@ -71,7 +72,7 @@
   }
   .appBox{
     width: 100%;
-    height: 92%;
+    /* height: 92%; */
     min-height: 480px;
     overflow: scroll;
   }

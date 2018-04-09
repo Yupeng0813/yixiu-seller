@@ -3,20 +3,17 @@
     <img :src="logo" alt="" class="logo" />
     <div class="loginBox">
       <div class="loginDes">
-        <span>用户名</span>
-        <input type="text" placeholder="" v-model="user.username">
+        <span>原密码</span>
+        <input type="text" placeholder="" v-model="password">
       </div>
       <div class="loginDes">
-        <span>密码</span>
-        <input type="password" v-model="user.password">
+        <span>新密码</span>
+        <input type="password" v-model="password">
       </div>
     </div>
     <div class="buttons">
       <div class="loginButton">
-        <button @click="login">立即登录</button>
-      </div>
-      <div class="register">
-        <span>忘记密码?</span>|<span>立即注册</span>
+        <button @click="update">立即修改</button>
       </div>
     </div>
   </div>
@@ -33,34 +30,32 @@
     //   console.log(res);
     // },
     methods: {
-      async login () {
+      async update () {
         // for (var key in this.user) {
         //   if (this.user[ key ] == '') {
         //     this.prompt('您还有信息未填写', 'error').show();
         //     return;
         //   }
         // }
-        // let res = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
-
-        let userInfo  = await this.$api.getData('https://m.yixiutech.com/user/mobile/' + this.user.username);
-
-        console.log(userInfo);
-        // if (res.code !== 200) {
-        //   this.prompt(res.errMsg, 'error').show();
-        //   return;
-        // }
-        // localStorage.setItem('shopData', JSON.stringify(res.data));
-        // this.$router.push('/sellerHome');
+        let data = {
+          password: this.password,
+          _id: '5aca34634e98731562adc03b'
+        };
+        let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', data);
+        if (res.code !== 200) {
+          this.prompt(res.errMsg, 'error').show();
+          return;
+        }
+        localStorage.setItem('shopData', JSON.stringify(res.data));
+        this.$router.push('/sellerHome');
       }
     },
     components: {},
     data() {
       return {
-        logo: logo,
-        user: {
-          username: '',
-          password: ''
-        }
+				logo: logo,
+				shop: '5aca34634e98731562adc03b',
+        password: ''
       }
     }
   }
