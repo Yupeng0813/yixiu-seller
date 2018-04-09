@@ -170,7 +170,7 @@ import selects from '../../sellerHome/components/select'
 export default {
 	async mounted () {
 		// let req = {
-		// 	_id: "5acb562168b9f01ee807e7b6"
+		// 	_id: "5acb578468b9f01ee807e7b7"
 		// }
 		// let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
 		// console.log(res);
@@ -230,7 +230,8 @@ export default {
 				promotion: [
 					{condition: '', denomination: ''}
 				],
-				ownerOpenid: sessionStorage.getItem('openid'),
+				owner: '',
+				ownerOpenid: sessionStorage.getItem('userInfo').openid,
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
