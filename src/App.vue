@@ -50,19 +50,8 @@
     },
     methods: {
       async isWeixin () {
-        // let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: 'oqLwK0yq_Npbv73d2ItKW8DpV65I'});
-        let res = await this.$api.sendData('https://m.yixiutech.com/sql/find/', 
-          {
-            collection: 'Shop',
-            findType: 'findOne',
-            ownerOpenid: this.openid,
-          });
-        console.log({
-            collection: 'Shop',
-            findType: 'findOne',
-            ownerOpenid: this.openid,
-          });
-
+        let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
+        alert(this.openid);
         if (res.code !== 200) {
           this.$router.push('/enterRules');
           return;
