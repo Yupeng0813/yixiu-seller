@@ -25,13 +25,9 @@
 <script>
   import logo from '@/assets/logo.png';
   export default {
-    // async mounted () {
-    //   let req = {
-    //     _id: "5aca33984e98731562adc03a"
-    //   }
-    //   let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
-    //   console.log(res);
-    // },
+    async mounted () {
+      
+    },
     methods: {
       toRegister () {
         this.$router.push('/businessRegister');

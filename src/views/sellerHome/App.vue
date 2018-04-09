@@ -128,22 +128,20 @@
 		},
 		methods: {
 			async onRefresh() {
-				let userData = JSON.parse(this.urlDataTurnObj(window.location.href)).openid;
-				userData !== undefined ? localStorage.setItem('openid', userData) : null;
-				let openid = localStorage.getItem('openid');
-				
-					
-				// let userData = sessionStorage.getItem('userData');
-				let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: openid});
+				let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+					collection: 'Shop',
+					findType: 'findOne',
+					_id: this.shopData._id
+				})
 
-				this.shopData = res.data;
+				this.shopData = shop.data;
 
-				if (res.data.qualificationState !== '正常') {
+				if (this.shopData.qualificationState !== '正常') {
 					this.waitStatus = true;
           return;
         }
 
-				if (res.data.pay) { //已缴纳保证金
+				if (this.shopData.pay) { //已缴纳保证金
 					this.content = [
 						{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
 						{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
@@ -159,12 +157,14 @@
 					]
 					this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show();
 				}
+
 				this.modules.slice(0, 3).map( async item => {
-					let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { type: 0, shop: this.shop, state: item.state });
+					let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
 					item.num = res.data.length;
 				})
-				this.modules[3].num = JSON.parse(localStorage.getItem('shopData')).pv;
-				// this.$toast('刷新成功');
+
+				this.modules[3].num = this.shopData.pv;
+
 				this.isLoading = false;
 			},
 			async deleteData(){
