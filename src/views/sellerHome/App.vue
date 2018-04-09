@@ -84,6 +84,10 @@
 			// let userData = JSON.parse(this.urlDataTurnObj(window.location.href)).openid;
 			// userData !== undefined ? localStorage.setItem('openid', userData) : null;
 			let openid = sessionStorage.getItem('userInfo').openid;
+
+			let shopData = JSON.parse(sessionStorage.getItem('shopData'));
+
+			alert(sessionStorage.getItem('shopData'));
 			
 			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: openid});
 
@@ -91,13 +95,13 @@
 			// this.shopData = res.data;
 			toast.hide();
 
-			if (res.data.qualificationState !== '正常') {
+			if (shopData.qualificationState !== '正常') {
 				this.waitStatus = true;
 				return;
 			}
 
 
-			if (res.data.pay) { //已缴纳保证金
+			if (shopData.pay) { //已缴纳保证金
 				this.content = [
 					{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
 					{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },

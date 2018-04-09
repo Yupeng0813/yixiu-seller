@@ -37,8 +37,6 @@
           'wx.openid': this.openid
         })
 
-        alert(JSON.stringify(user));
-
         // 如果用户存在的情况下
         if (user == undefined) {
           // 不存在的情况下, 让他注册, 进入用户条款
@@ -53,8 +51,10 @@
             findType: 'findOne',
             owner: user.data._id
           })
+          
+          sessionStorage.setItem('shopData', JSON.stringify(shop.data));
 
-          alert(JSON.stringify(shop));
+          this.$router.push('/sellerHome');
 
           return;
         }
