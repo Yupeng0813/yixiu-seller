@@ -41,21 +41,22 @@
         alert(JSON.stringify(user));
 
         // 如果用户存在的情况下
-        if (user !== undefined) {
+        if (user == undefined) {
+          // 不存在的情况下, 让他注册, 进入用户条款
+          this.$router.push('/enterRules');
+
+          alert(222)
+        } else {
           // 进商家首页
+
           let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
             collection: 'Shop',
             findType: 'findOne',
             owner: user._id
           })
           
+          alert(123);
           alert(JSON.stringify(shop));
-
-        } else {
-          // 不存在的情况下, 让他注册, 进入用户条款
-          this.$router.push('/enterRules');
-
-          alert(222)
         }
 
         // this.isWeixin();
