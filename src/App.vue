@@ -32,17 +32,21 @@
 
       sessionStorage.setItem('openid', res.openid);
 
+      this.openid = res.openid;
+
       this.checkIsApp();
     },
     data () {
       return {
-        active: false
+        active: false,
+        openid: ''
       }
     },
     methods: {
       // 是不是app，用接口判断是否有openid
       async checkIsApp (userData) {
-        let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: userData.openid});
+        let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
+        alert(this.openid);
         if (res.code !== 200) {
           this.$router.push('/enterRules');
           return;
