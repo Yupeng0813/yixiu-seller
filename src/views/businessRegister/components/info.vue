@@ -169,11 +169,12 @@ import areaList from '../../my/components/data/area.json'
 import selects from '../../sellerHome/components/select'
 export default {
 	async mounted () {
-		// let req = {
-		// 	_id: "5acb578468b9f01ee807e7b7"
-		// }
-		// let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
-		// console.log(res);
+		let req = {
+			_id: "5acb5bdc68b9f01ee807e7ba"
+		}
+		let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
+		console.log(res);
+		console.log(sessionStorage.getItem('userInfo'));
 		window.status = false;
 		this.startPicker = this.$createPicker({
       title: '选择开始营业时间',
@@ -232,6 +233,7 @@ export default {
 				],
 				owner: '',
 				ownerOpenid: sessionStorage.getItem('userInfo').openid,
+				wx: sessionStorage.getItem('userInfo'),
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },

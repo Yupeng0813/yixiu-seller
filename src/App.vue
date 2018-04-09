@@ -21,19 +21,21 @@
     async created() {
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      if (code) {
-        let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
+      // if (code) {
+      //   let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
-        sessionStorage.setItem('userInfo', res);
+      //   sessionStorage.setItem('userInfo', res);
 
-        this.openid = res.openid;
+      //   alert(JSON.stringify(sessionStorage.getItem('userInfo')));
 
-        this.isWeixin();
-      } else {
+      //   this.openid = res.openid;
 
-        this.$router.push('/login');
+      //   this.isWeixin();
+      // } else {
 
-      }
+      //   this.$router.push('/login');
+
+      // }
 
 
       

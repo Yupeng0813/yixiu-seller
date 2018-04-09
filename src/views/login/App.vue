@@ -16,7 +16,7 @@
         <button @click="login">立即登录</button>
       </div>
       <div class="register">
-        <span>忘记密码?</span>|<span>立即注册</span>
+        <span @click="toRegister">立即注册</span>
       </div>
     </div>
   </div>
@@ -33,6 +33,9 @@
     //   console.log(res);
     // },
     methods: {
+      toRegister () {
+        this.$router.push('/businessRegister');
+      },
       async login () {
         for (var key in this.user) {
           if (this.user[ key ] == '') {
