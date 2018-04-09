@@ -21,17 +21,44 @@
     async created() {
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      if (code) {
-        let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
-        alert(JSON.stringify(res));
+      if (code) {
+        // 如果是微信
+
+        // 获取微信信息
+        let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
         sessionStorage.setItem('userInfo', JSON.stringify(res));
 
         this.openid = res.openid;
 
-        this.isWeixin();
+        let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+          collection: 'User',
+          findType: 'findOne',
+          'wx.openid': this.openid
+        })
+
+        alert(JSON.stringify(user));
+
+        // 如果用户存在的情况下
+        if (user !== undefined) {
+          // 进商家首页
+          let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+            collection: 'Shop',
+            findType: 'findOne',
+            owner: user._id
+          })
+          
+          alert(JSON.stringify(shop));
+
+        } else {
+          // 不存在的情况下, 让他注册, 进入用户条款
+          this.$router.push('/enterRules');
+        }
+
+        // this.isWeixin();
       } else {
+        // 非微信环境
 
         this.$router.push('/login');
 
@@ -46,14 +73,6 @@
     methods: {
       async isWeixin () {
         // let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
-
-        let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-          collection: 'User',
-          findType: 'findOne',
-          'wx.openid': this.openid
-        })
-
-        console.log(user);
 
         // let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
         //   collection: 'Shop',
