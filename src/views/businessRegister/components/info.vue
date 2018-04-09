@@ -352,7 +352,8 @@ export default {
 			let register = await this.$api.sendData('https://m.yixiutech.com/reg', 
 				{
 					mobile: this.infos.contactNumber, 
-					password: this.infos.password
+					password: this.infos.password,
+					wx: JSON.parse(sessionStorage.getItem('userInfo'))
 			})
 
 			if (register.code !== 200) {

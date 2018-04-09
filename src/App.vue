@@ -21,7 +21,6 @@
     async created() {
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-
       if (code) {
         // 如果是微信
 
@@ -29,6 +28,8 @@
         let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
         sessionStorage.setItem('userInfo', JSON.stringify(res));
+
+        alert(JSON.stringify(res));
 
         this.openid = res.openid;
 
@@ -45,8 +46,6 @@
           // 不存在的情况下, 让他注册, 进入用户条款
           this.$router.push('/enterRules');
 
-          alert(222);
-
           return;
         } else {
           // 进商家首页
@@ -56,8 +55,6 @@
             findType: 'findOne',
             owner: user._id
           })
-          
-          alert(123);
 
           alert(JSON.stringify(shop));
 
