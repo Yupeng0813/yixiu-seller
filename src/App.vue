@@ -21,8 +21,6 @@
     async created() {
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      alert(location.href);
-
       if (code) {
         // 如果是微信
 
@@ -33,44 +31,27 @@
 
         this.openid = res.openid;
 
+        alert(JSON.stringify(res));
+
         let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
           collection: 'User',
           findType: 'findOne',
           'wx.openid': this.openid
         })
 
-        // 如果用户存在的情况下
         if (user == undefined) {
-          // 不存在的情况下, 让他注册, 进入用户条款
-          this.$router.push('/enterRules');
-
-          return;
+          // 用户在系统中不存在的情况下, 让他注册
+          this.$router.push('/regitser');
+        
         } else {
-          // 进商家首页
-
-          let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-            collection: 'Shop',
-            findType: 'findOne',
-            owner: user.data._id
-          })
-
-          // 如果有该用户，但是没有注册店铺的
-
-          // 店铺不存在
-          if (shop == undefined) {
-            this.$router.push('/enterRules');
-          } else {
-            sessionStorage.setItem('shopData', JSON.stringify(shop.data));
-
-            this.$router.push('/sellerHome');
-          }
+          // 用户注册过的情况下
+          this.$router.push('/login');
+          
         }
 
-        // this.isWeixin();
       } else {
         // 非微信环境
-
-        this.$router.push('/service');
+        this.$router.push('/login');
 
       }
     },

@@ -28,10 +28,8 @@
 
 <script>
   import logo from '@/assets/logo.png';
+  import md5 from 'js-md5'; //MD5加密
   export default {
-    async mounted () {
-      
-    },
     methods: {
       wechatLogin () {
         location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
@@ -42,10 +40,13 @@
       async login () {
         for (var key in this.user) {
           if (this.user[ key ] == '') {
-            this.prompt('您还有信息未填写', 'error').show();
+            this.prompt('您还有信息未填写', 'error').sho+w();
             return;
           }
         }
+
+        this.user.password = md5(this.user.password);
+
         let userInfo = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
 
         if (userInfo.code !== 200) {
@@ -59,8 +60,14 @@
           owner: userInfo.data._id
         })
 
-        sessionStorage.setItem('shopData', JSON.stringify(shop.data));
-        this.$router.push('/sellerHome');
+        // 店铺不存在
+        if (shop == undefined) {
+          this.$router.push('/enterRules');
+        } else {
+          // 店铺存在，跳转用户页
+          sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+          this.$router.push('/sellerHome');
+        }
       }
     },
     components: {},
