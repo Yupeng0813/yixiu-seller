@@ -9,7 +9,6 @@
       console.log(window.location.href);
       let seller = this.urlDataTurnObj(window.location.href);
       seller = JSON.parse(seller);
-      alert(seller);
       console.log(seller);
     }
   };
