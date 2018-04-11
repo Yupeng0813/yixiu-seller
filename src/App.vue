@@ -21,6 +21,8 @@
     async created() {
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
+      alert(location.href);
+
       if (code) {
         // 如果是微信
 
@@ -51,19 +53,24 @@
             findType: 'findOne',
             owner: user.data._id
           })
-          
-          sessionStorage.setItem('shopData', JSON.stringify(shop.data));
 
-          this.$router.push('/sellerHome');
+          // 如果有该用户，但是没有注册店铺的
 
-          return;
+          // 店铺不存在
+          if (shop == undefined) {
+            this.$router.push('/enterRules');
+          } else {
+            sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+
+            this.$router.push('/sellerHome');
+          }
         }
 
         // this.isWeixin();
       } else {
         // 非微信环境
 
-        this.$router.push('/login');
+        this.$router.push('/service');
 
       }
     },
@@ -74,21 +81,7 @@
       }
     },
     methods: {
-      async isWeixin () {
-        // let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: this.openid});
-
-        // let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-        //   collection: 'Shop',
-        //   findType: 'findOne',
-        //   owner: '5acb640168b9f01ee807e7bd'
-        // })
-        // if (res.code !== 200) {
-        //   this.$router.push('/enterRules');
-        //   return;
-        // }
-        // localStorage.setItem('shopData', JSON.stringify(res.data));
-        // this.$router.push('/login');
-      }
+      
     }
   }
 </script>

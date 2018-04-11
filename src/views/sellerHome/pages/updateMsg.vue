@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<div class="info">
 			<item-header 
 				:name="infoName"
@@ -94,14 +94,17 @@
 				placeholder="如街道、楼层、门牌号等"
 			/>
 
-			<van-field
-				v-model="managerPhone"	
-				label="添加管理者"
-				placeholder="请输入管理者的电话号码"
-				@blur="searchId"
-			/>
+			<!-- <div class="box" v-for="(item, index) in users" :key="index">
+				<van-field
+					v-model="item.phone"	
+					label="添加管理者"
+					placeholder="请输入管理者的电话号码"
+					@blur="searchId"
+				/>
+			</div> -->
+			
 
-			<cube-button @click="addM">添加商铺管理者</cube-button>
+			<!-- <cube-button @click="addM">添加商铺管理者</cube-button> -->
 
 			<div class="info-item">
 				<p class="info-item__title">开始营业时间</p>
@@ -189,30 +192,31 @@ export default {
       }
 		})
 		
-		let userData = JSON.parse(sessionStorage.getItem('userData'));
+		let shopData = JSON.parse(sessionStorage.getItem('shopData'));
+
+		this.infos = shopData;
 
 		const toast = this.$createToast({
 			txt: '加载中...',
 			type: 'loading'
 		})
 		toast.show();
-		let res = await this.$api.sendData('https://m.yixiutech.com/shop/user', { openid: userData.wx.openid })
+
+
+		window.status = true;
+		let businessHours = this.infos.businessHours[0].split('-');
+		this.startHour = businessHours[0].trim();
+		this.endHour = businessHours[1].trim();
+		this.area = this.infos.address.split('-')[0];
+		this.infos.address = this.infos.address.split('-')[1];
 		
-		if (res.code == 200) {
-			window.status = true;
-			this.infos = res.data;
-			let businessHours = this.infos.businessHours[0].split('-');
-			this.startHour = businessHours[0].trim();
-			this.endHour = businessHours[1].trim();
-			this.area = this.infos.address.split('-')[0];
-			this.infos.address = this.infos.address.split('-')[1];
-			
-			this.$refs.child.filter(item => {
-				if(this.infos.serviceWay.includes(item.data))  {
-					item.selectOn();
-				}
-			})
-		}
+		this.$refs.child.filter(item => {
+			if(this.infos.serviceWay.includes(item.data))  {
+				item.selectOn();
+			}
+		})
+
+
 		toast.hide();
 		window.status = false;
 	},
@@ -235,7 +239,7 @@ export default {
 			area: '选择身份  选择城市  选择地区',
 			endHour: '',
 			users: [{
-				name: ''
+				phone: ''
 			}],
 			tempPhone: '',
 			serviceWay: ['用户到店', '上门维修', '线上快递'],
@@ -252,7 +256,7 @@ export default {
 				promotion: [
 					{condition: '', denomination: ''}
 				],
-				ownerOpenid: JSON.parse(sessionStorage.getItem('userData')).wx.openid,
+				// ownerOpenid: JSON.parse(sessionStorage.getItem('userData')).wx.openid,
 				certificate: []
 			},
 			time: timeJson,
@@ -286,7 +290,7 @@ export default {
 			this.$router.push('/sellerHome');
 		},
 		addM () {
-			this.infos.user.push({});
+			this.infos.user.push({ phone: '' });
 		},
 		async addManager (index) {
 			let userInfo = await this.$api.getData('https://m.yixiutech.com/user/mobile/' + this.tempPhone);
@@ -366,20 +370,20 @@ export default {
 				this.prompt('请至少选择一个服务方式', 'error').show();
 				return;
 			}
-			this.infos.address = this.area + '-' + this.infos.address;
-			const toast = this.$createToast({
-				txt: '加载中...',
-				type: 'loading'
-			})
-			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
-			toast.hide();
-			if (res.code !== 200) {
-				alert(res.errMsg);
-				return;
-			}
-			this.prompt('修改成功', 'success').show();
-			this.$router.push('/sellerHome');
+			// this.infos.address = this.area + '-' + this.infos.address;
+			// const toast = this.$createToast({
+			// 	txt: '加载中...',
+			// 	type: 'loading'
+			// })
+			// toast.show();
+			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
+			// toast.hide();
+			// if (res.code !== 200) {
+			// 	alert(res.errMsg);
+			// 	return;
+			// }
+			// this.prompt('修改成功', 'success').show();
+			// this.$router.push('/sellerHome');
 		},
 		start () {
 			this.startPicker.show()
@@ -396,6 +400,7 @@ export default {
 .container {
 	width: 100%;
 	height: 100%;
+	position: relative;
 }
 
 .info {

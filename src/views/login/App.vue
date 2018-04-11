@@ -19,6 +19,10 @@
         <span @click="toRegister">立即注册</span>
       </div>
     </div>
+
+    <div @click="wechatLogin">
+      微信一键登录
+    </div>
   </div>
 </template>
 
@@ -29,6 +33,9 @@
       
     },
     methods: {
+      wechatLogin () {
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
+      },
       toRegister () {
         this.$router.push('/businessRegister');
       },
@@ -39,15 +46,20 @@
             return;
           }
         }
-        let res = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
+        let userInfo = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
 
-        let userInfo  = await this.$api.getData('https://m.yixiutech.com/user/mobile/' + this.user.username);
-
-        if (res.code !== 200) {
-          this.prompt(res.errMsg, 'error').show();
+        if (userInfo.code !== 200) {
+          this.prompt(userInfo.errMsg, 'error').show();
           return;
         }
-        localStorage.setItem('shopData', JSON.stringify(res.data));
+
+        let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+          collection: 'Shop',
+          findType: 'findOne',
+          owner: userInfo.data._id
+        })
+
+        sessionStorage.setItem('shopData', JSON.stringify(shop.data));
         this.$router.push('/sellerHome');
       }
     },
@@ -75,7 +87,7 @@
     z-index: 100;
     text-align: center;
     min-height: 480px;
-    /* background: url('./log-bg.jpg') center center no-repeat; */
+    /* background: url('.+/log-bg.jpg') center center no-repeat; */
     /* background-size: 100% 100%; */
     background: -webkit-linear-gradient(left top, #6bc8b7, #3878cd);
     /* Safari 5.1 - 6.0 */

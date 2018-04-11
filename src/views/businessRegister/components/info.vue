@@ -9,6 +9,23 @@
 
 				<img class="info__logo" :src="logo" alt="" />
 
+			<p class="info__section">用户基本信息</p>
+
+			<van-field
+				v-model="infos.contactNumber"
+				label="联系电话"
+				placeholder="请输入联系电话(此为登录的用户名)"
+			/>
+
+			<van-field
+				v-model="infos.password"
+				type="password"
+				label="登录密码"
+				placeholder="请输入登录密码"
+			/>
+
+			<p class="info__section">店铺信息</p>
+
 			<p class="head">身份证正面</p>
 
 			<div class="upload">
@@ -66,19 +83,6 @@
 				label="商铺名称"
 				class="item"
 				placeholder="请输入商铺名称"
-			/>
-
-			<van-field
-				v-model="infos.password"
-				type="password"
-				label="密码"
-				placeholder="请输入密码"
-			/>
-
-			<van-field
-				v-model="infos.contactNumber"
-				label="联系电话"
-				placeholder="请输入联系电话"
 			/>
 
       <div class="box">
@@ -169,11 +173,6 @@ import areaList from '../../my/components/data/area.json'
 import selects from '../../sellerHome/components/select'
 export default {
 	async mounted () {
-		let req = {
-			_id: "5acb5bdc68b9f01ee807e7ba"
-		}
-		let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
-		console.log(res);
 		console.log(sessionStorage.getItem('userInfo'));
 		window.status = false;
 		this.startPicker = this.$createPicker({
@@ -232,8 +231,8 @@ export default {
 					{condition: '', denomination: ''}
 				],
 				owner: '',
-				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')).openid,
-				wx: JSON.parse(sessionStorage.getItem('userInfo')),
+				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')) ? JSON.parse(sessionStorage.getItem('userInfo')).openid : '',
+				wx: JSON.parse(sessionStorage.getItem('userInfo')) || '',
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
@@ -455,6 +454,14 @@ export default {
 .info .info__logo {
 	width: 200px;
 	display: inline-block;
+}
+
+.info .info__section {
+	font-size: 20px;
+	text-align: left;
+	color: #e0620d;
+	padding: 2% 5%;
+	border-left: 5px solid #e0620d;
 }
 
 .condition {

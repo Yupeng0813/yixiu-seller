@@ -61,8 +61,8 @@ export default {
 				name: '',
 				cover: '',
 				desc: '',
-				// shop: '5aa27cf18d78c262b3f19937',
-				shop: JSON.parse(localStorage.getItem('shopData'))._id
+				// shop: '5ac83157bcbe58709c9bd47a',
+				shop: JSON.parse(sessionStorage.getItem('shopData'))._id
 			}
 		}
 	},
