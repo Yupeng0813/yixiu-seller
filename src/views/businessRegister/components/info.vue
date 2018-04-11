@@ -213,9 +213,8 @@ export default {
 				promotion: [
 					{condition: '', denomination: ''}
 				],
-				owner: '',
+				owner: JSON.parse(sessionStorage.getItem('user'))._id,
 				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')) ? JSON.parse(sessionStorage.getItem('userInfo')).openid : '',
-				wx: JSON.parse(sessionStorage.getItem('userInfo')) || '',
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
@@ -330,20 +329,6 @@ export default {
 				message: '加载中...'
 			})
 			toast.show();
-			// 先隐式注册成为用户
-			let register = await this.$api.sendData('https://m.yixiutech.com/reg', 
-				{
-					mobile: this.infos.contactNumber, 
-					password: this.infos.password,
-					wx: JSON.parse(sessionStorage.getItem('userInfo'))
-			})
-
-			if (register.code !== 200) {
-				alert(register.errMsg);
-				return;
-			}
-
-			this.infos.owner = register.data._id;
 
 			// 再创建店铺
 			let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);

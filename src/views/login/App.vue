@@ -56,6 +56,8 @@
           return;
         }
 
+        sessionStorage.setItem('user', JSON.stringify(userInfo.data));
+
         let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
           collection: 'Shop',
           findType: 'findOne',
