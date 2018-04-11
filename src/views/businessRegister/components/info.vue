@@ -7,24 +7,7 @@
 				<sicon name="back" scale="3"></sicon>
 			</router-link>
 
-				<img class="info__logo" :src="logo" alt="" />
-
-			<p class="info__section">用户基本信息</p>
-
-			<van-field
-				v-model="infos.contactNumber"
-				label="联系电话"
-				placeholder="请输入联系电话(此为登录的用户名)"
-			/>
-
-			<van-field
-				v-model="infos.password"
-				type="password"
-				label="登录密码"
-				placeholder="请输入登录密码"
-			/>
-
-			<p class="info__section">店铺信息</p>
+			<img class="info__logo" :src="logo" alt="" />
 
 			<p class="head">身份证正面</p>
 

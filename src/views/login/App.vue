@@ -31,12 +31,6 @@
   import md5 from 'js-md5'; //MD5加密
   export default {
     async mounted () {
-      // let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-      //   collection: 'User',
-      //   findType: 'findOne',
-      //   'wx.openid': 'oqLwK0yq_Npbv73d2ItKW8DpV65I'
-      // })
-      // console.log(user);
     },
     methods: {
       wechatLogin () {

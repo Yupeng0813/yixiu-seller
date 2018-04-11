@@ -25,7 +25,7 @@ ajax.interceptors.response.use(response => {
   if (response.status === 200) {
     return Promise.resolve(res)
   } else {
-    alert(res.errMsg)
+    // alert(res.errMsg)
     return Promise.resolve()
   }
 }, err => {
