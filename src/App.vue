@@ -42,6 +42,7 @@
         if (user == undefined) {
           // 用户在系统中不存在的情况下, 让他注册
           this.$router.push('/register');
+          console.log(111)
         
         } else {
           // 用户注册过的情况下
