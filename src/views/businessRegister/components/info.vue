@@ -68,6 +68,12 @@
 				placeholder="请输入商铺名称"
 			/>
 
+			<van-field
+				v-model="infos.contactNumber"
+				label="联系电话"
+				placeholder="请输入联系电话"
+			/>
+
       <div class="box">
         <p>所在地区</p>
         <div class="area" @click="showArea">{{ area }}</div>
