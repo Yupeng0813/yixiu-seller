@@ -97,7 +97,8 @@
         }
         let isRegister = await this.$api.sendData(`https://m.yixiutech.com/sql/find`, register);
 
-        if (isRegister.data.length == 0){
+
+        if (isRegister.data.length == 0) {
           //注册
 
           sessionStorage.setItem("userData", JSON.stringify(userInfo));
@@ -105,7 +106,7 @@
           alert("你还未登录，请先登录");
 
           this.$router.push("/login");
-        }else{
+        } else {
           userInfo = isRegister.data[isRegister.data.length - 1];
 
           console.log(userInfo);
@@ -128,6 +129,8 @@
             let updateInfo = await this.$api.sendData(`https://m.yixiutech.com/sql/update`, update);
           
             sessionStorage.setItem("userData", JSON.stringify(userInfo));
+
+            this.$router.push("/login");
           } 
         }
       }

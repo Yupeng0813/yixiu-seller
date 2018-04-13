@@ -138,7 +138,7 @@
               this.$toast("注册成功");
               sessionStorage.setItem("userData", JSON.stringify(res.data));
               setTimeout(() => {
-                this.$router.push("/my");
+                this.$router.push("/login");
               }, 1000);
             } else {
               // if(code == 4001){

@@ -33,7 +33,7 @@
         location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
       },
       toRegister () {
-        this.$router.push('/register');
+        this.$router.push('/businessRegister');
       },
       async login () {
         for (var key in this.user) {
