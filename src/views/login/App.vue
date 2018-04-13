@@ -19,10 +19,6 @@
         <span @click="toRegister">立即注册</span>
       </div>
     </div>
-
-    <div @click="wechatLogin">
-      微信一键登录
-    </div>
   </div>
 </template>
 
@@ -93,7 +89,7 @@
     position: fixed;
     left: 0;
     right: 0;
-    top: 0;·
+    top: 0;
     bottom: 0;
     z-index: 100;
     text-align: center;

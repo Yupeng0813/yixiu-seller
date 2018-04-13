@@ -148,9 +148,7 @@ export default {
 				shop: '5ab93879d4e7f1497d58d94e',
 				cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 				info: {
-					photo: [{
-						url: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png'
-					}],
+					photo: [],
 					version: '',
 					primeCost: '',
 					present: '',
@@ -228,7 +226,7 @@ export default {
 			this.file = event.target.files[0];
 			let url = window.URL.createObjectURL(this.file);
 
-			this.photos[ index ].url
+			this.photos[ index ].url = url;
 
 
 			let formdata = new FormData();
@@ -246,11 +244,16 @@ export default {
 			})
 			toast.show();
 			let res = await this.$api.sendData('https://m.yixiutech.com/upload', formdata, config);
-			this.goods.info.photo[ index ].url = res.data;
-			this.goods.info.photo[ index ].url = url;
+			if (res.code !== 200) {
+				this.prompt('网络错误, 请重新上传', 'error').show();
+				return;
+			}
+			this.goods.info.photo.push({
+				url: res.data
+			});
 		},
 		addNew () {
-			this.goods.info.photo.push({
+			this.photos.push({
 				url: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png'
 			});
 		},
@@ -273,14 +276,13 @@ export default {
 
 		},
 		async submit () {
-			console.log(this.goods.info.photo);
-			// let goodRes = await this.$api.sendData('https://m.yixiutech.com/goods/shop', this.goods);
-			// if (goodRes.code !== 200) {
-			// 	this.prompt(goodRes.errMsg, 'error').show();
-			// 	return;	
-			// }
-			// this.prompt('发布成功', 'success').show();
-			// this.$router.push('/sellerHome');
+			let goodRes = await this.$api.sendData('https://m.yixiutech.com/goods/shop', this.goods);
+			if (goodRes.code !== 200) {
+				this.prompt(goodRes.errMsg, 'error').show();
+				return;	
+			}
+			this.prompt('发布成功', 'success').show();
+			this.$router.push('/sellerHome');
 		},
 		onRead (file, content) {
 			this.goods.cover = file.content;

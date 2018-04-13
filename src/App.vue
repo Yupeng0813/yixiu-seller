@@ -31,8 +31,6 @@
 
         this.openid = res.openid;
 
-        alert(JSON.stringify(res));
-
         let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
           collection: 'User',
           findType: 'findOne',
@@ -51,7 +49,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/publishPhone');
+        this.$router.push('/login');
 
       }
     },

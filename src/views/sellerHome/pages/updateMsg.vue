@@ -370,20 +370,20 @@ export default {
 				this.prompt('请至少选择一个服务方式', 'error').show();
 				return;
 			}
-			// this.infos.address = this.area + '-' + this.infos.address;
-			// const toast = this.$createToast({
-			// 	txt: '加载中...',
-			// 	type: 'loading'
-			// })
-			// toast.show();
-			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
-			// toast.hide();
-			// if (res.code !== 200) {
-			// 	alert(res.errMsg);
-			// 	return;
-			// }
-			// this.prompt('修改成功', 'success').show();
-			// this.$router.push('/sellerHome');
+			this.infos.address = this.area + '-' + this.infos.address;
+			const toast = this.$createToast({
+				txt: '加载中...',
+				type: 'loading'
+			})
+			toast.show();
+			let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
+			toast.hide();
+			if (res.code !== 200) {
+				alert(res.errMsg);
+				return;
+			}
+			this.prompt('修改成功', 'success').show();
+			this.$router.push('/sellerHome');
 		},
 		start () {
 			this.startPicker.show()

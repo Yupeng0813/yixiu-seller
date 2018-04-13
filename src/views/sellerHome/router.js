@@ -16,6 +16,7 @@ import serviceDetail from './pages/serviceDetail.vue'
 import deletePhone from './pages/deletePhone.vue'
 import updateService from './pages/updateService.vue'
 import entry from './pages/chooseEntry.vue'
+import manageCoupon from './pages/manageCoupon.vue'
 
 
 export default [{
@@ -96,4 +97,8 @@ export default [{
 {
   path: '/chooseEntry',
   component: entry
+},
+{
+  path: '/manageCoupon',
+  component: manageCoupon
 }]
