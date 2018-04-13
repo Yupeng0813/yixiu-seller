@@ -96,7 +96,7 @@
             this.validateSure = res.data;
             this.isShowRegister = 1;
           } else {
-            this.$toast(res.errMsg);
+            this.prompt(res.errMsg, 'error').show();
           }
         }
       },
@@ -108,7 +108,7 @@
         
 
           if (this.password == "" || this.phoneNumber == "") {
-            this.$toast("请填写手机和密码");
+            this.prompt("请填写手机和密码", 'error').show();
           } else if (this.validateSure == this.validateNumber) {
             let that = this;
             let nowopenid = [];
@@ -135,11 +135,9 @@
             console.log(res);
             // alert(JSON.stringify(res))
             if (res.code == 200) {
-              this.$toast("注册成功");
+              this.prompt("注册成功", 'correct').show();
               sessionStorage.setItem("userData", JSON.stringify(res.data));
-              setTimeout(() => {
-                this.$router.push("/login");
-              }, 1000);
+              this.$router.push("/login");
             } else {
               // if(code == 4001){
               //   let req = {
@@ -150,13 +148,13 @@
               //   }
               //   let res = await this.$api.sendData(`https://m.yixiutech.com/reg`, req);
               // }else{
-                this.$toast(res.errMsg);
+                this.prompt(res.errMsg, 'error').show();
               // }
             }
           } else if(this.validateSure != this.validateNumber){
-            this.$toast("验证码错误");
+            this.prompt("验证码错误", 'error').show();
           }else if(this.validateNumber == ""){
-            this.$toast("请输入验证码");
+            this.prompt("请输入验证码", 'error').show();
           }
         }
         

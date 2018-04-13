@@ -61,7 +61,7 @@
         })
 
         // 店铺不存在
-        if (shop == undefined) {
+        if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
           this.$router.push('/enterRules');
         } else {
           // 店铺存在，跳转用户页
