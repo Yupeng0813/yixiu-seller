@@ -96,8 +96,7 @@
           }
         }
         let isRegister = await this.$api.sendData(`https://m.yixiutech.com/sql/find`, register);
-        
-        toast.hide();
+
         if (isRegister.data.length == 0){
           //注册
 
@@ -108,8 +107,10 @@
           this.$router.push("/login");
         }else{
           userInfo = isRegister.data[isRegister.data.length - 1];
+
+          console.log(userInfo);
           
-          if(userInfo.mobile == ""){
+          if(userInfo.mobile == ''){
             alert("你还未登录，请先登录");
             this.$router.push("/login");
           }else{
