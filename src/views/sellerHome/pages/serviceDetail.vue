@@ -10,14 +10,12 @@
 				v-model="service.name"
 				label="服务名称"
 				placeholder="请输入服务名称"
-				disabled
 			/>
 
 			<van-field
 				v-model="service.price"
 				label="价格"
 				placeholder="请输入服务的价格"
-				disabled
 			/>
 
 			<van-field
@@ -38,6 +36,8 @@
 					</span>
 				</p>
 			</div>
+
+			<p>添加其他手机型号</p>
 
 			<div class="box">
 				<p>选择品牌</p>
@@ -176,11 +176,11 @@ export default {
 			modelNames: [],
 			phoneModel: [],
 			modelRes: [],
-			shop: JSON.parse(localStorage.getItem('shopData'))._id,
+			shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
 			service: {
 				name: '',
 				price: '',
-				shop: JSON.parse(localStorage.getItem('shopData'))._id,
+				shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
 				category: '',
 				manufacturer: '',
 				support: []

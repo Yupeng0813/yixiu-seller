@@ -76,6 +76,8 @@
 		// },
 		// 删除店铺信息  慎用
 		async created () {
+			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 10, skip: 0});
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'
@@ -105,8 +107,8 @@
 			if (this.shopData.pay) { //已缴纳保证金
 				this.content = [
 					{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-					{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
-					{ name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+					{ name: '管理手机服务列表', icon: 'view', link: '/viewServices' },
+					// { name: '修改手机维修服务', icon: 'update', link: '/updateService' },
 					{ name: '优惠券管理', icon: 'card', link: '/manageCoupon' },
 					// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 					// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
@@ -144,8 +146,8 @@
 				if (this.shopData.pay) { //已缴纳保证金
 					this.content = [
 						{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-						{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
-						{ name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+						{ name: '管理手机服务列表', icon: 'view', link: '/viewServices' },
+						// { name: '修改手机维修服务', icon: 'update', link: '/updateService' },
 						{ name: '优惠券管理', icon: 'card', link: '/manageCoupon' },
 						// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 						// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
