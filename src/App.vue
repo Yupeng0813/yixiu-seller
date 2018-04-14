@@ -126,7 +126,7 @@
             }
             let updateInfo = await this.$api.sendData(`https://m.yixiutech.com/sql/update`, update);
           
-            sessionStorage.setItem("userData", JSON.stringify(userInfo));
+            sessionStorage.setItem("user", JSON.stringify(userInfo));
 
             this.prompt('微信自动登录成功', 'correct').show();
 
