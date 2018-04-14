@@ -55,7 +55,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/sellerHome');
+        this.$router.push('/login');
 
       }
     },
@@ -108,8 +108,6 @@
           this.$router.push("/login");
         } else {
           userInfo = isRegister.data[isRegister.data.length - 1];
-
-          console.log(userInfo);
           
           if(userInfo.mobile == ''){
             alert("你还未登录，请先登录");
@@ -130,7 +128,22 @@
           
             sessionStorage.setItem("userData", JSON.stringify(userInfo));
 
-            this.$router.push("/login");
+            this.prompt('微信自动登录成功', 'correct').show();
+
+            let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+              collection: 'Shop',
+              findType: 'findOne',
+              owner: userInfo._id
+            })
+
+            // 店铺不存在
+            if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
+              this.$router.push('/enterRules');
+            } else {
+              // 店铺存在，跳转用户页
+              sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+              this.$router.push('/sellerHome');
+            }
           } 
         }
       }
