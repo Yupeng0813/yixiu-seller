@@ -1,11 +1,12 @@
 <template>
   	<div class="payBail">
+      <cube-scroll class="scroll">
       <item-header
         :name="name"
         @backParent="back"
       />
       <div class="rules">
-
+        
         <div class="content">
           <p class="content__clause">第一章 入驻须知 </p>
           <p>翼修暂未授权任何机构进行代理招商服务，入驻申请流程及相关的收费说明均以官方招商页面为准。</p>
@@ -82,11 +83,11 @@
           <p>13.若服务期间内乙方违反“乙方的责任和义务”甲方有权终止合同。</p>
           <p>14.合作期满，在同等条件下乙方享有优先续约权但必须提前两个月向甲方提出申请，并在遵守甲方新的加盟政策准入条下，与甲方续约。续约之日甲方会根据乙方在上一年翼修平台服务评分标准对保证金作相应扣除，若扣除后保证金不足￥3000元，乙方应补足人民币 ￥3000元剩余部分方可继续合作。</p>			
         </div>
-
       </div>
 		<van-button @click="surePayBail" bottom-action>
       <sicon name="nextStep" scale="1.8"></sicon><span>缴纳保证金￥{{this.totalFee}}</span>
     </van-button>
+    </cube-scroll>
 	</div>
 </template>
 
@@ -113,27 +114,30 @@ export default {
       this.$router.push('/sellerHome');
     },
     surePayBail: function() {
-	  console.log(this.totalFee);
-	  this.shopId = JSON.parse(localStorage.getItem('shopData'))._id
-	  Dialog.confirm({
-          title: '是否立即支付',
-        }).then(() => {
-		  // on confirm
-		  console.log(this);
-		  let payInfo = {
-			  shopId:this.shopId,
-			  totalFee: this.totalFee*100
-		  }
-          this._pay(payInfo);
-        }).catch(() => {
-          // on cancel
-          console.log("取消");
-        });
+      console.log(this.totalFee);
+      this.shopId = JSON.parse(localStorage.getItem('shopData'))._id
+      Dialog.confirm({
+            title: '是否立即支付',
+          }).then(() => {
+        // on confirm
+        console.log(this);
+        let payInfo = {
+          shopId:this.shopId,
+          totalFee: this.totalFee*100
+        }
+        this._pay(payInfo);
+      }).catch(() => {
+        // on cancel
+        console.log("取消");
+      });
     },
     async _pay(payInfo) {
       let isWxMini;
+      let openid = sessionStorage.getItem("openid");
+      let that = this;
       // console.log(data);
       isWxMini = window.__wxjs_environment === "miniprogram";
+      payInfo = Object.assign({}, payInfo, {type: 1});
 
       if(isWxMini){
           //小程序环境
@@ -218,7 +222,9 @@ export default {
 	width: 96%;
 	padding: 2%;
 }
-
+.scroll{
+  height: 100vh;
+}
 .content p {
 	text-indent: 2em;
 }
