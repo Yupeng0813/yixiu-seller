@@ -191,8 +191,6 @@ export default {
 			let zData = data.split('&');
 			let type = zData[1];
 			let name = zData[0];
-			this.manufacturer = zData[2]
-			this.brandName = name;
 
 			this.models.map(item => {
 				item.name == name ? this.modelRes = [ item._id ] : null;
@@ -214,7 +212,7 @@ export default {
 				item.list.map(childItem => {
 						if (childItem.name !== undefined && childItem.name !== '' && childItem.price !== '') {
 							let obj = Object.assign(childItem, {shop: this.shop, support: this.modelRes})
-							this.services.push(obj);	
+							this.services.push(obj);
 						}
 				})
 			})
@@ -224,6 +222,12 @@ export default {
 			})
 			toast.show();
 			this.services.map(async item => {
+				for (var key in item) {
+					if (item[ key ] == '' || item[ key ].length == 0) {
+						alert('您还有信息未填写!');
+						return;
+					}
+				}
 				let res = await this.$api.sendData('https://m.yixiutech.com/service', item);
 				res.code == 200 ? this.prompt(`添加${res.data.name}成功!`, 'correct').show() : alert(res.errMsg);
 			})
@@ -238,7 +242,6 @@ export default {
 			model.data.map(item => {
 				this.modelNames.push(item.name);
 			})
-			console.log(this.modelNames);
 			
 		},
 		async updateBrand () {

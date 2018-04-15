@@ -1,6 +1,6 @@
 <template>
   <div class="order-item" @click="detail">
-    <img :src="data.user.wx.avatarUrl" class="order-item__img" alt="" />
+    <img :src="data.user.wx.headimgurl" class="order-item__img" alt="" />
     <div class="order-item__msg">
       <p>昵称 : {{ data.user.name }}</p>
       <p>维修名称 : {{ data.service[0].name }}</p>

@@ -42,7 +42,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/login');
+        this.$router.push('/sellerHome');
       }
     },
     data () {

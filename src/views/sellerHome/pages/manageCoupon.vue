@@ -152,6 +152,7 @@ export default {
 .coupon {
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 	background: rgb(248, 248, 248);
 }
 
@@ -180,6 +181,7 @@ export default {
 }
 
 .condition {
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;

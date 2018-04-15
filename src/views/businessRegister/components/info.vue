@@ -50,7 +50,7 @@
 			<p class="head">拍照上传翼修入驻协议</p>
 			
 			<div class="upload">
-				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file" />
+				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file" accept="image/*" />
 				<img class="upload__show" :src="protocol" alt="" />
 			</div>
 

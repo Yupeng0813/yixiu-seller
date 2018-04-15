@@ -29,7 +29,7 @@
     async mounted () {
       let res = this.$api.sendData('https://m.yixiutech.com/sql/remove', {
         collection: 'Shop',
-        _id: '5ad246f8ab85e142eaef928f'
+        _id: '5ad2eaac0334c647774ef046'
       })
     },
     methods: {
