@@ -130,7 +130,7 @@ export default {
           console.log("取消");
         });
     },
-    _pay: function(payInfo) {
+    async _pay(payInfo) {
       let isWxMini;
       // console.log(data);
       isWxMini = window.__wxjs_environment === "miniprogram";
@@ -165,7 +165,8 @@ export default {
                       // alert(JSON.stringify(res));
                       // alert(JSON.stringify(payInfo));
                         if(wxres.err_msg == "get_brand_wcpay_request:ok" ) {
-                          that.paySuccess(res._id);
+                          that.$toast("支付成功");
+                          this.$router.push("/sellerHome");
                         }else{
                           that.$toast("支付失败");
                         }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 

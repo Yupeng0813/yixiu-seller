@@ -22,7 +22,8 @@
     "vue-svg-icon": "^1.2.9",
     "vue-video-player": "^5.0.2",
     "vue2-datepick": "^2.1.0",
-    "weixin-js-sdk": "^1.3.2"
+    "weixin-js-sdk": "^1.3.2",
+    "js-md5": "^0.7.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
