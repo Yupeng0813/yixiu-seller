@@ -171,7 +171,6 @@ export default {
                       // alert(JSON.stringify(res));
                       // alert(JSON.stringify(payInfo));
                         if(wxres.err_msg == "get_brand_wcpay_request:ok" ) {
-                          alert(123);
                           that.prompt("支付成功", 'correct').show();
                           let update = await that.$api.sendData('https://m.yixiutech.com/sql/update', {
                             collection: 'Shop',
@@ -184,6 +183,11 @@ export default {
                             }
                           })
                           if (update.code == 200) {
+                            let newShop = await that.$api.sendData('https://m.yixiutech.com/sql/find', {
+                              collection: 'Shop',
+                              shop: payInfo.shop
+                            })
+                            sessionStorage.setItem('shopData', JSON.stringify(newShop.data));
                             that.$router.push("/sellerHome");
                           } else {
                             alert(update.errMsg);
