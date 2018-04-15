@@ -10,16 +10,31 @@
 			</div>
 		</div>
 		<div class="couponsTag-right">
-			<h2>优惠券A</h2>
+			<h2>{{ name }}</h2>
+			<p>仅在{{ shopName }}可使用</p>
+		</div>
+		<div class="delete" @click="deleteCurrent">
+			删除
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
+	methods: {
+		deleteCurrent () {
+			let shopData = JSON.parse(sessionStorage.getItem('shopData'));
+			shopData.promotion.map( (item, index) => {
+				item.name == this.name ? shopData.promotion.splice(index, 1) : null;
+			})
+			this.$emit('deleteData', shopData);
+		}
+	},
   props: {
-		condition: Number,
-		denomination: Number
+		condition: String,
+		denomination: String,
+		name: String,
+		shopName: String
 	}
 }
 </script>
@@ -35,9 +50,9 @@ export default {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	width: 30%;
 	height: 100%;
 	line-height: 1;
-	min-width: 126px;
 }
 .couponsTag-right{
 	height: 100%;
@@ -97,13 +112,14 @@ export default {
 }
 .couponsTag-gradient p{
 	margin: 0;
-	font-size: 4vw;
+	font-size: 3vw;
 	font-weight: 300;
 	max-width: 90px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
 .couponsTag-right{
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
@@ -145,5 +161,13 @@ export default {
 	color: #999;
 	font-size: 12px;
 	margin: 5px 0 0;
+}
+
+.delete {
+	line-height: 100px;
+	width: 16%;
+	text-align: center;
+	background: #ef4136;
+	color: #fff;
 }
 </style>

@@ -137,7 +137,7 @@
 				/>
 			</div> -->
 
-			<cube-button @click="add">添加满减条件</cube-button>
+			<!-- <cube-button @click="add">添加满减条件</cube-button> -->
 
 			<div class="info-item">
 				<p class="info-item__title">请选择服务方式</p>
@@ -156,7 +156,7 @@
 			<cube-button @click="register">更新</cube-button>
 		</div>
 
-		<van-area 
+		<van-area
 				:area-list="areaList"
 				v-show="areaStatus"
 				@confirm="confirms"

@@ -19,6 +19,9 @@
   export default {
     name: 'App',
     async created() {
+
+      // let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 10, skip: 0});
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
       if (code) {
@@ -37,26 +40,9 @@
 
         this.isUserRegister(userInfo);
 
-        // let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-        //   collection: 'User',
-        //   findType: 'findOne',
-        //   'wx.openid': this.openid
-        // })
-
-        // if (user == undefined) {
-        //   // 用户在系统中不存在的情况下, 让他注册
-        //   this.$router.push('/register');
-        
-        // } else {
-        //   // 用户注册过的情况下
-        //   this.$router.push('/login');
-          
-        // }
-
       } else {
         // 非微信环境
-        this.$router.push('/login');
-
+        this.$router.push('/businessRegister');
       }
     },
     data () {

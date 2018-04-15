@@ -122,6 +122,14 @@
 				this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show()
 			}
 
+			if (this.shopData.sellPhone) {
+				this.content.splice(2, 0, 
+				{ name: '发布精品手机', icon: 'publishPhone', link: '/publishPhone' }, 
+				{
+					name: '管理精品手机', icon: 'manage', link: '/showPhones'
+				});
+			}
+
 			this.modules.slice(0, 3).map( async item => {
 				let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
 				item.num = res.data.length;
@@ -159,6 +167,13 @@
 						{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
 					]
 					this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show();
+				}
+
+				if (this.shopData.sellPhone) {
+					this.content.splice(2, 0, { name: '发布精品手机', icon: 'publishPhone', link: '/publishPhone' }, 
+					{
+						name: '管理精品手机', icon: 'manage', link: '/showPhones'
+					});
 				}
 
 				this.modules.slice(0, 3).map( async item => {

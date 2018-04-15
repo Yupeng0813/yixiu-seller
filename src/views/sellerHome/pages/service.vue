@@ -21,11 +21,18 @@
 				<p>选择型号</p>
 
 				<div class="service">
-					<selects v-for="(item, index) in modelNames"
+					<!-- <selects v-for="(item, index) in modelNames"
 						:type="brand.type"
 						:key="index"
 						@sendMsg="sendMsg(index)"
 						@remove="remove(index)"
+						:data="item"
+						:manufacturer="item._id"
+					/> -->
+					<single-select ref="model"  v-for="(item, index) in modelNames"
+						:type="brand.type"
+						:key="index" 
+						v-on:cancelOther="modelCancel"
 						:data="item"
 						:manufacturer="item._id"
 					/>
@@ -180,6 +187,24 @@ export default {
 		toast.hide();
 	},
 	methods: {
+		modelCancel (data) {
+			let zData = data.split('&');
+			let type = zData[1];
+			let name = zData[0];
+			this.manufacturer = zData[2]
+			this.brandName = name;
+
+			this.models.map(item => {
+				item.name == name ? this.modelRes = [ item._id ] : null;
+			})
+
+			// 取消其他几个子项的选中
+			this.$refs.model.map(item => {
+				if (item.type == type && item.data !== name) {
+					item.cancelSelect()
+				}
+			})
+		},
 		back () {
 			this.$router.push('/sellerHome');
 		},
@@ -213,6 +238,7 @@ export default {
 			model.data.map(item => {
 				this.modelNames.push(item.name);
 			})
+			console.log(this.modelNames);
 			
 		},
 		async updateBrand () {

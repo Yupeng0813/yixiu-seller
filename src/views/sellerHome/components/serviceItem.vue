@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-    <van-cell-swipe :right-width="65" :left-width="65" :on-close="onClose" v-for="(item, index) in data" :key="index">	
+    <van-cell-swipe :right-width="65" :left-width="65" v-for="(item, index) in data" :key="index">	
 			<van-cell-group>
 				<van-cell :title="item.name" :value="item.price"  @click="toDetail(index)" />
 			</van-cell-group>
@@ -24,34 +24,21 @@ export default {
   methods: {
     deletes (id) {
       this.activeId = id;
-    },
-    onClose(clickPosition, instance) {
-      switch (clickPosition) {
-        case 'left':
-        case 'cell':
-        case 'outside':
-          instance.close();
-          break;
-        case 'right':
-          Dialog.confirm({
-            message: '确定删除吗？'
-          }).then(async () => {
-            let res = await this.$api.sendData('https://m.yixiutech.com/service/delete', {_id: this.activeId});
-            this.prompt(res.data, 'correct').show();
-            this.data.map( (item, index) => {
-              item._id == this.activeId ? this.data.splice(index, 1) : null;
-            })
-						instance.close();
-						
-          }).catch(() => {
-						instance.close();
-					})
-          break;
-      }
+      Dialog.confirm({
+				title: '是否确认删除该型号?',
+				message: ''
+			}).then(async () => {
+				let removePhone  = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
+					collection: 'Service',
+					_id: this.activeId
+				})
+			}).catch(() => {
+				
+			});
     },
     toDetail (index) {
       sessionStorage.setItem('serviceItem', JSON.stringify(this.data[ index ]));
-      this.$router.push('/serviceDetail');
+      this.$router.push('/updateService');
     }
   },
   components: {
@@ -65,12 +52,13 @@ export default {
 
 <style>
 .delete-btn {
-	width: 100%;
+	display: block;
+	width: 65px;
 	height: 100%;
-	background: red;
+	background: #ef4136;
 	line-height: 44px;
 	color: #fff;
-	display: inline-block;
+  text-align: center;
 }
 
 .price {

@@ -1,12 +1,8 @@
 <template>
 	<div class="infos">
 
-		<item-header 
-			:name="infoName"
-			v-on:backParent="back"
-		/>
-
-		<div v-show="!brandStatus && !modelStatus && !categoryStatus">
+		<div>
+			<item-header :name="name"  v-on:backParent="back"/>
 			<!-- <div class="box">
 				<p>选择品牌</p>
 				<div class="service">
@@ -20,22 +16,26 @@
 				</div>
 				<van-button size="large" @click="openBrand">添加品牌</van-button>
 			</div> -->
+
+			<van-field
+				v-model="model.name"
+				label="型号名称"
+				disabled
+			/>
 			
 			<!-- <div class="box">
 				<p>选择型号</p>
 
 				<div class="service">
-					<selects v-for="(item, index) in modelNames"
+					<single-select ref="model"  v-for="(item, index) in modelNames"
 						:type="brand.type"
 						:key="index" 
-						@sendMsg="sendMsg(index)"
-						@remove="remove(index)"
+						v-on:cancelOther="modelCancel"
 						:data="item"
 						:manufacturer="item._id"
 					/>
 				</div>
 				<van-button size="large" @click="openModel">添加型号</van-button>
-				
 			</div> -->
 			
 			<!-- <div class="box">
@@ -51,24 +51,21 @@
 			</div> -->
 
 			<div class="box">
-				<p>选择问题分类</p>
+				<p>已添加的维修服务</p>
 				<div class="box-item" v-for="(item, index) in categoryinfos" :key="index">
 					<p @click="showItem(index)"><sicon name="add" scale="2.4"></sicon><span class="box__name">{{ item.name }}</span></p>
 					<div v-show="item.show">
-						<p class="concrete-service" v-for="(listItem, listIndex) in item.list" :key="listIndex">
+						<div class="concrete-service" v-for="(listItem, listIndex) in item.list" :key="listIndex">
 							<input type="text" v-model="listItem.name" placeholder="服务的名称" />
 							<input type="text" v-model="listItem.price" placeholder="服务的价格"/>
-						</p>
-						<!-- <van-button size="large" @click="addService(index, item._id)">添加服务</van-button> -->
+						</div>
 					</div>
 					
 				</div>
-				<!-- <van-button size="large" @click="openCategory">添加服务分类</van-button> -->
 
 				<van-button size="large" @click="submit">提交</van-button>
 			</div>
 		</div>
-
 		
 		
 	</div>
@@ -77,7 +74,7 @@
 <script>
 import selects from '../components/select'
 import singleSelect from '../components/singleSelect'
-import { Checkbox, CheckboxGroup, Cell, CellGroup, Button } from 'vant'
+import { Checkbox, CheckboxGroup, Cell, CellGroup, Button, Field } from 'vant'
 import addBrand from './addBrand'
 import addModel from './addModel'
 import addCategory from './addCatagory'
@@ -91,6 +88,7 @@ export default {
 		[Cell.name]: Cell,
 		[CellGroup.name]: CellGroup,
 		[Button.name]: Button,
+		[Field.name]: Field,
 		addBrand,
 		addModel,
 		addCategory,
@@ -98,79 +96,147 @@ export default {
 	},
 	data () {
 		return {
+			brandName: undefined,
+			name: '修改手机维修服务',
 			brand: {
 				type: 'brand',
 				list: []
 			},
-			infoName: '更新服务价格',
+			sysModel: [],
+			brandId: '',
 			models: [],
 			modelNames: [],
+			phoneModel: [],
 			modelRes: [],
+			manufacturer: '',
 			categoryNames: [],
 			categoryinfos: [],
 			active: '',
 			res: {},
+			model: {},
 			modelStatus: false,
 			brandStatus: false,
 			categoryStatus: false,
 			services: [],
 			shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
+			// shop: '5ac83157bcbe58709c9bd47a',
 			result: [],
 			colors: {
 				type: 'color',
 				list: []},
-			service: []
+			questions: [
+				{ name: '屏幕问题', show: false, list: [
+					{ name: '内屏碎裂', price: 200 },
+					{ name: '外屏碎裂', price: 100 }
+				]},
+				{ name: '电池电源问题', show: false, list: [
+
+				]}
+			]
 		}
 	},
 	async mounted () {
-
-		let data = { shop: this.shop };
-
+		window.status = false;
 		const toast = this.$createToast({
 			txt: '加载中...',
 			type: 'loading'
 		})
 		toast.show();
-		this.updateCategory();
-		let serviceMap = await this.$api.sendData('https://m.yixiutech.com/service/shop', data);
-		serviceMap.code == 200 ? this.services = serviceMap.data : null;
 
-		this.services.map(item => {
-			this.categoryinfos.map(categoryItem => {
-				categoryItem.name == item.category.name ? categoryItem.list.push(item) : null;
+		this.model = JSON.parse(sessionStorage.getItem('serviceItem'));
+
+		let category = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+			collection: 'Category',
+			shop: this.shop,
+			type: 'service',
+		})
+
+		let tempArr = [];
+
+		category.data.map(item => {
+			tempArr.push(Object.assign({}, item, {list: [], show: true}))
+		})
+
+		let hasService = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+			collection: 'Service',
+			shop: this.shop,
+			support: {
+				$in: [ this.model._id ]
+			}
+		})
+
+		hasService.data.map(item => {
+			tempArr.map( (categoryItem, categoryIndex) => {
+				item.category == categoryItem._id ? categoryItem.list.push(item) : null;
 			})
 		})
-		console.log(this.categoryinfos);
+
+		this.categoryinfos = tempArr.filter(this.isEmpty);
+
 		toast.hide();
 	},
 	methods: {
+		isEmpty (object) {
+			return object.list.length !== 0;
+		},
+		modelCancel (data) {
+			let zData = data.split('&');
+			let type = zData[1];
+			let name = zData[0];
+			this.manufacturer = zData[2]
+			this.brandName = name;
+
+			this.models.map(item => {
+				item.name == name ? this.modelRes = [ item._id ] : null;
+			})
+
+			// 取消其他几个子项的选中
+			this.$refs.model.map(item => {
+				if (item.type == type && item.data !== name) {
+					item.cancelSelect()
+				}
+			})
+		},
 		back () {
-			this.$router.go(-1);
+			this.$router.push('/viewServices');
 		},
 		submit () {
-			this.service = [];
+			this.services = [];
 			this.categoryinfos.map(item => {
-				item.list.map(childItem => {	
-						if (childItem.name !== undefined) {
+				item.list.map(childItem => {
+						if (childItem.name !== undefined && childItem.name !== '' && childItem.price !== '') {
 							let obj = Object.assign(childItem, {shop: this.shop, support: this.modelRes})
-							this.service.push(obj);	
+							this.services.push(obj);	
 						}
 				})
 			})
-			console.log(this.service);
+			console.log(this.services);
 			const toast = this.$createToast({
 				txt: '请稍后...',
 				type: 'loading'
 			})
 			toast.show();
-			this.service.map(async item => {
-				let res = await this.$api.sendData('https://m.yixiutech.com/service/update/', item);
+			this.services.map(async item => {
+				let res = await this.$api.sendData('https://m.yixiutech.com/service/update', item);
+				res.code == 200 ? this.prompt(`更新成功`, 'correct').show() : alert(res.errMsg);
 			})
 			toast.hide();
-			this.prompt('更新成功!', 'correct').show();
-			setTimeout(() => {
-				this.$router.push('/sellerHome');
-			}, 2000);
+			this.$router.push('/sellerHome');
+		},
+		async updateModel () {
+			this.modelStatus = false;
+			let model = await this.$api.sendData('https://m.yixiutech.com/phone/model/shop/', { shop: this.shop, manufacturer: this.manufacturer });
+			this.models = model.data;
+			this.modelNames  = [];
+			model.data.map(item => {
+				this.modelNames.push(item.name);
+			})
+			
+		},
+		async updateBrand () {
+			this.brandStatus = false;
+			let ownBrand = await this.$api.getData('https://m.yixiutech.com/phone/manufacturer/shop/' + this.shop);
+			this.brand.list = ownBrand.data;
 		},
 		sendMsg (index) {
 			this.modelRes.push(this.models[ index ]._id);
@@ -183,12 +249,13 @@ export default {
 		},
 		openCategory () {
 			this.categoryStatus = true;
+			sessionStorage.setItem('category', 'service');
 		},
 		openBrand () {
 			this.brandStatus = true;
 		},
 		openModel () {
-			this.modelStatus = true;
+			this.brandName !== '' ? this.modelStatus = true : this.prompt('请先添加品牌!', 'warn').show();
 		},
 		backParent () {
 			this.brandStatus = false;
@@ -208,7 +275,11 @@ export default {
 		},
 		async updateCategory (data) {
 			this.categoryStatus = false;
+			// let sysCategory = await this.$api.getData('https://m.yixiutech.com/category/phoneRepair');
 			let ownCategory = await this.$api.sendData('https://m.yixiutech.com/category/shop', {type: 'service', shop: this.shop});
+			
+			this.categoryinfos = [];
+			// 已拥有的分类添加
 			ownCategory.data.map(item => {
 				this.categoryinfos.push({
 					_id: item._id,
@@ -216,6 +287,47 @@ export default {
 					show: false,
 					list: []
 				})
+			})
+		},
+		async cancel (data) {
+			let zData = data.split('&');
+			let type = zData[1];
+			let name = zData[0];
+			this.manufacturer = zData[2]
+			this.brandName = name;
+
+			let sysBrand = await this.$api.getData('https://m.yixiutech.com/phone/manufacturer');
+			sysBrand.data.map(item => {
+				item.name == this.brandName ? this.brandId = item._id : null;
+			})
+
+			let sysModel = await this.$api.getData('https://m.yixiutech.com/phone/model/' + this.brandId);
+			
+			this.sysModel = sysModel.data;
+
+			this.phoneModel = [];
+			
+			this.sysModel.map(item => {
+				this.phoneModel.push({
+					text: item.name,
+					value: item._id
+				})
+			})
+			
+			// 根据手机品牌获取型号
+			const toast = this.$createToast({
+				txt: '加载中...',
+				type: 'correct'
+			})
+			toast.show();
+			this.updateModel();
+			toast.hide();
+
+			// 取消其他几个子项的选中
+			this.$refs.select.map(item => {
+				if (item.type == type && item.data !== name) {
+					item.cancelSelect()
+				}
 			})
 		},
 		showItem (index) {
@@ -274,8 +386,15 @@ export default {
 
 .concrete-service {
 	display: flex;
-	justify-content: space-between;
+	width: auto;
+	padding: 2%;
+	justify-content: space-around;
 	align-items: center;
+	border: 1px solid #eee;
+	margin-top: 10px;
+}
+.concrete-service input{
+	width: 40%;
 }
 
 .box .svg-icon {

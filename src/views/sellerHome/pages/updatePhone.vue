@@ -27,7 +27,7 @@
 					/>
 				</div>
 
-				<van-button class="btn" size="large" @click="appendCategory">没找到?添加一个分类</van-button>
+				<!-- <van-button class="btn" size="large" @click="appendCategory">没找到?添加一个分类</van-button> -->
 
 				<van-field
 					v-model="goods.price"
@@ -65,9 +65,9 @@
 					placeholder="请输入宝贝详情"
 				/>
 
-				<van-button class="btn" size="large" @click="addParam">添加手机参数</van-button>
+				<!-- <van-button class="btn" size="large" @click="addParam">修改手机参数</van-button>
 
-				<van-button class="btn" size="large" @click="openQuality">添加质检数据</van-button>
+				<van-button class="btn" size="large" @click="openQuality">修改质检数据</van-button> -->
 
 				<div class="infos__name">
 					<p>商品图片</p>
@@ -76,11 +76,14 @@
 				<div class="upload" v-for="(item, index) in photos" :key="index">
 					<input class="upload__select" @change="uploadFile($event, index)" type="file" accept="image/*" />
 					<img class="upload__show" :src="item.url" alt="" />
+					<div class="delete" @click="deletePhoto(index)">
+						<sicon name="delete" scale="2"></sicon>
+					</div>
 				</div>
 
 				<van-button class="btn" size="large" @click="addNew">添加新图片</van-button>
 
-				<van-button size="large" @click="submit">确认添加</van-button>
+				<van-button size="large" @click="submit">确认修改</van-button>
 
 			</div>
 
@@ -109,8 +112,8 @@
 <script>
 import ItemHeader from '../components/itemHeader'
 import { Field, Button, Uploader } from 'vant'
-import addParams from '../components/addParams'
-import addQuality from '../components/addQuality'
+import addParams from '../components/updateParams'
+import addQuality from '../components/updateQuality'
 import addCategory from './addCatagory'
 import selects from '../components/select';
 export default {
@@ -124,19 +127,12 @@ export default {
 		addQuality
 	},
 	async mounted () {
+		this.goods = JSON.parse(sessionStorage.getItem('detail'))
+
+		this.photos = this.goods.info.photo;
+
 		let data = { type: 'goods', shop: this.goods.shop }
 		let categoryRes = await this.$api.sendData('https://m.yixiutech.com/category/shop', data);
-
-		if (categoryRes.data.length == 0) {
-			let addCate = await this.$api.sendData('https://m.yixiutech.com/category', {
-				type: 2,
-				name: '二手手机',
-				shop: this.goods.shop
-			})
-		}
-
-		// 隐式添加分类
-		this.addCategorys();
 		categoryRes.data.map(item => {
 			item['name'] == '二手手机' ? this.category = item['_id'] : null;
 		})
@@ -149,14 +145,12 @@ export default {
 			categoryStatus: false,
 			paramStatus: false,
 			qualityStatus: false,
-			photos: [{
-				url: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png'
-			}],
+			photos: [],
 			photo: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			goods: {
-				shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
-				// shop: '5ab93879d4e7f1497d58d94e',
+				// shop: JSON.parse(localStorage.getItem('shopData'))._id,
+				shop: '5ab93879d4e7f1497d58d94e',
 				cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 				info: {
 					photo: [],
@@ -174,8 +168,9 @@ export default {
 		}
 	},
 	methods: {
-		addCategorys () {
-
+		deletePhoto (index) {
+			this.photos.splice(index, 1);
+			this.goods.info.photo = this.photos;
 		},
 		async uploadCover (event) {
 			this.file = event.target.files[0];
@@ -219,7 +214,7 @@ export default {
 			this.paramStatus = false;
 		},
 		back () {
-			this.$router.push('/sellerHome');
+			this.$router.push('/showPhones');
 		},
 		backParent () {
 			this.categoryStatus = false;
@@ -227,39 +222,10 @@ export default {
 		async updateCategory () {
 			this.categoryStatus = false;
 			let hasCategory = await this.$api.getData('https://m.yixiutech.com/category/parent/' + this.category);
-
 			this.categoryList.length = 0;
 			hasCategory.data.map(item => {
 				this.categoryList.push({value: item._id, text: item.name});
 			})
-
-			// 隐式添加
-			if (hasCategory.data.length == 0) {
-				const data = [
-					{
-						type: 'goods',
-						name: 'ios',
-						shop: this.goods.shop,
-						parent: this.category
-					},
-					{
-						type: 'goods',
-						name: 'android',
-						shop: this.goods.shop,
-						parent: this.category
-					}
-				]
-				data.map(async item => {
-					let addCate = await this.$api.sendData('https://m.yixiutech.com/category', item);
-				})
-
-				let newRes = await this.$api.getData('https://m.yixiutech.com/category/parent/' + this.category);
-
-				this.categoryList.length = 0;
-				newRes.data.map(item => {
-					this.categoryList.push({value: item._id, text: item.name});
-				})
-			}
 		},
 		appendCategory () {
 			this.categoryStatus = !this.categoryStatus;
@@ -291,14 +257,15 @@ export default {
 				this.prompt('网络错误, 请重新上传', 'error').show();
 				return;
 			}
-			this.goods.info.photo.push({
-				url: res.data
-			});
+			this.goods.info.photo[this.goods.info.photo.length - 1] = {url: res.data};
+			console.log(this.goods.info.photo);
 		},
 		addNew () {
+			console.log(this.goods.info.photo);
 			this.photos.push({
 				url: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png'
 			});
+			console.log(this.goods.info.photo);
 		},
 		fileRemove () {
 
@@ -319,12 +286,19 @@ export default {
 
 		},
 		async submit () {
-			let goodRes = await this.$api.sendData('https://m.yixiutech.com/goods/shop', this.goods);
+			console.log(this.goods);
+			let goodRes = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+				collection: 'Goods',
+				find: {
+					_id: this.goods._id
+				},
+				update: this.goods
+			});
 			if (goodRes.code !== 200) {
 				this.prompt(goodRes.errMsg, 'error').show();
 				return;	
 			}
-			this.prompt('发布成功', 'success').show();
+			this.prompt('修改成功', 'correct').show();
 			this.$router.push('/sellerHome');
 		},
 		onRead (file, content) {
@@ -348,6 +322,15 @@ export default {
 	left: 50%;
 	transform: translate(-50%);
 	text-align: center;
+}
+
+.delete {
+	position: absolute;
+	display: block;
+	right: 20%;
+	top: 50%;
+	transform: translate(0, -50%);
+	z-index: 20;
 }
 
 .infos__name {
@@ -384,6 +367,7 @@ export default {
 .upload {
 	width: 100%;
 	height: 100px;
+	position: relative;
 }
 
 .upload .upload__show {

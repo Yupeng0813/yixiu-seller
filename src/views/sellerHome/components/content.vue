@@ -2,7 +2,7 @@
 	<div class="type" :link="link" @click="skip">
 		<sicon :name="icon" scale="4"></sicon>
 		<p>{{ name }}</p>
-		<sicon name="right" scale="3"></sicon>
+		<sicon name="right" scale="2.2"></sicon>
 	</div>
 </template>
 

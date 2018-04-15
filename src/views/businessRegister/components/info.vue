@@ -37,20 +37,20 @@
 				<img class="upload__show" :src="certificate" alt="" />
 			</div>
 
-			<p class="head">下载协议 <a class="link" href="https://0x9.me/luU5c">翼修入驻协议.docx</a></p>
+			<p class="head">下载协议 <a class="link" href="http://bymm.oss-cn-shenzhen.aliyuncs.com/yixiu/翼修入驻协议-1523788189.docx">翼修入驻协议.docx</a></p>
 
-			<p class="links">温馨提示: 如果上述链接点击不能下载，请手动复制以下地址到浏览器上进行下载!</p>
+			<!-- <p class="links">温馨提示: 如果上述链接点击不能下载，请手动复制以下地址到浏览器上进行下载!</p>
 
 			<van-field
 				label="协议地址"
 				placeholder="请勿删除协议地址"
 				v-model="linkAddress"
-			/>
+			/> -->
 			
 			<p class="head">拍照上传翼修入驻协议</p>
 			
 			<div class="upload">
-				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file" accept="image/*" />
+				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file" />
 				<img class="upload__show" :src="protocol" alt="" />
 			</div>
 
