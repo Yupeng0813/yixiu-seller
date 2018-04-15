@@ -27,6 +27,10 @@
   import md5 from 'js-md5'; //MD5加密
   export default {
     async mounted () {
+      // let res = this.$api.sendData('https://m.yixiutech.com/sql/remove', {
+      //   collection: 'Shop',
+      //   shop: '5ad3405c1f38b549961e4f6e'
+      // })
     },
     methods: {
       wechatLogin () {

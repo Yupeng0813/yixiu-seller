@@ -42,7 +42,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/businessRegister');
+        this.$router.push('/login');
       }
     },
     data () {
