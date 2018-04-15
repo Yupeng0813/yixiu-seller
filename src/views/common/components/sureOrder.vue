@@ -112,7 +112,7 @@
           if(openid){
             // alert(openid);
             // 
-            history.pushState(null,null,"/yixiuwebapp/payInfo");
+            history.pushState(null,null,"/payInfo");
 
             let req = {
               total_fee: this.TotalFee*100,
