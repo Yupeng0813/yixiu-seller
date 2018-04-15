@@ -3,10 +3,10 @@
 		<div class="couponsTag-left">
 			<div class="couponsTag-lines"></div>
 			<div class="couponsTag-gradient">
-				<h2>¥ {{ denomination }}元</h2>
+				<h2>¥ {{ denomination * 0.01 }}元</h2>
 				<!-- <h2>{{ coupons.disount }} 折</h2> -->
 				<!-- <p>无门槛使用</p> -->
-				<p>满{{ condition }}元可使用</p>
+				<p>满{{ condition * 0.01 }}元可使用</p>
 			</div>
 		</div>
 		<div class="couponsTag-right">

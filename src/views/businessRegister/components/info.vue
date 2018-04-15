@@ -216,9 +216,7 @@ export default {
 					lat: ''
 				},
 				businessHours: [],
-				promotion: [
-					{condition: '', denomination: ''}
-				],
+				promotion: [],
 				owner: JSON.parse(sessionStorage.getItem('user'))._id,
 				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')) ? JSON.parse(sessionStorage.getItem('userInfo')).openid : '',
 				certificate: [
@@ -324,33 +322,47 @@ export default {
 			this.infos.promotion.push({condition: '', denomination: ''});
 		},
 		async register () {
-      this.infos.address = this.area + '-' + this.infos.address;
+			let status = true;
+			this.infos.address = this.area + '-' + this.infos.address;
       this.infos.certificate.map(item => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
-          this.prompt('您还有信息未填写').show();
+					this.prompt('您还有信息未填写', 'error').show();
+					status = false;
           return;
         }
 			})
-			const toast = this.$createToast({
-				message: '加载中...'
-			})
-			toast.show();
 
-			// 再创建店铺
-			let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
-			toast.hide();
-			const wait  = this.$createToast({
-				type: 'warn',
-				mask: true,
-				txt: '请等待1 - 2个工作日审核',
-				time: 5000
-			})
-			if (res.code !== 200) {
-				alert(res.errMsg);
-				return;
+			for (var key in this.infos) {
+				if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
+					this.prompt('您还有信息未填写', 'error').show();
+					status = false;
+          return;
+				}
 			}
-			wait.show();
-			this.$router.push('/wait');
+		
+			if (status) {
+				const toast = this.$createToast({
+					txt: '加载中...',
+					type: 'loading'
+				})
+				toast.show();
+
+				// 再创建店铺
+				let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
+				toast.hide();
+				const wait  = this.$createToast({
+					type: 'warn',
+					mask: true,
+					txt: '请等待1 - 2个工作日审核',
+					time: 5000
+				})
+				if (res.code !== 200) {
+					alert(res.errMsg);
+					return;
+				}
+				wait.show();
+				this.$router.push('/wait');
+			}
 		},
 		start () {
 			this.startPicker.show()

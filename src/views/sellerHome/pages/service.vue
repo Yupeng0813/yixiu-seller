@@ -207,6 +207,7 @@ export default {
 			this.$router.push('/sellerHome');
 		},
 		submit () {
+			let status = true;
 			this.services = [];
 			this.categoryinfos.map(item => {
 				item.list.map(childItem => {
@@ -224,6 +225,7 @@ export default {
 			this.services.map(async item => {
 				for (var key in item) {
 					if (item[ key ] == '' || item[ key ].length == 0) {
+						status = false;
 						alert('您还有信息未填写!');
 						return;
 					}
@@ -232,7 +234,7 @@ export default {
 				res.code == 200 ? this.prompt(`添加${res.data.name}成功!`, 'correct').show() : alert(res.errMsg);
 			})
 			toast.hide();
-			this.$router.push('/sellerHome');
+			status && this.$router.push('/sellerHome');
 		},
 		async updateModel () {
 			this.modelStatus = false;

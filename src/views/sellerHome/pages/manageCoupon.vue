@@ -2,41 +2,39 @@
   <div class="coupon">
 		<item-header :name="infoName" v-on:backParent="backParent" />
 
-		<van-field
-			v-model="coupon.name"
-			label="优惠券名称"
-			placeholder="请输入优惠券名称"
-		/>
+		<div class="container">
+			<van-field
+				v-model="coupon.name"
+				label="优惠券名称"
+				placeholder="请输入优惠券名称"
+			/>
 
-		<!-- 优惠券类型, 0: 维修优惠券, 1: 商品优惠券 -->
+			<!-- 优惠券类型, 0: 维修优惠券, 1: 商品优惠券 -->
 
-		<div class="box">
-			<span>优惠券分类</span>
-			<cube-select
-				v-model="value"
-				:options="options">
-			</cube-select>
-		</div>
-
-		<div class="add-coupon">
-			<div class="condition">
-				<van-field
-					v-model="coupon.condition"
-					class="full-cut"
-					label="满减条件"
-					placeholder="满减条件"
-				/>
-
-				<van-field
-					v-model="coupon.denomination"
-					class="full-cut"
-					label="满减额度"
-					placeholder="满减额度"
-				/>
+			<div class="box">
+				<span>优惠券分类</span>
+				<cube-select
+					v-model="value"
+					:options="options">
+				</cube-select>
 			</div>
+
+			<van-field
+				v-model="coupon.condition"
+				label="满减条件"
+				placeholder="满减条件"
+			/>
+
+			<van-field
+				v-model="coupon.denomination"
+				label="满减额度"
+				placeholder="满减额度"
+			/>
 
 			<van-button size="normal" class="submit" @click="submit">确认添加</van-button>
 		</div>
+
+		
 
 		<h2 class="title">预览</h2>
 
@@ -75,6 +73,8 @@ export default {
 					return;
 				}
 			}
+			this.coupon.condition = this.coupon.condition * 100;
+			this.coupon.denomination = this.coupon.denomination * 100;
 			this.infos.promotion.push(this.coupon);
 			this.updateData('添加优惠券成功');
 		},
@@ -152,12 +152,18 @@ export default {
 .coupon {
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 	background: rgb(248, 248, 248);
 }
 
+.container {
+	width: 90%;
+	margin: 20px auto;
+	background: #fff;
+	border-radius: 5px;
+}
+
 .box {
-	width: 100%;
+	width: 92%;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -191,5 +197,7 @@ export default {
 .submit {
 	background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
 	color: #fff;
+	display: block;
+	margin: 10px auto;
 }
 </style>
