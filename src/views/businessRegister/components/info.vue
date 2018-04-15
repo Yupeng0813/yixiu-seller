@@ -7,7 +7,7 @@
 				<sicon name="back" scale="3"></sicon>
 			</router-link>
 
-				<img class="info__logo" :src="logo" alt="" />
+			<img class="info__logo" :src="logo" alt="" />
 
 			<p class="head">身份证正面</p>
 
@@ -85,7 +85,6 @@
 				placeholder="如街道、楼层、门牌号等"
 			/>
 
-			
 
 			<div class="info-item">
 				<p class="info-item__title">开始营业时间</p>
@@ -160,15 +159,11 @@ import timeJson from '../data/data.json'
 import logo from '@/assets/logo.png'
 import file from '@/assets/file.png'
 import areaList from '../../my/components/data/area.json'
-import wx from 'weixin-js-sdk'
 import selects from '../../sellerHome/components/select'
 export default {
-	mounted () {
-		wx.getLocation({
-			success: function (res) {
-				alert(res);
-			}
-		})
+	async mounted () {
+		console.log(sessionStorage.getItem('userInfo'));
+		window.status = false;
 		this.startPicker = this.$createPicker({
       title: '选择开始营业时间',
       data: [this.time],
@@ -224,7 +219,8 @@ export default {
 				promotion: [
 					{condition: '', denomination: ''}
 				],
-				ownerOpenid: JSON.parse(sessionStorage.getItem('userData')).wx.openid,
+				owner: JSON.parse(sessionStorage.getItem('user'))._id,
+				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')) ? JSON.parse(sessionStorage.getItem('userInfo')).openid : '',
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
@@ -334,14 +330,13 @@ export default {
           this.prompt('您还有信息未填写').show();
           return;
         }
-      })
-			// for (var key in this.infos) {
-			// 	console.log(this.infos[ key ])
-			// }
+			})
 			const toast = this.$createToast({
 				message: '加载中...'
 			})
 			toast.show();
+
+			// 再创建店铺
 			let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
 			toast.hide();
 			const wait  = this.$createToast({
@@ -433,6 +428,14 @@ export default {
 .info .info__logo {
 	width: 200px;
 	display: inline-block;
+}
+
+.info .info__section {
+	font-size: 20px;
+	text-align: left;
+	color: #e0620d;
+	padding: 2% 5%;
+	border-left: 5px solid #e0620d;
 }
 
 .condition {

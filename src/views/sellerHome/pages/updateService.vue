@@ -114,7 +114,7 @@ export default {
 			brandStatus: false,
 			categoryStatus: false,
 			services: [],
-			shop: JSON.parse(localStorage.getItem('shopData'))._id,
+			shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
 			result: [],
 			colors: {
 				type: 'color',
@@ -134,11 +134,13 @@ export default {
 		this.updateCategory();
 		let serviceMap = await this.$api.sendData('https://m.yixiutech.com/service/shop', data);
 		serviceMap.code == 200 ? this.services = serviceMap.data : null;
+
 		this.services.map(item => {
 			this.categoryinfos.map(categoryItem => {
 				categoryItem.name == item.category.name ? categoryItem.list.push(item) : null;
 			})
 		})
+		console.log(this.categoryinfos);
 		toast.hide();
 	},
 	methods: {

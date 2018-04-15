@@ -55,7 +55,7 @@
 					// { name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' },
 					// { name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
 				],
-				shop: JSON.parse(localStorage.getItem('shopData'))._id,
+				shop: '',
 				modules: [
 					{ name: '待接单', num: 0, state: 11},
 					{ name: '维修中', num: 0, state: 12 },
@@ -76,31 +76,40 @@
 		// },
 		// 删除店铺信息  慎用
 		async created () {
+			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 10, skip: 0});
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'
 			})
 			toast.show();
-			let userData = JSON.parse(this.urlDataTurnObj(window.location.href)).openid;
-			userData !== undefined ? localStorage.setItem('openid', userData) : null;
-			let openid = localStorage.getItem('openid');
-				
-			// let userData = sessionStorage.getItem('userData');
-			let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: openid});
-			this.shopData = res.data;
+			// let userData = JSON.parse(this.urlDataTurnObj(window.location.href)).openid;
+			// userData !== undefined ? localStorage.setItem('openid', userData) : null;
+
+			this.shopData = JSON.parse(sessionStorage.getItem('shopData'));
+
+			console.log(this.shopData);
+
+			this.shop = this.shopData._id;
+			
+			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: openid});
+
+			// alert(JSON.stringify(res.data));
+			// this.shopData = res.data;
 			toast.hide();
 
-			if (res.data.qualificationState !== '正常') {
+			if (this.shopData.qualificationState !== '正常') {
 				this.waitStatus = true;
 				return;
 			}
 
 
-			if (res.data.pay) { //已缴纳保证金
+			if (this.shopData.pay) { //已缴纳保证金
 				this.content = [
 					{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-					{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
-					{ name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+					{ name: '管理手机服务列表', icon: 'view', link: '/viewServices' },
+					// { name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+					{ name: '优惠券管理', icon: 'card', link: '/manageCoupon' },
 					// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 					// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
 					{ name: '完善信息', icon: 'identification', link: '/updateMsg' },
@@ -121,26 +130,25 @@
 		},
 		methods: {
 			async onRefresh() {
-				let userData = JSON.parse(this.urlDataTurnObj(window.location.href)).openid;
-				userData !== undefined ? localStorage.setItem('openid', userData) : null;
-				let openid = localStorage.getItem('openid');
-				
-					
-				// let userData = sessionStorage.getItem('userData');
-				let res = await this.$api.sendData('https://m.yixiutech.com/shop/user/', {openid: openid});
+				let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+					collection: 'Shop',
+					findType: 'findOne',
+					_id: this.shopData._id
+				})
 
-				this.shopData = res.data;
+				this.shopData = shop.data;
 
-				if (res.data.qualificationState !== '正常') {
+				if (this.shopData.qualificationState !== '正常') {
 					this.waitStatus = true;
           return;
         }
 
-				if (res.data.pay) { //已缴纳保证金
+				if (this.shopData.pay) { //已缴纳保证金
 					this.content = [
 						{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-						{ name: '查看手机服务列表', icon: 'view', link: '/viewServices' },
-						{ name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+						{ name: '管理手机服务列表', icon: 'view', link: '/viewServices' },
+						// { name: '修改手机维修服务', icon: 'update', link: '/updateService' },
+						{ name: '优惠券管理', icon: 'card', link: '/manageCoupon' },
 						// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 						// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
 						{ name: '完善信息', icon: 'identification', link: '/updateMsg' },
@@ -152,18 +160,20 @@
 					]
 					this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show();
 				}
+
 				this.modules.slice(0, 3).map( async item => {
-					let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { type: 0, shop: this.shop, state: item.state });
+					let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
 					item.num = res.data.length;
 				})
-				this.modules[3].num = JSON.parse(localStorage.getItem('shopData')).pv;
-				// this.$toast('刷新成功');
+
+				this.modules[3].num = this.shopData.pv;
+
 				this.isLoading = false;
 			},
 			async deleteData(){
 				// 删除店铺
 				let req = {
-					_id: "5ac4c68ebcbe58709c9bd448"
+					_id: "5acb578468b9f01ee807e7b7"
 				}
 				let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
 				console.log(res);

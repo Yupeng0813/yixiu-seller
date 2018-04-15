@@ -3,20 +3,17 @@
     <img :src="logo" alt="" class="logo" />
     <div class="loginBox">
       <div class="loginDes">
-        <span>用户名</span>
-        <input type="text" placeholder="" v-model="user.username">
+        <span>原密码</span>
+        <input type="text" placeholder="" v-model="password">
       </div>
       <div class="loginDes">
-        <span>密码</span>
-        <input type="password" v-model="user.password">
+        <span>新密码</span>
+        <input type="password" v-model="password">
       </div>
     </div>
     <div class="buttons">
       <div class="loginButton">
-        <button @click="login">立即登录</button>
-      </div>
-      <div class="register">
-        <span @click="toRegister">立即注册</span>
+        <button @click="update">立即修改</button>
       </div>
     </div>
   </div>
@@ -24,60 +21,41 @@
 
 <script>
   import logo from '@/assets/logo.png';
-  import md5 from 'js-md5'; //MD5加密
   export default {
-    async mounted () {
-    },
+    // async mounted () {
+    //   let req = {
+    //     _id: "5aca33984e98731562adc03a"
+    //   }
+    //   let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
+    //   console.log(res);
+    // },
     methods: {
-      wechatLogin () {
-        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
-      },
-      toRegister () {
-        this.$router.push('/register');
-      },
-      async login () {
-        for (var key in this.user) {
-          if (this.user[ key ] == '') {
-            this.prompt('您还有信息未填写', 'error').sho+w();
-            return;
-          }
-        }
-
-        this.user.password = md5(this.user.password);
-
-        let userInfo = await this.$api.sendData('https://m.yixiutech.com/login', this.user);
-
-        if (userInfo.code !== 200) {
-          this.prompt(userInfo.errMsg, 'error').show();
+      async update () {
+        // for (var key in this.user) {
+        //   if (this.user[ key ] == '') {
+        //     this.prompt('您还有信息未填写', 'error').show();
+        //     return;
+        //   }
+        // }
+        let data = {
+          password: this.password,
+          _id: '5aca34634e98731562adc03b'
+        };
+        let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', data);
+        if (res.code !== 200) {
+          this.prompt(res.errMsg, 'error').show();
           return;
         }
-
-        sessionStorage.setItem('user', JSON.stringify(userInfo.data));
-
-        let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-          collection: 'Shop',
-          findType: 'findOne',
-          owner: userInfo.data._id
-        })
-
-        // 店铺不存在
-        if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
-          this.$router.push('/enterRules');
-        } else {
-          // 店铺存在，跳转用户页
-          sessionStorage.setItem('shopData', JSON.stringify(shop.data));
-          this.$router.push('/sellerHome');
-        }
+        localStorage.setItem('shopData', JSON.stringify(res.data));
+        this.$router.push('/sellerHome');
       }
     },
     components: {},
     data() {
       return {
-        logo: logo,
-        user: {
-          username: '',
-          password: ''
-        }
+				logo: logo,
+				shop: '5aca34634e98731562adc03b',
+        password: ''
       }
     }
   }
@@ -94,7 +72,7 @@
     z-index: 100;
     text-align: center;
     min-height: 480px;
-    /* background: url('.+/log-bg.jpg') center center no-repeat; */
+    /* background: url('./log-bg.jpg') center center no-repeat; */
     /* background-size: 100% 100%; */
     background: -webkit-linear-gradient(left top, #6bc8b7, #3878cd);
     /* Safari 5.1 - 6.0 */

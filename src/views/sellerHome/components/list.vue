@@ -14,7 +14,7 @@
 		},
 		data () {
 			return {
-				shop: JSON.parse(localStorage.getItem('shopData'))._id,
+				shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
 				state: ''
 			}
 		},

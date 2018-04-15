@@ -81,8 +81,8 @@ export default {
 				alias: '',
 				desc: '',
 				cover: '',
-				// shop: '5aa27cf18d78c262b3f19937',
-				shop: JSON.parse(localStorage.getItem('shopData'))._id
+				// shop: '5ac83157bcbe58709c9bd47a',
+				shop: JSON.parse(sessionStorage.getItem('shopData'))._id
 			}
 		}
 	},
@@ -92,12 +92,27 @@ export default {
 		})
 		toast.show();
 		let res = await this.$api.getData('https://m.yixiutech.com/phone/manufacturer');
+		let ownBrand = await this.$api.getData(`https://m.yixiutech.com/phone/manufacturer/shop/${this.phoneRes.shop}`);
+
 		this.brand.list = res.data;
-		toast.hide();
-		res.data.map(item => {
+		console.log(ownBrand.data);
+
+		// 过滤已有的品牌
+		ownBrand.data.map( (item, index) => {
+			this.brand.list.map( (ownItem, ownIndex) => {
+				item.name == ownItem.name ? this.brand.list.splice(ownIndex, 1) : null;
+			})
+		})
+
+
+		console.log(this.brand.list);
+		
+		this.brand.list.map(item => {
 			this.phoneName.push(item.name);
 			this.phoneInfo.push(item);
 		})
+
+		toast.hide();
 	},
 	methods: {
 		sendMsg (index) {

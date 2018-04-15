@@ -6,10 +6,8 @@
 		/>
 
 		<service-item
-			:key="index"
 			:data="services"
 		/>
-		
 
 	</div>
 </template>
@@ -33,7 +31,7 @@ export default {
 		return {
 			name: '查看已添加的服务列表',
 			services: [],
-			shop: JSON.parse(localStorage.getItem('shopData'))._id
+			shop: JSON.parse(sessionStorage.getItem('shopData'))._id
 		}
 	},
 	components: {

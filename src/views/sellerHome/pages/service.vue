@@ -142,7 +142,8 @@ export default {
 			brandStatus: false,
 			categoryStatus: false,
 			services: [],
-			shop: JSON.parse(localStorage.getItem('shopData'))._id,
+			shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
+			// shop: '5ac83157bcbe58709c9bd47a',
 			result: [],
 			colors: {
 				type: 'color',
