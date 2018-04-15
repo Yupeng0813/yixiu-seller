@@ -114,7 +114,7 @@ export default {
       this.$router.push('/sellerHome');
     },
     surePayBail: function() {
-      alert('surePayBail');
+      alert(localStorage.getItem('shopData'));
       this.shopId = JSON.parse(localStorage.getItem('shopData'))._id;
       alert(shopId);
       Dialog.confirm({
