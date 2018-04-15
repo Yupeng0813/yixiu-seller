@@ -149,7 +149,7 @@ export default {
           });
         }else {
           //非小程序环境
-          // alert("非小程序环境")
+          alert(openid)
           if(openid){
             // alert(openid);
             // 
@@ -161,6 +161,7 @@ export default {
               trade_type: 'JSAPI'
             }
             let sign = await this.$api.sendData('https://m.yixiutech.com/wx/pay/sign', req);
+            alert(JSON.stringify(sign));
             if(sign.code == 200){
               function onBridgeReady(){
                 WeixinJSBridge.invoke(
@@ -191,16 +192,6 @@ export default {
           }
           
         }
-    },
-    async paySuccess(id){
-    //   let res = await this.$api.getData(`https://m.yixiutech.com/order/paySuccess/${id}`);
-    //   alert(JSON.stringify(res));
-    //   if(res.code == 200){
-    //     this.prompt("支付成功", 'correct').show();
-    //     this.$router.push("/sellerHome");
-    //   }else{
-    //     this.prompt("支付失败", 'error').show();
-    //   }
     }
   }
 };
