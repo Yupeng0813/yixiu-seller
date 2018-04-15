@@ -173,7 +173,7 @@ export default {
                         if(wxres.err_msg == "get_brand_wcpay_request:ok" ) {
                           alert(123);
                           that.prompt("支付成功", 'correct').show();
-                          let update = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+                          let update = await that.$api.sendData('https://m.yixiutech.com/sql/update', {
                             collection: 'Shop',
                             find: {
                               _id: payInfo.shopId
