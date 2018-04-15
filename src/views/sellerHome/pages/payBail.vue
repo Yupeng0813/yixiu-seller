@@ -167,12 +167,12 @@ export default {
               function onBridgeReady(){
                 WeixinJSBridge.invoke(
                     'getBrandWCPayRequest', sign.data,
-                    function(wxres){     
+                    async function(wxres){     
                       // alert(JSON.stringify(res));
-                      alert(JSON.stringify(payInfo));
+                      // alert(JSON.stringify(payInfo));
                         if(wxres.err_msg == "get_brand_wcpay_request:ok" ) {
                           that.prompt("支付成功", 'correct').show();
-                          let update = this.$api.sendData('https://m.yixiutech.com/sql/update', {
+                          let update = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
                             collection: 'Shop',
                             find: {
                               _id: payInfo.shopId
@@ -184,6 +184,8 @@ export default {
                           })
                           if (update.code == 200) {
                             that.$router.push("/sellerHome");
+                          } else {
+                            alert(update.errMsg);
                           }
                         }else{
                           that.prompt("支付失败", 'error').show();
