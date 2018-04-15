@@ -169,11 +169,22 @@ export default {
                     'getBrandWCPayRequest', sign.data,
                     function(wxres){     
                       // alert(JSON.stringify(res));
-                      // alert(JSON.stringify(payInfo));
-                        alert(JSON.stringify(wxres));
+                      alert(JSON.stringify(payInfo));
                         if(wxres.err_msg == "get_brand_wcpay_request:ok" ) {
                           that.prompt("支付成功", 'correct').show();
-                          that.$router.push("/yixiuseller/sellerHome");
+                          let update = this.$api.sendData('https://m.yixiutech.com/sql/update', {
+                            collection: 'Shop',
+                            find: {
+                              _id: payInfo.shopId
+                            },
+                            update: {
+                              pay: true,
+                              payment: payInfo.totalFee
+                            }
+                          })
+                          if (update.code == 200) {
+                            that.$router.push("/sellerHome");
+                          }
                         }else{
                           that.prompt("支付失败", 'error').show();
                         }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
