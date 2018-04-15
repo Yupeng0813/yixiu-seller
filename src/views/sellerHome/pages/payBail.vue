@@ -114,8 +114,9 @@ export default {
       this.$router.push('/sellerHome');
     },
     surePayBail: function() {
-      console.log(this.totalFee);
-      this.shopId = JSON.parse(localStorage.getItem('shopData'))._id
+      alert('surePayBail');
+      this.shopId = JSON.parse(localStorage.getItem('shopData'))._id;
+      alert(shopId);
       Dialog.confirm({
             title: '是否立即支付',
           }).then(() => {
