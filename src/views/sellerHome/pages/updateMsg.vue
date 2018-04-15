@@ -81,12 +81,10 @@
 				placeholder="请输入输入店铺公告"
 			/> -->
 
-			<van-field
-				v-model="area"
-				label="所在地区"
-				placeholder="请选择所在地区"
-				@click="showArea"
-			/>
+			<div class="box">
+				<p>所在地区</p>
+				<div class="area" @click="showArea">{{ area }}</div>
+			</div>
 
 			<van-field
 				v-model="infos.address"
@@ -188,6 +186,7 @@ export default {
       data: [this.time],
       onSelect: (selectedVal, selectedIndex, selectedText) => {
 				this.endHour = `${ selectedVal[0] }:00`
+				this.infos.businessHours = [];
 				this.infos.businessHours.push(this.startHour + ' - ' + this.endHour);
       }
 		})
@@ -242,7 +241,7 @@ export default {
 				phone: ''
 			}],
 			tempPhone: '',
-			serviceWay: ['用户到店', '上门维修', '线上快递'],
+			serviceWay: ['用户到店', '上门维修', '快递维修'],
 			logo: logo,
 			files: file,
 			defaults: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
@@ -382,6 +381,7 @@ export default {
 				alert(res.errMsg);
 				return;
 			}
+			sessionStorage.setItem('shopData', JSON.stringify(res.data));
 			this.prompt('修改成功', 'success').show();
 			this.$router.push('/sellerHome');
 		},
@@ -431,6 +431,18 @@ export default {
 	color: #ec3030;
 	text-align: left;
 	padding: 2%;
+}
+
+.box {
+  padding: 2% 7.5%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.box .area {
+  font-size: 14px;
+  margin-left: 14px;
 }
 
 .info .info__logo {

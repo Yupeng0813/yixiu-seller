@@ -165,6 +165,8 @@ export default {
 			}
 		})
 
+		console.log(hasService);
+
 		hasService.data.map(item => {
 			tempArr.map( (categoryItem, categoryIndex) => {
 				item.category == categoryItem._id ? categoryItem.list.push(item) : null;
@@ -202,26 +204,31 @@ export default {
 		},
 		submit () {
 			this.services = [];
+			let status = true;
 			this.categoryinfos.map(item => {
 				item.list.map(childItem => {
 						if (childItem.name !== undefined && childItem.name !== '' && childItem.price !== '') {
-							let obj = Object.assign(childItem, {shop: this.shop, support: this.modelRes})
-							this.services.push(obj);	
+							this.services.push(childItem);
+						} else {
+							status = false;
+							this.prompt('您还有未填信息,不能提交哟', 'error').show();
+							return;
 						}
 				})
 			})
-			console.log(this.services);
-			const toast = this.$createToast({
-				txt: '请稍后...',
-				type: 'loading'
-			})
-			toast.show();
-			this.services.map(async item => {
-				let res = await this.$api.sendData('https://m.yixiutech.com/service/update', item);
-				res.code == 200 ? this.prompt(`更新成功`, 'correct').show() : alert(res.errMsg);
-			})
-			toast.hide();
-			this.$router.push('/sellerHome');
+			if (status) {
+				const toast = this.$createToast({
+					txt: '请稍后...',
+					type: 'loading'
+				})
+				toast.show();
+				this.services.map(async item => {
+					let res = await this.$api.sendData('https://m.yixiutech.com/service/update', item);
+					res.code == 200 ? this.prompt(`更新成功`, 'correct').show() : alert(res.errMsg);
+				})
+				toast.hide();
+				this.$router.push('/sellerHome');
+			}
 		},
 		async updateModel () {
 			this.modelStatus = false;

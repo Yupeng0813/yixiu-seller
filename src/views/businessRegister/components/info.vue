@@ -101,7 +101,7 @@
 
 			<cube-button @click="finish">选择结束营业时间</cube-button>
 
-			<div class="condition" v-for="(item, index) in infos.promotion" :key="index">
+			<!-- <div class="condition" v-for="(item, index) in infos.promotion" :key="index">
 				<van-field
 					v-model="item.condition"
 					class="full-cut"
@@ -117,7 +117,7 @@
 				/>
 			</div>
 
-			<cube-button @click="add">添加满减条件</cube-button>
+			<cube-button @click="add">添加满减条件</cube-button> -->
 
 			<!-- <van-field
 				v-model="serviceWay"

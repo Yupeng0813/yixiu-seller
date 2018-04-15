@@ -152,7 +152,7 @@
       },
       async paySuccess(id){
         let res = await this.$api.getData(`https://m.yixiutech.com/order/paySuccess/${id}`);
-        alert(JSON.stringify(res));
+        // alert(JSON.stringify(res));
           if(res.code == 200){
             this.prompt("支付成功", 'correct').show();
             this.$router.push("/sellerHome");
