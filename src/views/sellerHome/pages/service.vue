@@ -107,7 +107,7 @@
 <script>
 import selects from '../components/select'
 import singleSelect from '../components/singleSelect'
-import { Checkbox, CheckboxGroup, Cell, CellGroup, Button } from 'vant'
+import { Checkbox, CheckboxGroup, Cell, CellGroup, Button, Toast } from 'vant'
 import addBrand from './addBrand'
 import addModel from './addModel'
 import addCategory from './addCatagory'
@@ -301,15 +301,6 @@ export default {
 					list: []
 				})
 			})
-			// 系统分类列表
-			// sysCategory.data.map(item => {
-			// 	this.categoryinfos.push({
-			// 		_id: item._id,
-			// 		name: item.name,
-			// 		show: false,
-			// 		list: []
-			// 	})
-			// })
 		},
 		async cancel (data) {
 			let zData = data.split('&');
@@ -318,6 +309,15 @@ export default {
 			this.manufacturer = zData[2]
 			this.brandName = name;
 
+			// 根据手机品牌获取型号
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后...'
+			})
+
+			this.modelRes = [];
+			
 			let sysBrand = await this.$api.getData('https://m.yixiutech.com/phone/manufacturer');
 			sysBrand.data.map(item => {
 				item.name == this.brandName ? this.brandId = item._id : null;
@@ -335,15 +335,8 @@ export default {
 					value: item._id
 				})
 			})
-			
-			// 根据手机品牌获取型号
-			const toast = this.$createToast({
-				txt: '加载中...',
-				type: 'correct'
-			})
-			toast.show();
 			this.updateModel();
-			toast.hide();
+			toast.clear();
 
 			// 取消其他几个子项的选中
 			this.$refs.select.map(item => {
