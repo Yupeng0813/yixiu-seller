@@ -20,7 +20,7 @@
 		/>
 		 
 		 <!-- 删除店铺信息按钮 慎用 -->
-		 <!-- <button @click="deleteData">删除</button> -->
+		 <button @click="deleteData">删除</button>
   </div>
 </template>
 
@@ -76,8 +76,8 @@
 		// },
 		// 删除店铺信息  慎用
 		async created () {
-			let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			sessionStorage.setItem('shopData', JSON.stringify(res.data[10]));
+			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[10]));
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'
@@ -188,7 +188,7 @@
 			async deleteData(){
 				// 删除店铺
 				let req = {
-					_id: "5ac3a1c0bcbe58709c9bd424"
+					_id: "5ad37f7e1f38b549961e4f83"
 				}
 				let res = await this.$api.sendData('https://m.yixiutech.com/shop/delete', req);
 				console.log(res);
