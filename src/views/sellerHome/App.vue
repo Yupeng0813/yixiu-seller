@@ -20,7 +20,7 @@
 		/>
 		 
 		 <!-- 删除店铺信息按钮 慎用 -->
-		 <button @click="deleteData">删除</button>
+		 <!-- <button @click="deleteData">删除</button> -->
   </div>
 </template>
 
@@ -56,6 +56,11 @@
 					// { name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
 				],
 				shop: '',
+				beforeOrder: [],
+				inOrder: [],
+				afterOrder: [],
+				allOrder: [],
+				price: 0,
 				modules: [
 					{ name: '待接单', num: 0, state: 11},
 					{ name: '维修中', num: 0, state: 12 },
@@ -78,6 +83,16 @@
 		async created () {
 			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[10]));
+
+			// let res = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+			// 	collection: 'User',
+			// 	find: {
+			// 		_id: '5ad243afab85e142eaef928d'
+			// 	},
+			// 	update: {
+			// 		money: 0
+			// 	}
+			// })
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'
@@ -87,8 +102,6 @@
 			// userData !== undefined ? localStorage.setItem('openid', userData) : null;
 
 			this.shopData = JSON.parse(sessionStorage.getItem('shopData'));
-
-			console.log(this.shopData);
 
 			this.shop = this.shopData._id;
 			
@@ -130,13 +143,49 @@
 				});
 			}
 
-			this.modules.slice(0, 3).map( async item => {
+			let i = 3;
+
+			this.modules.slice(0, 3).map( async (item, index) => {
 				let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
+				i--;
+				this.allOrder = this.allOrder.concat(res.data);
+				index == 0 ? this.beforeOrder = res.data : (index == 1 ? this.inOrder = res.data : this.afterOrder = res.data);
+				i == 0 ? this.updateShop() : null;
 				item.num = res.data.length;
 			})
 			this.modules[3].num = this.shopData.pv;
+
+			// 操作数据
+
 		},
 		methods: {
+			async updateShop () {
+				this.allOrder.map(item => {
+					this.price += item.payment / 100
+				})
+
+				let services = await this.$api.sendData('https://m.yixiutech.com/sql/find', { 
+					collection: 'Service', 
+					limit: 1000, 
+					shop: JSON.parse(sessionStorage.getItem('shopData'))._id
+				})
+
+				let data = {
+					'serviceFinishCount': this.allOrder.length,
+					'price': this.price,
+					'serviceCount': services.data.length
+				}
+
+				let updateShop = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+					collection: 'Shop',
+					find: {
+						_id: JSON.parse(sessionStorage.getItem('shopData'))._id
+					},
+					update: data
+				})
+
+
+			},
 			async onRefresh() {
 				let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 					collection: 'Shop',
@@ -178,6 +227,7 @@
 
 				this.modules.slice(0, 3).map( async item => {
 					let res = await this.$api.sendData('https://m.yixiutech.com/order/service/filter', { shop: this.shop, state: item.state });
+					index == 0 ? this.beforeOrder = res.data : (index == 1 ? this.inOrder = res.data : this.afterOrder = res.data);
 					item.num = res.data.length;
 				})
 

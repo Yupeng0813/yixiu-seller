@@ -91,7 +91,7 @@ export default {
                             let withdrawCash = await this.$api.sendData('https://m.yixiutech.com/shop/withdrawals', {
 								_id: JSON.parse(sessionStorage.getItem('shopData'))._id,
 								openid: JSON.parse(sessionStorage.getItem('user')).wx.openid,
-								payment: this.wallentMoney
+								payment: that.MoneyValue
 							})
 
 							if (withdrawCash.code !== 200) {
@@ -100,7 +100,7 @@ export default {
 							}
 
 							this.prompt('提现成功', 'correct').show();
-							this.wallentMoney = 0;
+							this.wallentMoney = this.wallentMoney - that.MoneyValue
                         },
                         onCancel: () => {
                             getMyMoney.hide();
