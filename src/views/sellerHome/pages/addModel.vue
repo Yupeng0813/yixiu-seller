@@ -159,34 +159,45 @@ export default {
 			this.model.color.push(this.phoneModelColorRes);
 		},
 		async submit () {
+			let status = true;
 			this.modelNames.map(item => {
 				if (item == this.modelName) {
 					this.prompt('店铺里已添加过同名的型号', 'error').show();
 					return;
 				}
 			})
-			this.model.name = this.modelName;
-			this.model.manufacturer = this.manufacturer;
-			this.model.color.length == 0 ? 
-				this.model.color = this.otherColors.split('，') : null;
-			const toast = this.$createToast({
-				txt: '加载中...',
-				type: 'loading'
-			})
-			toast.show();
-			let modelRes = await this.$api.sendData('https://m.yixiutech.com/phone/model', this.model);
-			toast.hide();
-			if (modelRes.code !== 200) {
-				this.prompt(modelRes.errMsg, 'error').show();
-				return;	
+			for (var key in this.model) {
+				if (this.model[ key ] == '' || this.model[key].length == 0) {
+					status = false;
+					alert('您还有信息未填写');
+					return;
+				}
 			}
-			this.prompt('添加成功!', 'correct').show();
-			this.$refs.select.map(item => {
-				item.hasBorder ? item.selectOn() : null;
-			})
-			this. phoneModelColor = [];
-			this.model = Object.assign({}, this.model, {color: [], manufacturer: '', alias: '', name: ''})
-			this.$emit('updateModel', true);
+			if (status) {
+				this.model.name = this.modelName;
+				this.model.manufacturer = this.manufacturer;
+				if (this.model.color.length == 0 ) {
+					this.model.color = this.otherColors.split('，');
+				}
+				const toast = this.$createToast({
+					txt: '加载中...',
+					type: 'loading'
+				})
+				toast.show();
+				let modelRes = await this.$api.sendData('https://m.yixiutech.com/phone/model', this.model);
+				toast.hide();
+				if (modelRes.code !== 200) {
+					this.prompt(modelRes.errMsg, 'error').show();
+					return;	
+				}
+				this.prompt('添加成功!', 'correct').show();
+				this.$refs.select.map(item => {
+					item.hasBorder ? item.selectOn() : null;
+				})
+				this. phoneModelColor = [];
+				this.model = Object.assign({}, this.model, {color: [], manufacturer: '', alias: '', name: ''})
+				this.$emit('updateModel', true);
+			}
 		}
 	}
 }
