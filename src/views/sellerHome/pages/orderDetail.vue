@@ -278,11 +278,11 @@ export default {
 				},
 				// 把订单的80%更新到商家的钱包中
 				update: {
-					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price / 100 * 0.8
+					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
 				}
 			})
 			
-			let newUserInfo = await this.$api.sendData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('user')).wx.openid}`)
+			let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('user')).wx.openid}`)
 			
 			toast.hide();
 			if (res.code == 200) {
