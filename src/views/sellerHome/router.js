@@ -75,10 +75,7 @@ export default [{
 },
 {
   path: '/shopWallet',
-  component: shopWallet,
-  meta: {
-    keepAlive: true
-  }
+  component: shopWallet
 }, 
 {
   path: '/viewServices',

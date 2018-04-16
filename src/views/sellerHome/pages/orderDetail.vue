@@ -12,28 +12,28 @@
 				<span>翼修维修第xxxxxxx份报告</span>
 				<span>No.956541235787</span>
 			</p> -->
-			<p class="content__desc">{{ details.phoneModel.name }} <span>/手机名称</span></p>
+			<p class="content__desc"><span>手机名称 : </span>{{ details.phoneModel.name }} </p>
 			<p class="content__desc" v-for="(item, index) in details.service" :key="index">
+				<span>维修问题{{ index+1 }} : </span>
 				{{ item.name }} 
-				<span>/维修问题{{ index+1 }}</span>
 			</p>
 			<!-- <img :src="serviceIcon" class="service-icon" alt=""> -->
 			<p class="content__desc">
+				<span>预约时间 : </span>
 				{{ new Date(details.appointment).getFullYear() }} - 
 				{{ new Date(details.appointment).getMonth() }} - 
 				{{ new Date(details.appointment).getDate() }}  
 				{{ new Date(details.appointment).getHours() }} : 
 				{{ new Date(details.appointment).getMinutes() }}
-				<span> / 预约时间</span>
 			</p>
-			<p class="content__desc">{{ details.phoneModel.color[0] }} <span>/ 颜色</span></p>
-			<p class="content__desc">{{ details.user.name }} <span>/ 用户名</span></p>
-			<p class="content__desc">{{ details.phone }} <span>/ 买家电话</span></p>
-			<p class="content__desc">{{ details.serviceWay }} <span>/ 服务方式</span></p>
-			<p class="content__desc" v-show="details.serviceWay == '快递维修'">{{ details.address }} <span>/ 用户地址</span></p>
-			<p class="content__desc" v-show="details.serviceWay == '快递维修'">{{ details.trackingCom }} <span>/ 快递公司</span></p>
-			<p class="content__desc" v-show="details.serviceWay == '快递维修'">{{ details.trackingNumber }} <span>/ 快递单号</span></p>
-			<p class="content__desc">{{ details.remark }} <span>/ 备注</span></p>
+			<p class="content__desc"><span>颜色 : </span>{{ details.phoneModel.color[0] }} </p>
+			<p class="content__desc"><span>用户名 : </span>{{ details.user.name }} </p>
+			<p class="content__desc"><span>买家电话 : </span>{{ details.phone }} </p>
+			<p class="content__desc"><span>服务方式 : </span>{{ details.serviceWay }} </p>
+			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>用户地址 : </span>{{ details.address }} </p>
+			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递公司 : </span>{{ details.trackingCom }} </p>
+			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递单号 : </span>{{ details.trackingNumber }} </p>
+			<p class="content__desc"><span>备注 : </span>{{ details.remark }} </p>
 		</div>
 
 		<div class="content" v-show="details.state == 12">			
@@ -271,6 +271,19 @@ export default {
 			})
 			toast.show();
 			let res = await this.$api.sendData('https://m.yixiutech.com/order/update', data);
+			let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+				collection: 'User',
+				find: {
+					_id: JSON.parse(sessionStorage.getItem('user'))._id
+				},
+				// 把订单的80%更新到商家的钱包中
+				update: {
+					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price / 100 * 0.8
+				}
+			})
+			
+			let newUserInfo = await this.$api.sendData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('user')).wx.openid}`)
+			
 			toast.hide();
 			if (res.code == 200) {
 				this.prompt('完成订单', 'correct').show();

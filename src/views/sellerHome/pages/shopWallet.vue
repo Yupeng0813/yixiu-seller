@@ -35,7 +35,7 @@ export default {
             MoneyValue: ""
         }
     },
-    async created() {
+    async mounted() {
         const toast = this.$createToast({
 			txt: '加载中...',
 			type: 'correct'
@@ -64,7 +64,7 @@ export default {
             let that = this;
             if (this.MoneyValue != '') {
                 console.log(this.MoneyValue,this.wallentMoney)
-                if(Number(this.MoneyValue) >= Number(this.wallentMoney)){
+                if(Number(this.MoneyValue) > Number(this.wallentMoney)){
                     this.$createToast({
                     type: 'warn',
                     time: 1000,
@@ -87,12 +87,20 @@ export default {
                             disabled: false,
                             href: 'javascript:;'
                         },
-                        onConfirm: () => {
-                            this.$createToast({
-                                type: 'warn',
-                                time: 1000,
-                                txt: '点击确认按钮'
-                            }).show()
+                        onConfirm: async () => {
+                            let withdrawCash = await this.$api.sendData('https://m.yixiutech.com/shop/withdrawals', {
+								_id: JSON.parse(sessionStorage.getItem('shopData'))._id,
+								openid: JSON.parse(sessionStorage.getItem('user')).wx.openid,
+								payment: this.wallentMoney
+							})
+
+							if (withdrawCash.code !== 200) {
+								alert(withdrawCash.errMsg);
+								return;
+							}
+
+							this.prompt('提现成功', 'correct').show();
+							this.wallentMoney = 0;
                         },
                         onCancel: () => {
                             getMyMoney.hide();
