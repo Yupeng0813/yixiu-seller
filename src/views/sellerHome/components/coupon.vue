@@ -31,8 +31,8 @@ export default {
 		}
 	},
   props: {
-		condition: String,
-		denomination: String,
+		condition: Number,
+		denomination: Number,
 		name: String,
 		shopName: String
 	}

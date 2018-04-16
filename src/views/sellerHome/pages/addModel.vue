@@ -93,8 +93,7 @@ export default {
 			this.phoneName.push(item.name);
 			this.phoneInfo.push(item);
 		})
-
-		let own
+		// let own
 	},
 	data () {
 		return {
@@ -152,7 +151,6 @@ export default {
 			this.sysModel.map(item => {
 				item._id == value ? this.phoneModelColor = item.color : null;
 			})
-			console.log(this.phoneModelColor);
 			// this.model['name'] = value;
 			// this.phoneModelColor = this.phoneModelInfo[ index ].color;
 			
@@ -169,8 +167,8 @@ export default {
 			})
 			this.model.name = this.modelName;
 			this.model.manufacturer = this.manufacturer;
-			// this.model.color.length == 0 ? 
-			// 	this.model.color = this.otherColors.split('，') : null;
+			this.model.color.length == 0 ? 
+				this.model.color = this.otherColors.split('，') : null;
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'
@@ -183,8 +181,11 @@ export default {
 				return;	
 			}
 			this.prompt('添加成功!', 'correct').show();
+			this.$refs.select.map(item => {
+				item.hasBorder ? item.selectOn() : null;
+			})
+			this. phoneModelColor = [];
 			this.model = Object.assign({}, this.model, {color: [], manufacturer: '', alias: '', name: ''})
-			console.log(this.model);
 			this.$emit('updateModel', true);
 		}
 	}

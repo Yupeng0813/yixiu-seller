@@ -7,29 +7,37 @@
 		</div>
 		<div class="shadow"></div>
 		<div class="content">
+			<h1 class="title">订单信息</h1>
 			<!-- <p class="num">
 				<span>翼修维修第xxxxxxx份报告</span>
 				<span>No.956541235787</span>
 			</p> -->
-			<!-- <p class="content__title">{{ details.phoneModel.name }}</p> -->
-			<!-- <p class="content__desc" v-for="(item, index) in details.service" :key="index">
+			<p class="content__desc">{{ details.phoneModel.name }} <span>/手机名称</span></p>
+			<p class="content__desc" v-for="(item, index) in details.service" :key="index">
 				{{ item.name }} 
 				<span>/维修问题{{ index+1 }}</span>
-			</p> -->
+			</p>
 			<!-- <img :src="serviceIcon" class="service-icon" alt=""> -->
-			<!-- <p class="content__desc">
-				{{ new Date(details.appointment).getFullYear() }}/
-				{{ new Date(details.appointment).getMonth() }}/
+			<p class="content__desc">
+				{{ new Date(details.appointment).getFullYear() }} - 
+				{{ new Date(details.appointment).getMonth() }} - 
 				{{ new Date(details.appointment).getDate() }}  
 				{{ new Date(details.appointment).getHours() }} : 
 				{{ new Date(details.appointment).getMinutes() }}
-				<span>/预约时间</span>
-			</p> -->
-			<!-- <p class="content__desc">{{ details.phoneModel.color[0] }} <span>/颜色</span></p>
-			<p class="content__desc">{{ details.user.name }} <span>/用户名</span></p>
-			<p class="content__desc">{{ details.phone }} <span>/联系方式</span></p>
-			<p class="content__desc">{{ details.serviceWay }} <span>/服务方式</span></p>
-			<p class="content__desc">{{ details.address }} <span>/用户地址</span></p> -->
+				<span> / 预约时间</span>
+			</p>
+			<p class="content__desc">{{ details.phoneModel.color[0] }} <span>/ 颜色</span></p>
+			<p class="content__desc">{{ details.user.name }} <span>/ 用户名</span></p>
+			<p class="content__desc">{{ details.phone }} <span>/ 买家电话</span></p>
+			<p class="content__desc">{{ details.serviceWay }} <span>/ 服务方式</span></p>
+			<p class="content__desc" v-show="details.serviceWay == '快递维修'">{{ details.address }} <span>/ 用户地址</span></p>
+			<p class="content__desc" v-show="details.serviceWay == '快递维修'">{{ details.trackingCom }} <span>/ 快递公司</span></p>
+			<p class="content__desc" v-show="details.serviceWay == '快递维修'">{{ details.trackingNumber }} <span>/ 快递单号</span></p>
+			<p class="content__desc">{{ details.remark }} <span>/ 备注</span></p>
+		</div>
+
+		<div class="content" v-show="details.state == 12">			
+			<h1 class="title">质检报告</h1>
 			
 			<van-field
 				v-model="info.name"
@@ -74,21 +82,42 @@
 
 		</div>
 		
-		<!-- <div class="content spec">
-			<sicon name="shandian" scale="6"></sicon>
-			<div class="desc">
-				<p class="desc__title">翼修专业维修</p>
-				<p class="desc__content">为您的手机保驾护航</p>
-			</div>
-		</div> -->
+		<div class="content" v-show="details.state == 13">			
+			<h1 class="title">质检报告</h1>
+			
+			<van-field
+				v-model="info.name"
+				label="手机"
+				disabled
+			/>
 
-		<div class="content">
-			<!-- <div class="expert">
-				<div class="content__sum">
-					<p class="sum__title">用户备注</p>
-					<p class="sum__content">{{ details.remark }}</p>
-				</div>
-			</div> -->
+			<van-field
+				v-model="info.color"
+				label="颜色"
+				disabled
+			/>
+
+			<van-field
+				v-model="info.storage"
+				label="容量"
+				disabled
+			/>
+
+			<van-field
+				v-model="info.IMei"
+				label="IM ei"
+				disabled
+			/>
+
+			<van-field
+				v-model="currentNetwork"
+				label="网络制式"
+				disabled
+			/>
+
+		</div>
+
+		<div class="content" v-show="details.state == 12">
 			<van-field
 				v-model="info.conclusion"
 				label="总体质检结论"
@@ -104,21 +133,48 @@
 			/>
 		</div>
 
-		<div class="content" v-show="details.state == 12">
-				<van-field
-					v-model="details.trackingNumber"
-					label="快递单号"
+		<div class="content" v-show="details.state == 13">
+			<van-field
+				v-model="info.conclusion"
+				label="总体质检结论"
+				type="textarea"
+				disabled
+			/>
+
+			<van-field
+				v-model="info.supplement"
+				label="工程师补充"
+				type="textarea"
+				disabled
+			/>
+		</div>
+
+		<div class="content" v-show="details.serviceWay == '快递维修' && details.state == 12">
+			<div class="info">
+				<p>快递公司</p>	
+				<cube-select
+					v-model="info.trackingCom"
+					:options="trackingComSec" 
 				/>
-
-				<div class="info">
-					<p>快递公司</p>	
-					<cube-select
-						v-model="details.trackingCom"
-						:options="trackingComSec" 
-					/>
-				</div>
-
 			</div>
+
+			<van-field
+				v-model="info.trackingNumber"
+				label="快递单号"
+			/>
+		</div>
+
+		<div class="content" v-show="details.serviceWay == '快递维修' && details.state == 13">
+			<van-field
+				v-model="info.trackingCom"
+				label="快递公司"
+			/>
+
+			<van-field
+				v-model="info.trackingNumber"
+				label="快递单号"
+			/>
+		</div>
 
 		<div v-if="details.state == 11">
 			<van-button size="large" class="footer" @click="takeOrder">接单</van-button>
@@ -153,6 +209,7 @@ export default {
 			storages: ['16G', '32G', '64G', '128G', '256G'],
 			trackingComSec: [],
 			serviceIcon: service,
+			currentNetwork: '',
 			info: {
 				name: '',
 				storage: '',
@@ -166,8 +223,11 @@ export default {
 	},
 	async mounted () {
 		window.status = false;
-		this.details = JSON.parse(localStorage.getItem('detail'));
-		this.details.info ? this.info = this.details.info : null;
+		this.details = JSON.parse(sessionStorage.getItem('detail'));
+		if (this.details.info) {
+			this.info = this.details.info;
+			this.currentNetwork  = this.details.info.network.join(',');
+		}
 		let res = await this.$api.getData('https://m.yixiutech.com/tracking/com');
 		res.data.map(item => {	
 			this.trackingComSec.push({ text: item.com, value: item.no })
@@ -186,34 +246,34 @@ export default {
 			this.$router.go(-1);
 		},
 		async takeOrder () {
+			let data = { _id: this.details._id, state: 12 }
+			const toast = this.$createToast({
+				txt: '加载中...'
+			})
+			toast.show();
+			let res = await this.$api.sendData('https://m.yixiutech.com/order/update', data);
+			toast.hide();
+			if (res.code == 200) {
+				this.prompt('接单成功', 'correct').show();
+				this.$router.go(-1)
+			}
+		},
+		async finish () {
 			for (var key in this.info) {
 				if (this.info[ key ] == '' || this.info[key] == []) {
 					this.prompt('信息未填写完', 'error').show();
 					return;
 				}
 			}
-			let data = { _id: this.details._id, state: 12, info: this.info }
+			let data = { _id: this.details._id, state: 13, info: this.info}
 			const toast = this.$createToast({
-				message: '加载中...'
+				txt: '加载中...'
 			})
 			toast.show();
 			let res = await this.$api.sendData('https://m.yixiutech.com/order/update', data);
 			toast.hide();
 			if (res.code == 200) {
-				this.prompt('接单成功', 'success').show();
-				this.$router.go(-1)
-			}
-		},
-		async finish () {
-			let data = { _id: this.details._id, state: 13 }
-			const toast = this.$createToast({
-				message: '加载中...'
-			})
-			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/order/update', data);
-			toast.hide();
-			if (res.code == 200) {
-				this.prompt('接单成功', 'success').show();
+				this.prompt('完成订单', 'correct').show();
 				this.$router.go(-1)
 			}
 		}
@@ -267,7 +327,7 @@ export default {
 
 .quality {
 	width: 100%;
-	height: 100%;
+	height: 1300px;
 	position: relative;
 	background: #eee;
 }
@@ -289,6 +349,7 @@ export default {
 	padding: 4%;
 	background: #fff;
 	z-index: 2;
+	border-radius: 5px;
 }
 
 .footer {
@@ -321,6 +382,7 @@ export default {
 
 .content .content__desc {
 	font-size: 14px;
+	padding: 5px 0;
 }
 
 .content__desc span {
@@ -353,6 +415,11 @@ export default {
 	align-items: center;
 	font-size: 12px;
 	padding: 4%;
+}
+
+.title {
+	text-align: center;
+	padding: 6px 0;
 }
 
 .expert__info p {

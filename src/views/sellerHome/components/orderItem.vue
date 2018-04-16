@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     detail () {
-      localStorage.setItem('detail', JSON.stringify(this.data));
+      sessionStorage.setItem('detail', JSON.stringify(this.data));
       this.$router.push('/orderDetail');
     }
   }

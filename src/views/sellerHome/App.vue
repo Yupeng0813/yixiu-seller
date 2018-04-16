@@ -77,7 +77,7 @@
 		// 删除店铺信息  慎用
 		async created () {
 			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[12]));
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'

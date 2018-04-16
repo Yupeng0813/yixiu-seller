@@ -91,6 +91,9 @@ export default {
 				return;
 			}
 			this.prompt(tip, 'correct').show();
+			if (tip == '添加优惠券成功') {
+				this.coupon = Object.assign(this.coupon, {name: '', condition: '', denomination: ''})
+			}
 			let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 				collection: 'Shop',
 				findType: 'findOne',
