@@ -105,8 +105,7 @@
         if(sessionStorage.getItem("openid")){
           let openid = sessionStorage.getItem("openid");
           let userInfoStr = sessionStorage.getItem("userData");
-        
-
+          
           if (this.password == "" || this.phoneNumber == "") {
             this.prompt("请填写手机和密码", 'error').show();
           } else if (this.validateSure == this.validateNumber) {

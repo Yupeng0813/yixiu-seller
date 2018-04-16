@@ -332,13 +332,13 @@ export default {
         }
 			})
 
-			for (var key in this.infos) {
-				if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
-					this.prompt('您还有信息未填写', 'error').show();
-					status = false;
-          return;
-				}
-			}
+			// for (var key in this.infos) {
+			// 	if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
+			// 		this.prompt('您还有信息未填写', 'error').show();
+			// 		status = false;
+      //     return;
+			// 	}
+			// }
 		
 			if (status) {
 				const toast = this.$createToast({
