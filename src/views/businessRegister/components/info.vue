@@ -80,7 +80,7 @@
       </div>
 
 			<van-field
-				v-model="infos.address"
+				v-model="address"
 				label="详细地址"
 				placeholder="如街道、楼层、门牌号等"
 			/>
@@ -154,7 +154,7 @@
 
 <script>
 import InfoItem from './infoItem'
-import { Field, Uploader, Icon, Area } from 'vant'
+import { Field, Uploader, Icon, Area, Toast } from 'vant'
 import timeJson from '../data/data.json'
 import logo from '@/assets/logo.png'
 import file from '@/assets/file.png'
@@ -162,7 +162,6 @@ import areaList from '../../my/components/data/area.json'
 import selects from '../../sellerHome/components/select'
 export default {
 	async mounted () {
-		console.log(sessionStorage.getItem('userInfo'));
 		window.status = false;
 		this.startPicker = this.$createPicker({
       title: '选择开始营业时间',
@@ -198,6 +197,7 @@ export default {
 			areaStatus: false,
 			areaList: areaList,
 			files: file,
+			address: '',
 			linkAddress: 'http://bymm.oss-cn-shenzhen.aliyuncs.com/yixiu/翼修入驻协议-1523788189.docx',
 			file: file,
 			id1: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
@@ -216,7 +216,6 @@ export default {
 					lat: ''
 				},
 				businessHours: [],
-				promotion: [],
 				owner: JSON.parse(sessionStorage.getItem('user'))._id,
 				ownerOpenid: JSON.parse(sessionStorage.getItem('userInfo')) ? JSON.parse(sessionStorage.getItem('userInfo')).openid : '',
 				certificate: [
@@ -228,7 +227,6 @@ export default {
 				]
 			},
 			time: timeJson,
-			money: ''
 		}
 	},
 	methods: {
@@ -244,7 +242,6 @@ export default {
 		},
 		showArea () {
 			this.areaStatus = true;
-			// let top = window.innerHeight
 		},
 		setData (data) {
 			this.infos.serviceWay.push(data);
@@ -265,17 +262,18 @@ export default {
 				}
 			}
 
-			const toast = this.$createToast({
-				txt: '加载中...'
-			})
-			toast.show();
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后...'
+			});
 			let res = await this.$api.sendData('https://m.yixiutech.com/upload', formdata, config);
 
 			this.infos.certificate.map( item => item.name == name ? item.src = res.data : null );
 
 			name == 'cover' ? this.infos.cover = res.data : null;
 
-			toast.hide();
+			toast.clear();
 		},
 		coverUpload (event, name) {
 			this.file = event.target.files[0];
@@ -323,7 +321,7 @@ export default {
 		},
 		async register () {
 			let status = true;
-			this.infos.address = this.area + '-' + this.infos.address;
+			this.infos.address = this.area + '-' + this.address;
       this.infos.certificate.map(item => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
 					this.prompt('您还有信息未填写', 'error').show();
@@ -332,35 +330,28 @@ export default {
         }
 			})
 
-			// for (var key in this.infos) {
-			// 	if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
-			// 		this.prompt('您还有信息未填写', 'error').show();
-			// 		status = false;
-      //     return;
-			// 	}
-			// }
+			for (var key in this.infos) {
+				if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
+					this.prompt('您还有信息未填写', 'error').show();
+					status = false;
+          return;
+				}
+			}
 		
 			if (status) {
-				const toast = this.$createToast({
-					txt: '加载中...',
-					type: 'loading'
+				const toast = Toast.loading({
+					duration: 0,
+					forbidClick: true,
+					message: '请稍后...'
 				})
-				toast.show();
 
-				// 再创建店铺
 				let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
-				toast.hide();
-				const wait  = this.$createToast({
-					type: 'warn',
-					mask: true,
-					txt: '请等待1 - 2个工作日审核',
-					time: 5000
-				})
+				
 				if (res.code !== 200) {
 					alert(res.errMsg);
 					return;
 				}
-				wait.show();
+				toast.clear();
 				this.$router.push('/wait');
 			}
 		},

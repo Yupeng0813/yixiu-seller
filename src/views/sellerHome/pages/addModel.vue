@@ -109,13 +109,9 @@ export default {
 			phoneModelColorRes: [],
 			colorType: 'color',
 			model: {
-				brandName: '',
 				name: '',
-				alias: '',
 				// shop: '5ac83157bcbe58709c9bd47a',
 				shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
-				desc: '',
-				cover: '',
 				color: [],
 				manufacturer: ''
 			}
@@ -131,20 +127,9 @@ export default {
 			})
 		},
 		backParent () {
+			this.phoneModelColor = [];
+			this.model.name = '';
 			this.$emit('backParent', true);
-		},
-		async nameChange(value, index) {
-			this.model['manufacturer'] = this.phoneInfo[ index ]._id;
-			const toast = this.$createToast({
-				message: '加载中...'
-			})
-			toast.show();
-			let manufacturer = await this.$api.getData('https://m.yixiutech.com/phone/model/' + this.model['manufacturer']);
-			toast.hide();
-			manufacturer.data.map(item => {
-				this.phoneModel.push(item.name);
-				this.phoneModelInfo.push(item);
-			})
 		},
 		modelChange (value, index, text) {
 			this.modelName = text;
@@ -166,19 +151,20 @@ export default {
 					return;
 				}
 			})
-			// for (var key in this.model) {
-			// 	if (this.model[ key ] == '' || this.model[key].length == 0) {
-			// 		status = false;
-			// 		alert('您还有信息未填写');
-			// 		return;
-			// 	}
-			// }
-			if (status) {
-				this.model.name = this.modelName;
-				this.model.manufacturer = this.manufacturer;
-				if (this.model.color.length == 0 ) {
-					this.model.color = this.otherColors.split('，');
+
+			this.model.name = this.modelName;
+			this.model.manufacturer = this.manufacturer;
+
+			for (var key in this.model) {
+				console.log(key);
+				if (this.model[ key ] == '' || this.model[key].length == 0) {
+					status = false;
+					alert('您还有信息未填写');
+					return;
 				}
+			}
+			if (status) {
+				
 				const toast = this.$createToast({
 					txt: '加载中...',
 					type: 'loading'
@@ -194,7 +180,7 @@ export default {
 				this.$refs.select.map(item => {
 					item.hasBorder ? item.selectOn() : null;
 				})
-				this. phoneModelColor = [];
+				this.phoneModelColor = [];
 				this.model = Object.assign({}, this.model, {color: [], manufacturer: '', alias: '', name: ''})
 				this.$emit('updateModel', true);
 			}

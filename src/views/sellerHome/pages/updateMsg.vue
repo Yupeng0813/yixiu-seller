@@ -87,7 +87,7 @@
 			</div>
 
 			<van-field
-				v-model="infos.address"
+				v-model="address"
 				label="详细地址"
 				placeholder="如街道、楼层、门牌号等"
 			/>
@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import { Field, Uploader, Icon, Area } from 'vant'
+import { Field, Uploader, Icon, Area, Toast } from 'vant'
 import itemHeader from '../components/itemHeader'
 import timeJson from '../data/data.json'
 import logo from '@/assets/logo.png'
@@ -207,7 +207,7 @@ export default {
 		this.startHour = businessHours[0].trim();
 		this.endHour = businessHours[1].trim();
 		this.area = this.infos.address.split('-')[0];
-		this.infos.address = this.infos.address.split('-')[1];
+		this.address = this.infos.address.split('-')[1];
 		
 		this.$refs.child.filter(item => {
 			if(this.infos.serviceWay.includes(item.data))  {
@@ -233,9 +233,9 @@ export default {
 			startHour: '',
 			areaList: areaList,
 			areaStatus: false,
-			linkAddress: 'http://t.cn/RnCHOyk',
 			managerPhone: '',
 			area: '选择身份  选择城市  选择地区',
+			address: '',
 			endHour: '',
 			users: [{
 				phone: ''
@@ -317,16 +317,17 @@ export default {
 				}
 			}
 
-			const toast = this.$createToast({
-				message: '加载中...'
-			})
-			toast.show();
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后...'
+			});
 			let res = await this.$api.sendData('https://m.yixiutech.com/upload', formdata, config);
-			toast.hide();
 
 			this.infos.certificate.map( item => item.name == name ? item.src = res.data : null );
 
 			name == 'cover' ? this.infos.cover = res.data : null;
+			toast.clear();
 		},
 		coverUpload (event, name) {
 			this.file = event.target.files[0];
@@ -369,19 +370,21 @@ export default {
 				this.prompt('请至少选择一个服务方式', 'error').show();
 				return;
 			}
-			this.infos.address = this.area + '-' + this.infos.address;
-			const toast = this.$createToast({
-				txt: '加载中...',
-				type: 'loading'
-			})
-			toast.show();
+			this.infos.address = this.area + '-' + this.address;
+
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后...'
+			});
 			let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
-			toast.hide();
+			
 			if (res.code !== 200) {
 				alert(res.errMsg);
 				return;
 			}
 			sessionStorage.setItem('shopData', JSON.stringify(res.data));
+			toast.clear();
 			this.prompt('修改成功', 'success').show();
 			this.$router.push('/sellerHome');
 		},

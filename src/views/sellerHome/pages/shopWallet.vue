@@ -39,11 +39,12 @@ export default {
         const toast = this.$createToast({
 			txt: '加载中...',
 			type: 'correct'
-		});
-        let userData = JSON.parse(sessionStorage.getItem('userData'));
+        });
+        let userData = JSON.parse(sessionStorage.getItem('user'));
         let res = await this.$api.sendData('https://m.yixiutech.com/shop/user', { openid: userData.wx.openid });
+        console.log(res);
         if(res.code == 200){
-            this.wallentMoney = res.data.money/100;
+            this.wallentMoney = res.data.money / 100;
         }
         toast.hide();
     },

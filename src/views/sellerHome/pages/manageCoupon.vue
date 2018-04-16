@@ -3,11 +3,6 @@
 		<item-header :name="infoName" v-on:backParent="backParent" />
 
 		<div class="container">
-			<van-field
-				v-model="coupon.name"
-				label="优惠券名称"
-				placeholder="请输入优惠券名称"
-			/>
 
 			<!-- 优惠券类型, 0: 维修优惠券, 1: 商品优惠券 -->
 
@@ -15,7 +10,9 @@
 				<span>优惠券分类</span>
 				<cube-select
 					v-model="value"
-					:options="options">
+					:options="options"
+					@change="change"
+				>
 				</cube-select>
 			</div>
 
@@ -54,11 +51,14 @@
 </template>
 
 <script>
-import { Button, Field } from 'vant';
+import { Button, Field, Toast } from 'vant';
 import itemHeader from '../components/itemHeader'
 import coupons from '../components/coupon'
 export default {
   methods: {
+		change (value, index, text) {
+			this.coupon.name = text;
+		},
 		deleteData (data) {
 			this.infos = data;
 			this.updateData('删除优惠券成功');
@@ -79,13 +79,13 @@ export default {
 			this.updateData('添加优惠券成功');
 		},
 		async updateData (tip) {
-			const toast = this.$createToast({
-				txt: '加载中...',
-				type: 'loading'
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后...'
 			})
-			toast.show();
 			let coupon = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
-			toast.hide();
+			
 			if (coupon.code !== 200) {
 				this.prompt(coupon.errMsg, 'error').show();
 				return;
@@ -103,6 +103,7 @@ export default {
 			sessionStorage.setItem('shopData', JSON.stringify(shop.data));
 			
 			this.infos = shop.data;
+			toast.clear();
 		}
 	},
 	async created () {
@@ -123,6 +124,8 @@ export default {
 	data () {
 		return {
 			infoName: '优惠券管理',
+			names: ['维修优惠券', '商品优惠券'],
+			name: '',
 			options: [
 				{
 					text: '维修优惠券', 
@@ -133,10 +136,7 @@ export default {
 					value: 1
 				}
 			],
-			value: {
-				text: '商品优惠券',
-				value: 1
-			},
+			value: '',
 			coupon: {
 				condition: '',
 				denomination: '',

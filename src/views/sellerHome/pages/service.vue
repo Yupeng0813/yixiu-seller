@@ -21,14 +21,6 @@
 				<p>选择型号</p>
 
 				<div class="service">
-					<!-- <selects v-for="(item, index) in modelNames"
-						:type="brand.type"
-						:key="index"
-						@sendMsg="sendMsg(index)"
-						@remove="remove(index)"
-						:data="item"
-						:manufacturer="item._id"
-					/> -->
 					<single-select ref="model"  v-for="(item, index) in modelNames"
 						:type="brand.type"
 						:key="index" 
@@ -168,23 +160,16 @@ export default {
 	},
 	async mounted () {
 		window.status = false;
-		const toast = this.$createToast({
-			txt: '加载中...',
-			type: 'loading'
-		})
-		toast.show();
+		const toast = Toast.loading({
+			duration: 0,
+			forbidClick: true,
+			message: '请稍后...'
+		});
 		this.updateBrand();
 		this.updateCategory();
-		// let sysService = await this.$api.sendData('https://m.yixiutech.com/service/shop', {});
-		// // this.sysServices = sysService.data;
-		// this.sysServices.map(item => {
-		// 	item.category !== null && this.categoryinfos.map(categoryItem => {
-		// 		categoryItem.name == item.category.name ? categoryItem.list.push({ name: item.name, price: '', category: item.category._id }) : null;
-		// 	})
-		// })
 		let ownServices = await this.$api.sendData('https://m.yixiutech.com/service/shop', {shop: this.shop});
 
-		toast.hide();
+		toast.clear();
 	},
 	methods: {
 		modelCancel (data) {
@@ -211,30 +196,40 @@ export default {
 			this.services = [];
 			this.categoryinfos.map(item => {
 				item.list.map(childItem => {
-						if (childItem.name !== undefined && childItem.name !== '' && childItem.price !== '') {
-							let obj = Object.assign(childItem, {shop: this.shop, support: this.modelRes})
-							this.services.push(obj);
-						}
+					if (childItem.name !== undefined && childItem.name !== '' && childItem.price !== '') {
+						let obj = Object.assign(childItem, {shop: this.shop, support: this.modelRes})
+						this.services.push(obj);
+					}
 				})
 			})
-			const toast = this.$createToast({
-				txt: '请稍后...',
-				type: 'loading'
+			
+			this.services.map(item => {
+				for (var key in item) {
+					if (item[ key ] == '' || item[ key ].length == 0) {
+						status = false;
+						alert('您还有信息未填写!');
+						return;
+					}
+				}
 			})
-			toast.show();
-			this.services.map(async item => {
-				// for (var key in item) {
-				// 	if (item[ key ] == '' || item[ key ].length == 0) {
-				// 		status = false;
-				// 		alert('您还有信息未填写!');
-				// 		return;
-				// 	}
-				// }
-				let res = await this.$api.sendData('https://m.yixiutech.com/service', item);
-				res.code == 200 ? this.prompt(`添加${res.data.name}成功!`, 'correct').show() : alert(res.errMsg);
-			})
-			toast.hide();
-			status && this.$router.push('/sellerHome');
+			let len = this.services.length;
+			if (status) {
+				const toast = Toast.loading({
+					duration: 0,
+					forbidClick: true,
+					message: '请稍后...'
+				})
+				this.services.map(async item => {
+					let res = await this.$api.sendData('https://m.yixiutech.com/service', item);
+					if (res.code == 200 ) {
+						len--;
+						this.prompt(`添加成功!`, 'correct').show()
+						len == 0 ? this.$router.push('/sellerHome') : null;	
+					}
+				})
+				toast.clear();
+			}
+			
 		},
 		async updateModel () {
 			this.modelStatus = false;
