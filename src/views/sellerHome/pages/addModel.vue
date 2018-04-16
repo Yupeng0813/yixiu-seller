@@ -166,13 +166,13 @@ export default {
 					return;
 				}
 			})
-			for (var key in this.model) {
-				if (this.model[ key ] == '' || this.model[key].length == 0) {
-					status = false;
-					alert('您还有信息未填写');
-					return;
-				}
-			}
+			// for (var key in this.model) {
+			// 	if (this.model[ key ] == '' || this.model[key].length == 0) {
+			// 		status = false;
+			// 		alert('您还有信息未填写');
+			// 		return;
+			// 	}
+			// }
 			if (status) {
 				this.model.name = this.modelName;
 				this.model.manufacturer = this.manufacturer;
