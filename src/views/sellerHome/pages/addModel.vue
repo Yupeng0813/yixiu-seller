@@ -183,6 +183,8 @@ export default {
 				return;	
 			}
 			this.prompt('添加成功!', 'correct').show();
+			this.model = Object.assign({}, this.model, {color: [], manufacturer: '', alias: '', name: ''})
+			console.log(this.model);
 			this.$emit('updateModel', true);
 		}
 	}

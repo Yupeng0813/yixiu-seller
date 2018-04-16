@@ -84,6 +84,9 @@ export default {
 
 		},
 		async submit () {
+			if (this.category.name == '') {
+				return ;
+			}
 			this.parentCategory != '' ? this.category.parent = this.parentCategory : null;
 			const toast = this.$createToast({
 				txt: '加载中...',
@@ -100,6 +103,8 @@ export default {
 				return;	
 			}
 			this.prompt('提交成功!', 'correct').show();
+			// 初始化
+			this.category.name = '';
 			this.$emit('updateCategory', true);
 
 		}
