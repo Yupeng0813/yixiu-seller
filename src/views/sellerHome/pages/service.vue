@@ -223,13 +223,13 @@ export default {
 			})
 			toast.show();
 			this.services.map(async item => {
-				for (var key in item) {
-					if (item[ key ] == '' || item[ key ].length == 0) {
-						status = false;
-						alert('您还有信息未填写!');
-						return;
-					}
-				}
+				// for (var key in item) {
+				// 	if (item[ key ] == '' || item[ key ].length == 0) {
+				// 		status = false;
+				// 		alert('您还有信息未填写!');
+				// 		return;
+				// 	}
+				// }
 				let res = await this.$api.sendData('https://m.yixiutech.com/service', item);
 				res.code == 200 ? this.prompt(`添加${res.data.name}成功!`, 'correct').show() : alert(res.errMsg);
 			})
