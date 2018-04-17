@@ -81,18 +81,21 @@
 		// },
 		// 删除店铺信息  慎用
 		async created () {
-			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data[9]));
+			let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
+			sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
 
-			let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-				collection: 'User',
-				find: {
-					_id: '5ad243afab85e142eaef928d'
-				},
-				update: {
-					money: 240
-				}
-			})
+			// let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+			// 	collection: 'User',
+			// 	find: {
+			// 		_id: '5ad21167ab85e142eaef9275'
+			// 	},
+			// 	update: {
+			// 		money: 240
+			// 	}
+			// })
+			// let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+			// 	collection: 'User',
+			// })
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'

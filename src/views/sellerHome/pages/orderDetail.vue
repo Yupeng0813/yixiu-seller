@@ -284,7 +284,7 @@ export default {
 				find: {
 					_id: JSON.parse(sessionStorage.getItem('user'))._id
 				},
-				// 把订单的80%更新到商家的钱包中
+				// 把订单的80%更新到用户的钱包中
 				update: {
 					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
 				}

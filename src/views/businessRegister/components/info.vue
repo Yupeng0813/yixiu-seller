@@ -322,21 +322,21 @@ export default {
 		async register () {
 			let status = true;
 			this.infos.address = this.area + '-' + this.address;
-      this.infos.certificate.map(item => {
-        if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
-					this.prompt('您还有信息未填写', 'error').show();
-					status = false;
-          return;
-        }
-			})
+      // this.infos.certificate.map(item => {
+      //   if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
+			// 		this.prompt('您还有信息未填写', 'error').show();
+			// 		status = false;
+      //     return;
+      //   }
+			// })
 
-			for (var key in this.infos) {
-				if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
-					this.prompt('您还有信息未填写', 'error').show();
-					status = false;
-          return;
-				}
-			}
+			// for (var key in this.infos) {
+			// 	if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
+			// 		this.prompt('您还有信息未填写', 'error').show();
+			// 		status = false;
+      //     return;
+			// 	}
+			// }
 		
 			if (status) {
 				const toast = Toast.loading({
