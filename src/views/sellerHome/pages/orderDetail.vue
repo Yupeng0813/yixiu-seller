@@ -270,7 +270,14 @@ export default {
 				txt: '加载中...'
 			})
 			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/order/update', data);
+			// let res = await this.$api.sendData('https://m.yixiutech.com/order/update', data);
+			let res = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+				collection: 'Order',
+				find: {
+					_id: this.details
+				},
+				update: data
+			});
 			let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
 				collection: 'User',
 				find: {
@@ -278,11 +285,13 @@ export default {
 				},
 				// 把订单的80%更新到商家的钱包中
 				update: {
-					money: JSON.parse(sessionStorage.getItem('user')).money / 100 + this.details.price / 100 * 0.8
+					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
 				}
 			})
 			
 			let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('user')).wx.openid}`)
+
+			sessionStorage.setItem('user', JSON.stringify(newUserInfo.data));
 			
 			toast.hide();
 			if (res.code == 200) {

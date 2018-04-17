@@ -4,6 +4,13 @@
     <div class="order-item__msg">
       <p>昵称 : {{ data.user.name }}</p>
       <p>维修名称 : {{ data.service[0].name }}</p>
+      <p>创建时间 : 
+        {{ new Date(data.createdAt * 1000).getFullYear() }}-
+				{{ new Date(data.createdAt * 1000).getMonth() + 1 }}-
+				{{ new Date(data.createdAt * 1000).getDate() }}  
+				{{ new Date(data.createdAt * 1000).getHours() }} : 
+				{{ new Date(data.createdAt * 1000).getMinutes() }}
+      </p>
     </div>
 	</div>
 </template>
@@ -39,5 +46,9 @@ export default {
   height: 100px;
   border-radius: 50%;
   margin-right: 10px;
+}
+
+.order-item__msg {
+  font-size: 14px;
 }
 </style>
