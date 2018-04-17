@@ -11,6 +11,13 @@
 				{{ new Date(data.createdAt * 1000).getHours() }} : 
 				{{ new Date(data.createdAt * 1000).getMinutes() }}
       </p>
+      <p v-show="data.state == 13">完成时间 : 
+        {{ new Date(data.updatedAt * 1000).getFullYear() }}-
+				{{ new Date(data.updatedAt * 1000).getMonth() + 1 }}-
+				{{ new Date(data.updatedAt * 1000).getDate() }}  
+				{{ new Date(data.updatedAt * 1000).getHours() }} : 
+				{{ new Date(data.updatedAt * 1000).getMinutes() }}
+      </p>
     </div>
 	</div>
 </template>

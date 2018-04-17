@@ -84,15 +84,15 @@
 			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[9]));
 
-			// let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-			// 	collection: 'User',
-			// 	find: {
-			// 		_id: '5ad243afab85e142eaef928d'
-			// 	},
-			// 	update: {
-			// 		money: 160
-			// 	}
-			// })
+			let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+				collection: 'User',
+				find: {
+					_id: '5ad243afab85e142eaef928d'
+				},
+				update: {
+					money: 240
+				}
+			})
 			const toast = this.$createToast({
 				txt: '加载中...',
 				type: 'loading'

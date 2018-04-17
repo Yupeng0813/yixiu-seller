@@ -34,6 +34,7 @@
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递公司 : </span>{{ details.trackingCom }} </p>
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递单号 : </span>{{ details.trackingNumber }} </p>
 			<p class="content__desc"><span>备注 : </span>{{ details.remark }} </p>
+			<p class="content__desc"><span>成交额 : </span>{{ details.payment / 100 * 0.8 }} </p>
 		</div>
 
 		<div class="content" v-show="details.state == 12">			
@@ -285,7 +286,7 @@ export default {
 				},
 				// 把订单的80%更新到商家的钱包中
 				update: {
-					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8 * 100
+					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
 				}
 			})
 			
