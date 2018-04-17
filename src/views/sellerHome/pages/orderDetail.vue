@@ -274,7 +274,7 @@ export default {
 			let res = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
 				collection: 'Order',
 				find: {
-					_id: this.details
+					_id: this.details._id
 				},
 				update: data
 			});
@@ -285,7 +285,7 @@ export default {
 				},
 				// 把订单的80%更新到商家的钱包中
 				update: {
-					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
+					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8 * 100
 				}
 			})
 			

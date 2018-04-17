@@ -90,7 +90,7 @@
 			// 		_id: '5ad243afab85e142eaef928d'
 			// 	},
 			// 	update: {
-			// 		money: 0
+			// 		money: 160
 			// 	}
 			// })
 			const toast = this.$createToast({
