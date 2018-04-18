@@ -182,7 +182,7 @@ export default {
                             },
                             update: {
                               pay: true,
-                              payment: payInfo.totalFee * 100
+                              payment: payInfo.totalFee
                             }
                           })
                           if (update.code == 200) {
