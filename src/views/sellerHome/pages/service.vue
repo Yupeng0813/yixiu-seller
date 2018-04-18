@@ -225,6 +225,8 @@ export default {
 						len--;
 						this.prompt(`添加成功!`, 'correct').show()
 						len == 0 ? this.$router.push('/sellerHome') : null;	
+					} else {
+						this.prompt(res.errMsg, 'error').show();
 					}
 				})
 				toast.clear();

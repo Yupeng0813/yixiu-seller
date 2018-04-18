@@ -227,6 +227,13 @@ export default {
 				]
 			},
 			time: timeJson,
+			certificateTips: [
+				'身份证正面未上传成功，请重新上传',
+				'身份证背面未上传成功，请重新上传',
+				'营业执照未上传成功，请重新上传',
+				'运营资格证书未上传成功，请重新上传',
+				'翼修入驻协议未上传成功，请重新上传'
+			],
 		}
 	},
 	methods: {
@@ -322,21 +329,61 @@ export default {
 		async register () {
 			let status = true;
 			this.infos.address = this.area + '-' + this.address;
-      // this.infos.certificate.map(item => {
-      //   if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
-			// 		this.prompt('您还有信息未填写', 'error').show();
-			// 		status = false;
-      //     return;
-      //   }
-			// })
+      this.infos.certificate.map( (item, index) => {
+        if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
+					this.prompt(this.certificateTips[index], 'error').show();
+					status = false;
+          return;
+        }
+			})
 
-			// for (var key in this.infos) {
-			// 	if (this.infos[ key ] == '' || this.infos[ key ].lenth == 0) {
-			// 		this.prompt('您还有信息未填写', 'error').show();
-			// 		status = false;
-      //     return;
-			// 	}
-			// }
+			if (this.infos.name == '') {
+				this.prompt('店铺名称未填写', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.infos.name == '') {
+				this.prompt('店铺名称未填写', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.infos.cover == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
+				this.prompt('商铺封面未上传成功, 请重新上传', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.infos.contactNumber == '') {
+				this.prompt('商铺联系电话未填写', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.infos.serviceWay.length == 0) {
+				this.prompt('请至少选择一个服务方式', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.infos.businessHours.length == 0) {
+				this.prompt('商铺营业时间未选择', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.area == '选择省份  选择城市  选择地区') {
+				this.prompt('未选择店铺所在地区', 'error').show();
+				status = false;
+				return;
+			}
+
+			if (this.address == '') {
+				this.prompt('详细地址未填写', 'error').show();
+				status = false;
+				return;
+			}
 		
 			if (status) {
 				const toast = Toast.loading({

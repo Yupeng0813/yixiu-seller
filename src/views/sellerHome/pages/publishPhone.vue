@@ -5,12 +5,12 @@
 				<item-header :name="infosName" @backParent="back" />
 				<van-field
 					v-model="goods.name"
-					label="商品名称"
-					placeholder="请输入商品名称"
+					label="手机型号"
+					placeholder="请输入手机型号"
 				/>
 
 				<div class="infos__name">
-					<p>商品图片</p>
+					<p>手机封面</p>
 				</div>
 
 				<div class="upload">
@@ -19,7 +19,7 @@
 				</div>
 
 				<div class="infos__name">
-					<p>商品分类</p>
+					<p>手机分类</p>
 					<cube-select
 						v-model="goods.category"
 						:options="categoryList"
@@ -27,23 +27,21 @@
 					/>
 				</div>
 
-				<van-button class="btn" size="large" @click="appendCategory">没找到?添加一个分类</van-button>
-
 				<van-field
 					v-model="goods.price"
-					label="商品价格"
-					placeholder="请输入商品价格"
+					label="手机价格"
+					placeholder="请输入手机价格"
 				/>
 
 				<van-field
 					v-model="goods.info.primeCost"
-					label="商品原价"
-					placeholder="请输入商品价格"
+					label="手机原价"
+					placeholder="请输入手机原价"
 				/>
 
 				<van-field
 					v-model="goods.desc"
-					label="宝贝描述"
+					label="手机描述"
 					placeholder="请输入宝贝描述"
 				/>
 
@@ -55,14 +53,14 @@
 
 				<van-field
 					v-model="goods.info.promise"
-					label="商品保证"
-					placeholder="请输入商品保证"
+					label="手机保证"
+					placeholder="请输入手机保证"
 				/>
 
 				<van-field
 					v-model="goods.detail"
-					label="宝贝详情"
-					placeholder="请输入宝贝详情"
+					label="手机详情"
+					placeholder="请输入手机详情信息"
 				/>
 
 				<van-button class="btn" size="large" @click="addParam">添加手机参数</van-button>
@@ -70,7 +68,7 @@
 				<van-button class="btn" size="large" @click="openQuality">添加质检数据</van-button>
 
 				<div class="infos__name">
-					<p>商品图片</p>
+					<p>真机拍摄</p>
 				</div>
 
 				<div class="upload" v-for="(item, index) in photos" :key="index">
@@ -78,7 +76,7 @@
 					<img class="upload__show" :src="item.url" alt="" />
 				</div>
 
-				<van-button class="btn" size="large" @click="addNew">添加新图片</van-button>
+				<van-button class="btn" size="large" @click="addNew">添加新照片</van-button>
 
 				<van-button size="large" @click="submit">确认添加</van-button>
 
@@ -129,17 +127,18 @@ export default {
 
 		if (categoryRes.data.length == 0) {
 			let addCate = await this.$api.sendData('https://m.yixiutech.com/category', {
-				type: 2,
-				name: '二手手机',
+				type: 'goods',
+				name: '精品手机',
 				shop: this.goods.shop
 			})
+			if (addCate.code == 200) {
+				this.category = addCate.data[0]._id
+			}
+		} else {
+			categoryRes.data.map(item => {
+				item.name == '精品手机' ? this.category = item._id : null;
+			})
 		}
-
-		// 隐式添加分类
-		this.addCategorys();
-		categoryRes.data.map(item => {
-			item['name'] == '二手手机' ? this.category = item['_id'] : null;
-		})
 		
 		this.updateCategory();
 	},
@@ -229,9 +228,6 @@ export default {
 			let hasCategory = await this.$api.getData('https://m.yixiutech.com/category/parent/' + this.category);
 
 			this.categoryList.length = 0;
-			hasCategory.data.map(item => {
-				this.categoryList.push({value: item._id, text: item.name});
-			})
 
 			// 隐式添加
 			if (hasCategory.data.length == 0) {
@@ -249,14 +245,23 @@ export default {
 						parent: this.category
 					}
 				]
-				data.map(async item => {
+				let i = 2;
+				data.map(async (item, index) => {
 					let addCate = await this.$api.sendData('https://m.yixiutech.com/category', item);
+					if (addCate.code == 200) {
+						i--;
+					}
+					if (i == 0) {
+						let newRes = await this.$api.getData('https://m.yixiutech.com/category/parent/' + this.category);
+
+						newRes.data.map(item => {
+							this.categoryList.push({value: item._id, text: item.name});
+						})
+					}
 				})
 
-				let newRes = await this.$api.getData('https://m.yixiutech.com/category/parent/' + this.category);
-
-				this.categoryList.length = 0;
-				newRes.data.map(item => {
+			} else {
+				hasCategory.data.map(item => {
 					this.categoryList.push({value: item._id, text: item.name});
 				})
 			}
