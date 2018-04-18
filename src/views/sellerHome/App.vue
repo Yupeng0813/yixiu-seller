@@ -81,8 +81,13 @@
 		// },
 		// 删除店铺信息  慎用
 		async created () {
-			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
+			let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
+			sessionStorage.setItem('shopData', JSON.stringify(res.data[12]));
+
+			let ss = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
+				collection: 'Shop',
+				_id: '5ad6ca8f060e415f31618740'
+			})
 
 			// let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
 			// 	collection: 'User',

@@ -127,6 +127,7 @@ export default {
           shopId:this.shopId,
           totalFee: this.totalFee*100
         }
+        console.log(payInfo)
         this._pay(payInfo);
       }).catch(() => {
         // on cancel
@@ -158,10 +159,11 @@ export default {
             history.pushState(null,null,"/payInfo");
 
             let req = {
-              total_fee: this.TotalFee*100,
+              total_fee: this.totalFee*100,
               openid: openid,
               trade_type: 'JSAPI'
             }
+            console.log(req);
             let sign = await this.$api.sendData('https://m.yixiutech.com/wx/pay/sign', req);
             // alert(JSON.stringify(sign));
             if(sign.code == 200){
@@ -180,7 +182,7 @@ export default {
                             },
                             update: {
                               pay: true,
-                              payment: payInfo.totalFee
+                              payment: payInfo.totalFee * 100
                             }
                           })
                           if (update.code == 200) {
