@@ -27,6 +27,30 @@
 		/>
 
 		<van-field
+			v-model="qualityParam.info.birth"
+			label="生产日期"
+			placeholder="请输入生产日期"
+		/>
+
+		<van-field
+			v-model="qualityParam.info.sysVersion"
+			label="系统版本"
+			placeholder="请输入系统版本"
+		/>
+
+		<van-field
+			v-model="qualityParam.info.efficiency"
+			label="充电效率"
+			placeholder="请输入充电效率"
+		/>
+
+		<van-field
+			v-model="qualityParam.info.frequency"
+			label="充电次数"
+			placeholder="请输入充电次数"
+		/>
+
+		<van-field
 			v-model="qualityParam.sum"
 			label="质检结论"
 			placeholder="请输入质检结论"
@@ -64,7 +88,8 @@ export default {
 				name: '',
 				academicTitle: '',
 				agency: '',	
-				number: ''
+				number: '',
+				info: {}
 			}
 		}
 	}

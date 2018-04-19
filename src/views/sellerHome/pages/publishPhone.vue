@@ -1,6 +1,8 @@
 <template>
 	<div class="container">
 		<div class="infos">
+			<div class="shadow" v-show="areaStatus" @click="cancels"></div>
+
 			<div v-show="!categoryStatus && !paramStatus && !qualityStatus">
 				<item-header :name="infosName" @backParent="back" />
 				<van-field
@@ -63,6 +65,11 @@
 					placeholder="请输入手机详情信息"
 				/>
 
+				<div class="box">
+					<p>发货地址</p>
+					<div class="area" @click="showArea">{{ area }}</div>
+				</div>
+
 				<van-button class="btn" size="large" @click="addParam">添加手机参数</van-button>
 
 				<van-button class="btn" size="large" @click="openQuality">添加质检数据</van-button>
@@ -94,19 +101,28 @@
 				@backToPublish="backToPublish"
 			/>
 
-			<add-category 
+			<!-- <add-category 
 				v-show="categoryStatus"
 				:parentCategory="category"
 				v-on:updateCategory="updateCategory"
 				v-on:backParent="backParent"
-			/>
+			/> -->
 		</div>
+
+		<van-area 
+			:area-list="areaList"
+			v-show="areaStatus"
+			:columns-num="2"
+			@confirm="confirms"
+			@cancel="cancels"
+		/>
 	</div>
 </template>
 
 <script>
 import ItemHeader from '../components/itemHeader'
-import { Field, Button, Uploader } from 'vant'
+import { Field, Button, Uploader, Area, Toast } from 'vant'
+import areaList from '../../my/components/data/area.json'
 import addParams from '../components/addParams'
 import addQuality from '../components/addQuality'
 import addCategory from './addCatagory'
@@ -116,6 +132,8 @@ export default {
 		[Field.name]: Field,
 		[Button.name]: Button,
 		[Uploader.name]: Uploader,
+		[Area.name]: Area,
+		[Toast.name]: Toast,
 		ItemHeader,
 		addCategory,
 		addParams,
@@ -147,7 +165,10 @@ export default {
 			infosName: '发布宝贝',
 			categoryStatus: false,
 			paramStatus: false,
+			area: '选择省份  选择城市',
 			qualityStatus: false,
+			areaStatus: false,
+			areaList: areaList,
 			photos: [{
 				url: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png'
 			}],
@@ -173,6 +194,18 @@ export default {
 		}
 	},
 	methods: {
+		cancels () {
+			this.areaStatus = false;
+		},
+		confirms (value) {
+			let province = value[0].name;
+			let city = value[1].name;
+			this.goods.info.area = `${province} ${city}`;
+			this.areaStatus = false;
+		},
+		showArea () {
+			this.areaStatus = true;
+		},
 		addCategorys () {
 
 		},
@@ -346,6 +379,16 @@ export default {
 	position: relative;
 }
 
+.shadow {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.4);
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 20;
+}
+
 .infos {
 	width: 100%;
 	overflow: hidden;
@@ -355,6 +398,22 @@ export default {
 	text-align: center;
 }
 
+.box {
+  padding: 2% 7.5%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.box p {
+	font-size: 14px;
+}
+
+.box .area {
+  font-size: 14px;
+  margin-left: 14px;
+}
+
 .infos__name {
 	display: flex;
 	justify-content: flex-start;
@@ -362,6 +421,13 @@ export default {
 	padding: 0 15px;
 	margin-top: 20px;
 	font-size: 14px;
+}
+
+.van-area {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	z-index: 21;
 }
 
 .infos__name p {

@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="info">
-			<div class="shadow" v-show="areaStatus"></div>
+			<div class="shadow" v-show="areaStatus" @click="cancels"></div>
 
 			<router-link to="/enterRules">
 				<sicon name="back" scale="3"></sicon>

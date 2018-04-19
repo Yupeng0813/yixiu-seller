@@ -198,7 +198,8 @@ export default {
 }
 
 .submit {
-	background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+	/* background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); */
+	background: #4991e5;
 	color: #fff;
 	display: block;
 	margin: 10px auto;

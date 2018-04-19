@@ -1,7 +1,7 @@
 <template>
   <div class="header">
 		<div class="back" @click="back"></div>
-		<sicon @click="back" name="back" scale="3"></sicon>
+		<sicon @click="back" name="left" scale="3"></sicon>
 		<p class="header__title">{{ name }}</p>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
 	padding: 8px;
 	display: flex;
 	align-items: center;
-	background: #ffbd5c;
+	background: #4991e5;
 }
 
 .header__title {

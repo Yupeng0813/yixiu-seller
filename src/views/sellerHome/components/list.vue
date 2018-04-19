@@ -38,8 +38,9 @@
 .list {
 	display: flex;
 	align-items: center;
-	background: #ffbd5c;
-	border-bottom: 5px solid #ffbd5c;
+	background: #4991e5;
+	border-bottom: 5px solid #4991e5;
+	color: #fff;
 }
 
 .list .list__item {

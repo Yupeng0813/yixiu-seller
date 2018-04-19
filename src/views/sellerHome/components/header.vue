@@ -22,7 +22,7 @@
 .header {
 	width: 100%;
 	height: 150px;
-	background: #ffbd5c;
+	background: #4991e5;
 	text-align: center;
 	color: #fff;
 }

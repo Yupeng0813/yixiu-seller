@@ -144,7 +144,8 @@ export default {
         height: 15vh;
         line-height: 15vh;
         display: flex;
-        background-image: linear-gradient(to right, #434343 0%, black 100%);
+        /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
+		background: #4991e5;
         color: #fff;
     }
     .shopWallet .navBox > div{
@@ -182,7 +183,7 @@ export default {
     .shopWallet .funcbtn button{
         flex: 1;
         border: none;
-        background-color: #2796CB;
+        background-color: #4991e5;
         float: left;
         padding: 0;
         width: 100vw;

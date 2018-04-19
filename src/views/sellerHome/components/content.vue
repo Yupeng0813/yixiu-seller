@@ -1,6 +1,7 @@
 <template>
 	<div class="type" :link="link" @click="skip">
-		<sicon :name="icon" scale="4"></sicon>
+		<!-- <sicon :name="icon" scale="4"></sicon> -->
+		<img class="icon" :src="icon" alt="" />
 		<p>{{ name }}</p>
 		<sicon name="right" scale="2.2"></sicon>
 	</div>
@@ -27,7 +28,11 @@ export default {
 	display: flex;
 	align-items: center;
 	padding: 2%;
-	border-bottom: 2px solid #ffbd5c;
+	border-bottom: 2px solid #f1f5ff;
+}
+
+.icon {
+	width: 6%;
 }
 
 .type p {

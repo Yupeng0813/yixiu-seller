@@ -31,6 +31,13 @@
 	import Content from './components/content.vue'
 	import defaults from '@/assets/default.jpg'
 	import wait from '../businessRegister/pages/wait.vue'
+	import info from '@/assets/icon/info.png'
+	import managePhone from '@/assets/icon/managePhone.png'
+	import manageService from '@/assets/icon/manageService.png'
+	import publishPhone from '@/assets/icon/publishPhone.png'
+	import service from '@/assets/icon/service.png'
+	import wallet from '@/assets/icon/wallet.png'
+	import youhuiquan from '@/assets/icon/youhuiquan.png'
   export default {
     components: {
 			Header,
@@ -127,28 +134,28 @@
 
 			if (this.shopData.pay) { //已缴纳保证金
 				this.content = [
-					{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-					{ name: '管理手机服务列表', icon: 'view', link: '/viewServices' },
+					{ name: '添加手机维修服务', icon: service, link: '/service' },
+					{ name: '管理手机服务列表', icon: manageService, link: '/viewServices' },
 					// { name: '修改手机维修服务', icon: 'update', link: '/updateService' },
-					{ name: '优惠券管理', icon: 'card', link: '/manageCoupon' },
+					{ name: '优惠券管理', icon: youhuiquan, link: '/manageCoupon' },
 					// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 					// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
-					{ name: '完善信息', icon: 'identification', link: '/updateMsg' },
-					{ name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
+					{ name: '完善信息', icon: info, link: '/updateMsg' },
+					{ name: '商家钱包', icon: wallet, link: '/shopWallet' }
 				];
+
+				if (this.shopData.sellPhone) {
+					this.content.splice(2, 0, 
+					{ name: '发布精品手机', icon: publishPhone, link: '/publishPhone' }, 
+					{
+						name: '管理精品手机', icon: managePhone, link: '/showPhones'
+					});
+				}
 			} else { // 未缴纳保证金
 				this.content = [
 					{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
 				]
 				this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show()
-			}
-
-			if (this.shopData.sellPhone) {
-				this.content.splice(2, 0, 
-				{ name: '发布精品手机', icon: 'publishPhone', link: '/publishPhone' }, 
-				{
-					name: '管理精品手机', icon: 'manage', link: '/showPhones'
-				});
 			}
 
 			let i = 3;
@@ -210,27 +217,28 @@
 
 				if (this.shopData.pay) { //已缴纳保证金
 					this.content = [
-						{ name: '添加手机维修服务', icon: 'fuwu', link: '/service' },
-						{ name: '管理手机服务列表', icon: 'view', link: '/viewServices' },
+						{ name: '添加手机维修服务', icon: service, link: '/service' },
+						{ name: '管理手机服务列表', icon: manageService, link: '/viewServices' },
 						// { name: '修改手机维修服务', icon: 'update', link: '/updateService' },
-						{ name: '优惠券管理', icon: 'card', link: '/manageCoupon' },
+						{ name: '优惠券管理', icon: youhuiquan, link: '/manageCoupon' },
 						// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 						// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
-						{ name: '完善信息', icon: 'identification', link: '/updateMsg' },
-						{ name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
+						{ name: '完善信息', icon: info, link: '/updateMsg' },
+						{ name: '商家钱包', icon: wallet, link: '/shopWallet' }
 					];
+
+					if (this.shopData.sellPhone) {
+						this.content.splice(2, 0, 
+						{ name: '发布精品手机', icon: publishPhone, link: '/publishPhone' }, 
+						{
+							name: '管理精品手机', icon: managePhone, link: '/showPhones'
+						});
+					}
 				} else { // 未缴纳保证金
 					this.content = [
 						{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
 					]
 					this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show();
-				}
-
-				if (this.shopData.sellPhone) {
-					this.content.splice(2, 0, { name: '发布精品手机', icon: 'publishPhone', link: '/publishPhone' }, 
-					{
-						name: '管理精品手机', icon: 'manage', link: '/showPhones'
-					});
 				}
 
 				this.modules.slice(0, 3).map( async item => {

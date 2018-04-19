@@ -152,6 +152,12 @@
 			/>
 
 			<van-field
+				v-model="product.imei"
+				label="IMEI"
+				placeholder="请输入手机的IMEI"
+			/>
+			
+			<van-field
 				v-model="product.cpu"
 				label="CPU"
 				placeholder="请输入CPU信息"
@@ -379,6 +385,7 @@ export default {
 				SIM: '',
 				frontCamera: '',
 				backCamera: '',
+				imei: '',
 				cpu: '',
 				basicFrequency: ''
 			},
