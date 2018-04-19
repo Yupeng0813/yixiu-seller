@@ -153,7 +153,7 @@
 				}
 			} else { // 未缴纳保证金
 				this.content = [
-					{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
+					{ name: '缴纳保证金', icon: wallet, link: '/payBail' }
 				]
 				this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show()
 			}
@@ -236,7 +236,7 @@
 					}
 				} else { // 未缴纳保证金
 					this.content = [
-						{ name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' }
+						{ name: '缴纳保证金', icon: wallet, link: '/payBail' }
 					]
 					this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show();
 				}
