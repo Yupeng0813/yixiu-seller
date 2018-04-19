@@ -50,7 +50,7 @@
 			</div> -->
 
 			<div class="box" v-if="this.brandName">
-				<p>选择问题分类</p>
+				<p>选择维修问题</p>
 				<div class="box-item" v-for="(item, index) in categoryinfos" :key="index">
 					<p @click="showItem(index)"><sicon name="add" scale="2.4"></sicon><span class="box__name">{{ item.name }}</span></p>
 					<div v-show="item.show">
@@ -62,7 +62,7 @@
 					</div>
 					
 				</div>
-				<van-button size="large" @click="openCategory">添加服务分类</van-button>
+				<van-button size="large" @click="openCategory">添加维修问题</van-button>
 
 				<van-button size="large" @click="submit">提交</van-button>
 			</div>
