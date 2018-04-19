@@ -4,7 +4,7 @@
 			<van-cell-group>
 				<van-cell :title="item.name" :value="item.price"  @click="toDetail(index)" />
 			</van-cell-group>
-			<span slot="right" @click="deletes(item._id)" class="delete-btn" >删除</span>
+			<span slot="right" @click="deletes(item)" class="delete-btn" >删除</span>
 		</van-cell-swipe>
 	</div>
 </template>
@@ -13,7 +13,7 @@
 import { CellSwipe, Cell, CellGroup, Dialog } from 'vant';
 export default {
   props: {
-		data: Array
+    data: Array
   },
   data () {
     return {
@@ -21,17 +21,22 @@ export default {
       activeId: ''
     }
   },
+  async mounted () {
+    // console.log(this.data);
+  },
   methods: {
-    deletes (id) {
-      this.activeId = id;
+    async deletes (item) {
+      this.activeId = item._id;
       Dialog.confirm({
 				title: '是否确认删除该型号?',
 				message: ''
 			}).then(async () => {
 				let removePhone  = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
-					collection: 'Service',
+          collection: 'PhoneModel',
+          shop: item.shop,
 					_id: this.activeId
-				})
+        })
+        this.$emit('deleteTarget', this.activeId);
 			}).catch(() => {
 				
 			});

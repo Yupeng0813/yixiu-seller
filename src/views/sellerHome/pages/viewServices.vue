@@ -7,6 +7,7 @@
 
 		<service-item
 			:data="model"
+			@deleteTarget="deleteTarget"
 		/>
 
 	</div>
@@ -48,6 +49,12 @@ export default {
 		}, [])
 	},
 	methods: {
+		deleteTarget (data) {
+			console.log(data);
+			this.model.map( (item, index) => {
+				item._id == data ? this.model.splice(index, 1) : null;
+			})
+		},
 		back () {
 			this.$router.push('/sellerHome')
 		} 

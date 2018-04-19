@@ -37,18 +37,18 @@
 			placeholder="请输入封面地址"
 		/> -->
 
-		<div class="info__name">
+		<!-- <div class="info__name">
 			<p>手机颜色</p>
-		</div>
+		</div> -->
 
-		<div class="service">
+		<!-- <div class="service">
 			<selects ref="select" v-for="(item, index) in phoneModelColor"
 				:key="index"
 				:data="item"
 				v-on:sendMsg="sendMsg"
 				v-on:remove="remove"
 			/>
-		</div>
+		</div> -->
 
 		<!-- <van-field
 			v-model="otherColors"
@@ -134,14 +134,12 @@ export default {
 		modelChange (value, index, text) {
 			this.modelName = text;
 			this.sysModel.map(item => {
-				item._id == value ? this.phoneModelColor = item.color : null;
+				item._id == value ? this.model.color = item.color : null;
 			})
+
 			// this.model['name'] = value;
 			// this.phoneModelColor = this.phoneModelInfo[ index ].color;
 			
-		},
-		colorChange (value) {
-			this.model.color.push(this.phoneModelColorRes);
 		},
 		async submit () {
 			let status = true;
@@ -155,16 +153,12 @@ export default {
 			this.model.name = this.modelName;
 			this.model.manufacturer = this.manufacturer;
 
-			for (var key in this.model) {
-				console.log(key);
-				if (this.model[ key ] == '' || this.model[key].length == 0) {
-					status = false;
-					alert('您还有信息未填写');
-					return;
-				}
+			if (!this.model.name) {
+				alert('请选择需要添加的手机型号');
+				return;
 			}
+
 			if (status) {
-				
 				const toast = this.$createToast({
 					txt: '加载中...',
 					type: 'loading'
@@ -177,11 +171,7 @@ export default {
 					return;	
 				}
 				this.prompt('添加成功!', 'correct').show();
-				this.$refs.select.map(item => {
-					item.hasBorder ? item.selectOn() : null;
-				})
-				this.phoneModelColor = [];
-				this.model = Object.assign({}, this.model, {color: [], manufacturer: '', alias: '', name: ''})
+				this.model = Object.assign(this.model, {color: [], manufacturer: '', alias: '', name: ''})
 				this.$emit('updateModel', true);
 			}
 		}
