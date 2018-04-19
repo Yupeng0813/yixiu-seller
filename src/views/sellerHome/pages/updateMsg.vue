@@ -503,7 +503,7 @@ export default {
 }
 
 .cube-btn {
-	background: #e0620d;
+	background: #4991e5;
 	border-radius: 5px;
 	margin: 10px 0;
 	display: inline-block;

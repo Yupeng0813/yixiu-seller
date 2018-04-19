@@ -23,6 +23,12 @@
                 <cube-button class="bottom" @click="closeMoney">取消</cube-button>
             </div>
         </cube-popup>
+				<div class="tip" v-show="status">
+					<p>请联系客服，客服电话:</p>
+					<p><a href="tel://023-68595677">023-68595677</a></p>
+					<button @click="confirm">确定</button>
+				</div>
+				<div class="shadow" v-show="status"></div>
     </div>
 </template>
 
@@ -32,7 +38,8 @@ export default {
     data(){
         return {
             wallentMoney: 0,
-            MoneyValue: ""
+            MoneyValue: "",
+						status: false
         }
     },
     async mounted() {
@@ -52,6 +59,9 @@ export default {
         toast.hide();
     },
     methods: {
+				confirm () {
+					this.status = false;
+				},
         goBack: function(){
             this.$router.push("/sellerHome");
         },
@@ -121,14 +131,15 @@ export default {
             // getMyMoney.hide();
         },
         returnMoney: function(){
-            alert("请联系客服");
+            // alert("请联系客服，客服电话");
+						this.status = true;
         },
         closeMoney: function(){
             const getMyMoney = this.$refs.getMyMoney
             getMyMoney.hide();
         },
         moneyBackSure: function(){
-
+					this.status = true;
         }
     }
 }
@@ -229,5 +240,39 @@ export default {
         position: absolute;
         bottom: 0;
     }
+
+		.tip {
+			width: 70%;
+			padding: 5%;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 4;
+			background: #fff;
+			text-align: center;
+		}
+
+		.tip p {
+			padding: 2% 0;
+		}
+
+		.tip button {
+			width: 100%;
+			border: 1px solid #000;
+			padding: 4% 0;
+			background: #fff;
+			margin-top: 2%;
+		}
+
+		.shadow {
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			position: absolute;
+			background: rgba(0, 0, 0, 0.4);
+			z-index: 2;
+		}
 
 </style>
