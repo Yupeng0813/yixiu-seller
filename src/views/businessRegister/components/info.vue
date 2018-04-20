@@ -82,7 +82,7 @@
 			<van-field
 				v-model="address"
 				label="详细地址"
-				placeholder="如街道、楼层、门牌号等"
+				placeholder="请输入详细地址，具体到门牌号"
 			/>
 
 
@@ -178,7 +178,7 @@ export default {
 				this.infos.businessHours.push(this.startHour + ' - ' + this.endHour);
       }
 		})
-		this.initPosition();
+		
 	},
 	components: {
 		[Field.name]: Field,
@@ -329,6 +329,9 @@ export default {
 		async register () {
 			let status = true;
 			this.infos.address = this.area + '-' + this.address;
+
+			this.initPosition();
+
       this.infos.certificate.map( (item, index) => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
 					this.prompt(this.certificateTips[index], 'error').show();
@@ -415,22 +418,36 @@ export default {
 
 			let _this = this;
 
-      let geolocation = new BMap.Geolocation();
+			let myGeo = new BMap.Geocoder();
+
+			myGeo.getPoint(this.infos.address, function(point){
+				if (point) {
+					map.centerAndZoom(point, 16);
+					map.addOverlay(new BMap.Marker(point));
+
+					_this.infos.position.lng = point.lng;
+					_this.infos.position.lat = point.lat;
+				}else{
+					alert("您选择地址没有解析到结果!");
+				}
+			});
+
+      // let geolocation = new BMap.Geolocation();
       
-			geolocation.getCurrentPosition(function(r){
-				if(this.getStatus() == BMAP_STATUS_SUCCESS){
-					var mk = new BMap.Marker(r.point);
-					map.addOverlay(mk);
-					map.panTo(r.point);
+			// geolocation.getCurrentPosition(function(r){
+			// 	if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			// 		var mk = new BMap.Marker(r.point);
+			// 		map.addOverlay(mk);
+			// 		map.panTo(r.point);
 				
-					_this.infos.position.lng = r.point.lng;
-					_this.infos.position.lat = r.point.lat;
+			// 		_this.infos.position.lng = r.point.lng;
+			// 		_this.infos.position.lat = r.point.lat;
 					
-				}
-				else {
-					alert('failed'+this.getStatus());
-				}
-			},{enableHighAccuracy: true})
+			// 	}
+			// 	else {
+			// 		alert('failed'+this.getStatus());
+			// 	}
+			// },{enableHighAccuracy: true})
 		}
 	}
 } 

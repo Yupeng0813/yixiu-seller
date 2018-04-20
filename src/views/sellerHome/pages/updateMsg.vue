@@ -252,9 +252,6 @@ export default {
 				moblie: '',	
 				serviceWay: [],
 				businessHours: [],
-				promotion: [
-					{condition: '', denomination: ''}
-				],
 				// ownerOpenid: JSON.parse(sessionStorage.getItem('userData')).wx.openid,
 				certificate: []
 			},
@@ -370,7 +367,9 @@ export default {
 				this.prompt('请至少选择一个服务方式', 'error').show();
 				return;
 			}
-			this.infos.address = this.area + '-' + this.address;
+      this.infos.address = this.area + '-' + this.address;
+      
+      this.initPosition();
 
 			const toast = Toast.loading({
 				duration: 0,
@@ -393,6 +392,27 @@ export default {
 		},
 		finish () {
 			this.endPicker.show()
+    },
+    initPosition () {
+			let map = new BMap.Map("allmap");
+			let point = new BMap.Point(116.331398,39.897445);
+			map.centerAndZoom(point,12);
+
+			let _this = this;
+
+			let myGeo = new BMap.Geocoder();
+
+			myGeo.getPoint(this.infos.address, function(point){
+				if (point) {
+					map.centerAndZoom(point, 16);
+					map.addOverlay(new BMap.Marker(point));
+
+					_this.infos.position.lng = point.lng;
+					_this.infos.position.lat = point.lat;
+				}else{
+					alert("您选择地址没有解析到结果!");
+				}
+			});
 		}
 	}
 }

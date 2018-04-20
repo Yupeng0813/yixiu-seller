@@ -18,14 +18,14 @@
 					<img class="upload__show" :src="goods.cover" alt="" />
 				</div>
 
-				<div class="infos__name">
+				<!-- <div class="infos__name">
 					<p>商品分类</p>
 					<cube-select
 						v-model="goods.category"
 						:options="categoryList"
 						@change="categoryChange"
 					/>
-				</div>
+				</div> -->
 
 				<!-- <van-button class="btn" size="large" @click="appendCategory">没找到?添加一个分类</van-button> -->
 
@@ -361,7 +361,7 @@ export default {
 	width: 80%;
 	display: inline-block;
 	color: #fff;
-	background: #e0620d;
+	background: #4991e5;
 }
 
 .upload {

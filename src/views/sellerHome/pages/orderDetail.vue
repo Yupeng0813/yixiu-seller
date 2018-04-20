@@ -2,7 +2,7 @@
   <div class="quality">
 		<div class="header">
 			<div class="back" @click="back"></div>
-			<sicon name="back" scale="3"></sicon>
+			<sicon name="left" scale="3"></sicon>
 			<p class="header__title">订单详情</p>
 		</div>
 		<div class="shadow"></div>
@@ -155,7 +155,7 @@
 				<p>快递公司</p>	
 				<cube-select
 					v-model="info.trackingCom"
-					:options="trackingComSec" 
+					:options="trackingComSec"
 				/>
 			</div>
 
@@ -175,6 +175,20 @@
 				v-model="info.trackingNumber"
 				label="快递单号"
 			/>
+
+			<van-button size="large" @click="check">查看快递记录</van-button>
+
+			<div class="logistics">
+				<div :class="index == 0 ? 'item active' : 'item'" v-for="(item, index) in logistics" :key="index">
+					<div class="time">
+						<h1>{{ item ? item.datetime.substring(5, 10) : '' }}</h1>
+						<p>{{ item ? item.datetime.substring(11, 16) : '' }}</p>
+					</div>
+					<div class="desc">
+						{{ item ? item.remark : '' }}
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div v-if="details.state == 11">
@@ -211,6 +225,7 @@ export default {
 			trackingComSec: [],
 			serviceIcon: service,
 			currentNetwork: '',
+			logistics: [],
 			info: {
 				name: '',
 				storage: '',
@@ -225,16 +240,41 @@ export default {
 	async mounted () {
 		window.status = false;
 		this.details = JSON.parse(sessionStorage.getItem('detail'));
+		console.log(this.details);
 		if (this.details.info) {
 			this.info = this.details.info;
 			this.currentNetwork  = this.details.info.network.join(',');
 		}
 		let res = await this.$api.getData('https://m.yixiutech.com/tracking/com');
 		res.data.map(item => {	
-			this.trackingComSec.push({ text: item.com, value: item.no })
+			this.trackingComSec.push({ text: item.com, value: item.no });
+			item.no == this.details.trackingCom ? this.details.trackingCom = item.com : null;
 		})
+
+		this.no = this.info.trackingCom;
+
+		if (this.details.state == 13) {
+			res.data.map(item => {
+				item.no == this.info.trackingCom ? this.info.trackingCom = item.com : null;
+			})
+		}
 	},
   methods: {
+		async check () {
+			let record = await this.$api.sendData('https://m.yixiutech.com/tracking', {
+				// com: this.no,
+				// no: this.info.trackingNumber
+				com: 'yd',
+				no: '3840140366095'
+			})
+
+			if (record.code == 200) {
+				this.logistics = record.data.result.list;
+			} else {
+				alert(record.errMsg);
+			}
+
+		},
 		sendMsg (data) {
 			this.info.network.push(data);
 		},
@@ -310,7 +350,7 @@ export default {
 	padding: 8px;
 	display: flex;
 	align-items: center;
-	background: #ffbd5c;
+	background: #4991e5;
 }
 
 .service-icon {
@@ -318,6 +358,10 @@ export default {
 	position: absolute;
 	right: 0;
 	top: 84px;
+}
+
+.active {
+	color: #d98201;
 }
 
 .service {
@@ -462,6 +506,21 @@ export default {
 .content__sum .sum__title {
 	font-size: 16px;
 	font-weight: bold;
+}
+
+.item {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 10px 0;
+}
+
+.item .time {
+	width: 20%;
+}
+
+.time h1 {
+	font-size: 20px;
 }
 
 .content__sum .sum__content {

@@ -449,7 +449,7 @@ export default {
 	width: 80%;
 	display: inline-block;
 	color: #fff;
-	background: #e0620d;
+	background: #4991e5;
 }
 
 .upload {
