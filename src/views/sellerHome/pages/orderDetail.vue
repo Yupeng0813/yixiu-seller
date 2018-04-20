@@ -262,10 +262,10 @@ export default {
   methods: {
 		async check () {
 			let record = await this.$api.sendData('https://m.yixiutech.com/tracking', {
-				// com: this.no,
-				// no: this.info.trackingNumber
-				com: 'yd',
-				no: '3840140366095'
+				com: this.no,
+				no: this.info.trackingNumber
+				// com: 'yd',
+				// no: '3840140366095'
 			})
 
 			if (record.code == 200) {
