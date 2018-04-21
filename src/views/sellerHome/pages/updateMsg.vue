@@ -135,6 +135,8 @@
 				/>
 			</div> -->
 
+			<div id="allmap"></div>
+
 			<!-- <cube-button @click="add">添加满减条件</cube-button> -->
 
 			<div class="info-item">
@@ -384,7 +386,7 @@ export default {
 			}
 			sessionStorage.setItem('shopData', JSON.stringify(res.data));
 			toast.clear();
-			this.prompt('修改成功', 'success').show();
+			this.prompt('修改成功', 'correct').show();
 			this.$router.push('/sellerHome');
 		},
 		start () {
