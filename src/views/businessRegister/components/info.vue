@@ -332,6 +332,8 @@ export default {
 			
 			this.initPosition();
 
+			alert(JSON.stringify(this.infos.position));
+
       this.infos.certificate.map( (item, index) => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
 					this.prompt(this.certificateTips[index], 'error').show();
@@ -376,7 +378,7 @@ export default {
 				return;
 			}
 
-			if (this.area == '选择省份  选择城市  选择地区') {
+			if (this.area.indexOf('选择') !== -1) {
 				this.prompt('未选择店铺所在地区', 'error').show();
 				status = false;
 				return;
@@ -426,7 +428,6 @@ export default {
 				if (point) {
 					map.centerAndZoom(point, 16);
 					map.addOverlay(new BMap.Marker(point));
-					alert(JSON.stringify(point));
 
 					_this.infos.position.lng = point.lng;
 					_this.infos.position.lat = point.lat;
@@ -434,23 +435,6 @@ export default {
 					alert("您选择地址没有解析到结果!");
 				}
 			});
-
-      // let geolocation = new BMap.Geolocation();
-      
-			// geolocation.getCurrentPosition(function(r){
-			// 	if(this.getStatus() == BMAP_STATUS_SUCCESS){
-			// 		var mk = new BMap.Marker(r.point);
-			// 		map.addOverlay(mk);
-			// 		map.panTo(r.point);
-				
-			// 		_this.infos.position.lng = r.point.lng;
-			// 		_this.infos.position.lat = r.point.lat;
-					
-			// 	}
-			// 	else {
-			// 		alert('failed'+this.getStatus());
-			// 	}
-			// },{enableHighAccuracy: true})
 		}
 	}
 } 
