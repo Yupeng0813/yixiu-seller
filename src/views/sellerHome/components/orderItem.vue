@@ -3,7 +3,8 @@
     <img :src="data.user.wx.headimgurl" class="order-item__img" alt="" />
     <div class="order-item__msg">
       <p>昵称 : {{ data.user.name }}</p>
-      <p>维修名称 : {{ data.service[0].name }}</p>
+      <p v-show="data.service.length !== 0">维修名称 : {{ data.service.length !== 0 ? data.service[0].name : '' }}</p>
+      <p v-show="data.goods.length !== 0">商品名称 : {{ data.goods.length !== 0 ? data.goods[0].name : '' }}</p>
       <p>创建时间 : 
         {{ new Date(data.createdAt * 1000).getFullYear() }}-
 				{{ new Date(data.createdAt * 1000).getMonth() + 1 }}-

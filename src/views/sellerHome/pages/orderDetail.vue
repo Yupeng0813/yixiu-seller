@@ -12,13 +12,17 @@
 				<span>翼修维修第xxxxxxx份报告</span>
 				<span>No.956541235787</span>
 			</p> -->
-			<p class="content__desc"><span>手机名称 : </span>{{ details.phoneModel.name }} </p>
-			<p class="content__desc" v-for="(item, index) in details.service" :key="index">
+			<p class="content__desc" v-show="type == 'service'"><span>手机名称 : </span>{{ details.phoneModel ? details.phoneModel.name : '' }} </p>
+			<p class="content__desc"  v-show="type == 'service'" v-for="(item, index) in details.service" :key="index">
 				<span>维修问题{{ index+1 }} : </span>
-				{{ item.name }} 
+				{{ item ? item.name : '' }} 
+			</p>
+			<p class="content__desc"  v-show="type == 'good'" v-for="(item, index) in details.goods" :key="index">
+				<span>手机名称 : </span>
+				{{ item ? item.name : '' }} 
 			</p>
 			<!-- <img :src="serviceIcon" class="service-icon" alt=""> -->
-			<p class="content__desc">
+			<p class="content__desc" v-show="type == 'service'">
 				<span>预约时间 : </span>
 				{{ new Date(details.appointment).getFullYear() }} - 
 				{{ new Date(details.appointment).getMonth() }} - 
@@ -26,10 +30,10 @@
 				{{ new Date(details.appointment).getHours() }} : 
 				{{ new Date(details.appointment).getMinutes() }}
 			</p>
-			<p class="content__desc"><span>颜色 : </span>{{ details.phoneModel.color[0] }} </p>
-			<p class="content__desc"><span>用户名 : </span>{{ details.user.name }} </p>
+			<p class="content__desc"  v-show="type == 'service'"><span>颜色 : </span>{{ details.phoneModel ? details.phoneModel.color[0] : '' }} </p>
+			<p class="content__desc"><span>买家名 : </span>{{ details.user.name }} </p>
 			<p class="content__desc"><span>买家电话 : </span>{{ details.phone }} </p>
-			<p class="content__desc"><span>服务方式 : </span>{{ details.serviceWay }} </p>
+			<p class="content__desc"  v-show="type == 'service'"><span>服务方式 : </span>{{ details.serviceWay }} </p>
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>用户地址 : </span>{{ details.address }} </p>
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递公司 : </span>{{ details.trackingCom }} </p>
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递单号 : </span>{{ details.trackingNumber }} </p>
@@ -226,6 +230,7 @@ export default {
 			serviceIcon: service,
 			currentNetwork: '',
 			logistics: [],
+			type: '',
 			info: {
 				name: '',
 				storage: '',
@@ -240,7 +245,13 @@ export default {
 	async mounted () {
 		window.status = false;
 		this.details = JSON.parse(sessionStorage.getItem('detail'));
-		console.log(this.details);
+		
+		if (this.details.service.length !== 0) {
+			this.type = 'service'
+		} else {
+			this.type = 'good'
+		}
+
 		if (this.details.info) {
 			this.info = this.details.info;
 			this.currentNetwork  = this.details.info.network.join(',');
@@ -264,8 +275,6 @@ export default {
 			let record = await this.$api.sendData('https://m.yixiutech.com/tracking', {
 				com: this.no,
 				no: this.info.trackingNumber
-				// com: 'yd',
-				// no: '3840140366095'
 			})
 
 			if (record.code == 200) {
