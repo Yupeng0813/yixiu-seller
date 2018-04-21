@@ -330,9 +330,12 @@ export default {
 			let status = true;
 			this.infos.address = this.area + '-' + this.address;
 			
-			this.initPosition();
+			let position = await this.initPosition();
 
-			alert(JSON.stringify(this.infos.position));
+			this.infos.position.lng = position.lng;
+			this.infos.position.lat = position.lat;
+
+			console.log(this.infos);
 
       this.infos.certificate.map( (item, index) => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
@@ -415,26 +418,29 @@ export default {
 		finish () {
 			this.endPicker.show()
 		},
-		initPosition () {
-			let map = new BMap.Map("allmap");
-			let point = new BMap.Point(116.331398,39.897445);
-			map.centerAndZoom(point,12);
+		async initPosition () {
+			return new Promise( (resolve, reject) => {
+				let map = new BMap.Map("allmap");
+				let point = new BMap.Point(116.331398,39.897445);
+				map.centerAndZoom(point,12);
 
-			let _this = this;
+				let _this = this;
 
-			let myGeo = new BMap.Geocoder();
+				let myGeo = new BMap.Geocoder();
 
-			myGeo.getPoint(this.infos.address, function(point){
-				if (point) {
-					map.centerAndZoom(point, 16);
-					map.addOverlay(new BMap.Marker(point));
+				myGeo.getPoint(this.infos.address, function(point){
+					
+					if (point) {
+						map.centerAndZoom(point, 16);
+						map.addOverlay(new BMap.Marker(point));
 
-					_this.infos.position.lng = point.lng;
-					_this.infos.position.lat = point.lat;
-				}else{
-					alert("您选择地址没有解析到结果!");
-				}
-			});
+						resolve(point);
+					}else{
+						reject();
+						alert("您选择地址没有解析到结果!");
+					}
+				});
+			})
 		}
 	}
 } 
