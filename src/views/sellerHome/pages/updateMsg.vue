@@ -371,25 +371,26 @@ export default {
 			}
       this.infos.address = this.area + '-' + this.address;
       
-			this.initPosition();
-			
-			console.log(this.infos);
+			let position = await this.initPosition();
 
-			// const toast = Toast.loading({
-			// 	duration: 0,
-			// 	forbidClick: true,
-			// 	message: '请稍后...'
-			// });
-			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
+			this.infos.position.lng = position.lng;
+			this.infos.position.lat = position.lat;
+
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后...'
+			});
+			let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
 			
-			// if (res.code !== 200) {
-			// 	alert(res.errMsg);
-			// 	return;
-			// }
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data));
-			// toast.clear();
-			// this.prompt('修改成功', 'correct').show();
-			// this.$router.push('/sellerHome');
+			if (res.code !== 200) {
+				alert(res.errMsg);
+				return;
+			}
+			sessionStorage.setItem('shopData', JSON.stringify(res.data));
+			toast.clear();
+			this.prompt('修改成功', 'correct').show();
+			this.$router.push('/sellerHome');
 		},
 		start () {
 			this.startPicker.show()
@@ -397,26 +398,29 @@ export default {
 		finish () {
 			this.endPicker.show()
     },
-    initPosition () {
-			let map = new BMap.Map("allmap");
-			let point = new BMap.Point(116.331398,39.897445);
-			map.centerAndZoom(point,12);
+    async initPosition () {
+			return new Promise( (resolve, reject) => {
+				let map = new BMap.Map("allmap");
+				let point = new BMap.Point(116.331398,39.897445);
+				map.centerAndZoom(point,12);
 
-			let _this = this;
+				let _this = this;
 
-			let myGeo = new BMap.Geocoder();
+				let myGeo = new BMap.Geocoder();
 
-			myGeo.getPoint(this.infos.address, function(point){
-				if (point) {
-					map.centerAndZoom(point, 16);
-					map.addOverlay(new BMap.Marker(point));
+				myGeo.getPoint(this.infos.address, function(point){
+					
+					if (point) {
+						map.centerAndZoom(point, 16);
+						map.addOverlay(new BMap.Marker(point));
 
-					_this.infos.position.lng = point.lng;
-					_this.infos.position.lat = point.lat;
-				}else{
-					alert("您选择地址没有解析到结果!");
-				}
-			});
+						resolve(point);
+					}else{
+						reject();
+						alert("您选择地址没有解析到结果!");
+					}
+				});
+			})
 		}
 	}
 }
