@@ -371,23 +371,25 @@ export default {
 			}
       this.infos.address = this.area + '-' + this.address;
       
-      this.initPosition();
-
-			const toast = Toast.loading({
-				duration: 0,
-				forbidClick: true,
-				message: '请稍后...'
-			});
-			let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
+			this.initPosition();
 			
-			if (res.code !== 200) {
-				alert(res.errMsg);
-				return;
-			}
-			sessionStorage.setItem('shopData', JSON.stringify(res.data));
-			toast.clear();
-			this.prompt('修改成功', 'correct').show();
-			this.$router.push('/sellerHome');
+			console.log(this.infos);
+
+			// const toast = Toast.loading({
+			// 	duration: 0,
+			// 	forbidClick: true,
+			// 	message: '请稍后...'
+			// });
+			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/update', this.infos);
+			
+			// if (res.code !== 200) {
+			// 	alert(res.errMsg);
+			// 	return;
+			// }
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data));
+			// toast.clear();
+			// this.prompt('修改成功', 'correct').show();
+			// this.$router.push('/sellerHome');
 		},
 		start () {
 			this.startPicker.show()

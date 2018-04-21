@@ -329,7 +329,7 @@ export default {
 		async register () {
 			let status = true;
 			this.infos.address = this.area + '-' + this.address;
-
+			
 			this.initPosition();
 
       this.infos.certificate.map( (item, index) => {
@@ -395,6 +395,8 @@ export default {
 					message: '请稍后...'
 				})
 
+				console.log(this.infos);
+
 				let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
 				
 				if (res.code !== 200) {
@@ -424,6 +426,7 @@ export default {
 				if (point) {
 					map.centerAndZoom(point, 16);
 					map.addOverlay(new BMap.Marker(point));
+					alert(JSON.stringify(point));
 
 					_this.infos.position.lng = point.lng;
 					_this.infos.position.lat = point.lat;
