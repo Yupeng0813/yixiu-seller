@@ -38,6 +38,7 @@
 	import service from '@/assets/icon/service.png'
 	import wallet from '@/assets/icon/wallet.png'
 	import youhuiquan from '@/assets/icon/youhuiquan.png'
+	import share from '@/assets/icon/share.png'
   export default {
     components: {
 			Header,
@@ -93,7 +94,7 @@
 
 			// let ss = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
 			// 	collection: 'Shop',
-			// 	_id: '5adb74bf060e415f31618b2e'
+			// 	_id: '5adb79d6060e415f31618b30'
 			// })
 
 			// let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
@@ -141,7 +142,8 @@
 					// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 					// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
 					{ name: '完善信息', icon: info, link: '/updateMsg' },
-					{ name: '商家钱包', icon: wallet, link: '/shopWallet' }
+					{ name: '商家钱包', icon: wallet, link: '/shopWallet' },
+					{ name: '分享', icon: share, link: '/share'}
 				];
 
 				if (this.shopData.sellPhone) {
@@ -224,7 +226,8 @@
 						// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 						// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
 						{ name: '完善信息', icon: info, link: '/updateMsg' },
-						{ name: '商家钱包', icon: wallet, link: '/shopWallet' }
+						{ name: '商家钱包', icon: wallet, link: '/shopWallet' },
+						{ name: '分享', icon: share, link: '/share'}
 					];
 
 					if (this.shopData.sellPhone) {
