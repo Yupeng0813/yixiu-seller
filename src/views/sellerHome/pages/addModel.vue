@@ -10,13 +10,30 @@
 			disabled
 		/>
 
-		<div class="info__name">
+		<!-- <div class="info__name">
 			<p>系统推荐型号</p>
 			<cube-select
 				v-model="model.name"
 				:options="phoneModel"
 				@change="modelChange"
 			/>
+		</div> -->
+
+		<div class="info__name">
+			<p>系统推荐型号</p>
+		</div>
+
+		<div class="info__name">
+			<div class="service">
+				<selects ref="phone" v-for="(item, index) in phoneModel"
+					:type="type"
+					:key="index"
+					:data="item.text"
+					@sendMsg="sendMsg(index, item.text)"
+					@remove="remove(index, item.text)"
+					:index="index"
+				/>
+			</div>
 		</div>
 
 		<!-- <van-field
@@ -62,7 +79,7 @@
 </template>
 
 <script>
-import { Field, Button } from 'vant'
+import { Field, Button, Toast } from 'vant'
 import ItemHeader from '../components/itemHeader'
 import selects from '../components/select'
 export default {
@@ -80,20 +97,21 @@ export default {
 		ItemHeader,
 		selects
 	},
+	watch: {
+		modelNames: function (val) {
+			val.map( (item, index) => {
+				this.phoneModel.map( (phoneItem, phoneIndex) => {
+					item == phoneItem.text ? this.phoneModel.splice(phoneIndex, 1) : '';
+				})
+			})
+		}
+	},
 	async mounted () {
-		const toast = this.$createToast({
-			txt: '加载中...',
-			type: 'loading'
-		})
-		toast.show();
-		
-		let res = await this.$api.getData('https://m.yixiutech.com/phone/manufacturer/shop/' + this.model.shop);
-		toast.hide();
-		res.data.map(item => {
-			this.phoneName.push(item.name);
-			this.phoneInfo.push(item);
-		})
-		// let own
+		// const toast = this.$createToast({
+		// 	txt: '加载中...',
+		// 	type: 'loading'
+		// })
+		// toast.show();
 	},
 	data () {
 		return {
@@ -101,7 +119,9 @@ export default {
 			colors: ['黑色', '白色', '银灰色'],
 			otherColors: [],
 			phoneName: [],
+			models: [],
 			phoneInfo: [],
+			type: 'model',
 			// phoneModel: [],
 			phoneModelAlias: '',
 			phoneModelInfo: [],
@@ -118,14 +138,35 @@ export default {
 		}
 	},
 	methods: {
-		sendMsg (data) {
-			this.model.color.push(data);
-		},
-		remove(data) {
-			this.model.color.map( (item, index) => {
-				item == data ? this.model.color.splice(index, 1) : null
+		sendMsg (index, name) {
+
+			// console.log(this.modelNames);
+			// 颜色
+			let tempColor;
+			this.sysModel.map(item => {
+				item.name == name ? tempColor = item.color : null;
+			})
+
+			this.models.push({
+				name: name,
+				shop: JSON.parse(sessionStorage.getItem('shopData'))._id,
+				color: tempColor,
+				manufacturer: this.manufacturer
 			})
 		},
+		remove (index, name) {
+			this.models.map( (item, index) => {
+				item.name == name ? this.models.splice(index, 1) : null;
+			})
+		},
+		// sendMsg (data) {
+		// 	this.model.color.push(data);
+		// },
+		// remove(data) {
+		// 	this.model.color.map( (item, index) => {
+		// 		item == data ? this.model.color.splice(index, 1) : null
+		// 	})
+		// },
 		backParent () {
 			this.phoneModelColor = [];
 			this.model.name = '';
@@ -143,35 +184,34 @@ export default {
 		},
 		async submit () {
 			let status = true;
-			this.modelNames.map(item => {
-				if (item == this.modelName) {
-					this.prompt('店铺里已添加过同名的型号', 'error').show();
-					return;
-				}
-			})
 
-			this.model.name = this.modelName;
-			this.model.manufacturer = this.manufacturer;
-
-			if (!this.model.name) {
+			if (this.models.length == 0) {
 				alert('请选择需要添加的手机型号');
 				return;
 			}
 
 			if (status) {
-				const toast = this.$createToast({
-					txt: '加载中...',
-					type: 'loading'
+				const toast = Toast.loading({
+					duration: 0,
+					forbidClick: true, 
+					message: '请稍等...'
+				});
+				this.models.map(async item => {
+					let modelRes = await this.$api.sendData('https://m.yixiutech.com/phone/model', item);
+					if (modelRes.code !== 200) {
+						this.prompt(modelRes.errMsg, 'error').show();
+						return;	
+					}
+					this.prompt(`添加${item.name}成功!`, 'correct').show();
 				})
-				toast.show();
-				let modelRes = await this.$api.sendData('https://m.yixiutech.com/phone/model', this.model);
-				toast.hide();
-				if (modelRes.code !== 200) {
-					this.prompt(modelRes.errMsg, 'error').show();
-					return;	
-				}
-				this.prompt('添加成功!', 'correct').show();
-				this.model = Object.assign(this.model, {color: [], manufacturer: '', alias: '', name: ''})
+				toast.clear();
+
+				// 重置
+				this.models = [];
+				this.$refs.phone.map(item => {
+					item.hasBorder ? item.selectOn() : '';
+				})
+
 				this.$emit('updateModel', true);
 			}
 		}
