@@ -227,7 +227,8 @@
 						// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
 						{ name: '完善信息', icon: info, link: '/updateMsg' },
 						{ name: '商家钱包', icon: wallet, link: '/shopWallet' },
-						{ name: '分享', icon: share, link: '/share'}
+						{ name: '商家分享', icon: share, link: '/share'},
+						{ name: '用户分享', icon: share, link: '/shareuser'}
 					];
 
 					if (this.shopData.sellPhone) {
