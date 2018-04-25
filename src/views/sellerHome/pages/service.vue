@@ -135,6 +135,7 @@ export default {
 			manufacturer: '',
 			categoryNames: [],
 			categoryinfos: [],
+			reg: /^\d+(\.\d)?$/,
 			active: '',
 			res: {},
 			modelStatus: false,
@@ -211,7 +212,14 @@ export default {
 						return;
 					}
 				}
+				
+				if (!this.reg.test(item.price)) {
+					status = false;
+					alert('服务的价格输入有误，请保留小数点后一位');
+					return;
+				}
 			})
+
 			let len = this.services.length;
 			if (status) {
 				const toast = Toast.loading({

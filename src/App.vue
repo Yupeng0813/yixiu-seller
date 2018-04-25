@@ -42,7 +42,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/service');
+        this.$router.push('/sellerHome');
       }
     },
     data () {
@@ -99,18 +99,21 @@
             alert("你还未登录，请先登录");
             this.$router.push("/login");
           }else{
-            let update = {
-              collection: "User",
-              find: {
-                _id: userInfo._id
-              },
-              update: {
-                name: userInfo.wx.nickname,
-                mobile: userInfo.mobile,
-                wx: userInfo.wx
+
+            if (userInfo._id) {
+              let update = {
+                collection: "User",
+                find: {
+                  _id: userInfo._id
+                },
+                update: {
+                  name: userInfo.wx.nickname,
+                  mobile: userInfo.mobile,
+                  wx: userInfo.wx
+                }
               }
+              let updateInfo = await this.$api.sendData(`https://m.yixiutech.com/sql/update`, update);
             }
-            let updateInfo = await this.$api.sendData(`https://m.yixiutech.com/sql/update`, update);
           
             sessionStorage.setItem("user", JSON.stringify(userInfo));
 

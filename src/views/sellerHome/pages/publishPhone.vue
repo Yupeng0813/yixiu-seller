@@ -357,6 +357,13 @@ export default {
 
 		},
 		async submit () {
+			let reg = /^\d+(\.\d)?$/
+
+			if (!reg.test(this.goods.price)) {
+				alert('手机价格输入有误，请保留小数点后一位');
+				return;
+			}
+
 			let goodRes = await this.$api.sendData('https://m.yixiutech.com/goods/shop', this.goods);
 			if (goodRes.code !== 200) {
 				this.prompt(goodRes.errMsg, 'error').show();

@@ -92,18 +92,17 @@
 			// let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[10]));
 
-			// let ss = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
-			// 	collection: 'Shop',
-			// 	_id: '5adb79d6060e415f31618b30'
-			// })
+			let ss = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+				collection: 'User'
+			})
 
 			// let reset = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-			// 	collection: 'Shop',
+			// 	collection: 'User',
 			// 	find: {
-			// 		_id: '5ad6cf52060e415f31618742'
+			// 		_id: '5ad21852ab85e142eaef9276'
 			// 	},
 			// 	update: {
-			// 		payment: 300000
+			// 		money: 0
 			// 	}
 			// })
 			// let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
