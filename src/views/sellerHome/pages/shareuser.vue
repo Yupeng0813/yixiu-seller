@@ -19,6 +19,16 @@
 
       <p class="tips">邀请注册成功后，可获得用户下单金额 <span>3%</span></p>
     </div>
+    <div>
+      <div class="tips">邀请用户返利</div>
+      <div class="row-line-money"></div>
+      <div class="money" >
+        <div class="money">总返利：{{allnumber}}元</div>
+        <div class="money">已返利：{{surplusnumber}}元</div>
+        <div class="money">待返利：{{number}}元</div>
+      </div>
+      <van-button size="large" @click="getmoney">提现</van-button>
+    </div>
   </div>
 
 </template>
@@ -27,18 +37,21 @@
   import '../modules/jquery-1.10.2.min.js';
   import '../modules/jquery.qrcode.min.js';
   import itemHeader from '../components/itemHeader.vue'
-
-  import { NavBar} from 'vant';
+  import { NavBar, Button} from 'vant';
 
 
   export default {
     data () {
       return {
-        infoName: '分享'
+        infoName: '分享',
+        allnumber: 100,
+        surplusnumber: 100,
+        number: 100
       }
     },
     components: {
       [NavBar.name]: NavBar,
+      [Button.name]: Button,
       itemHeader
     },
     methods: {
@@ -51,12 +64,22 @@
         let user = JSON.parse(sessionStorage.getItem('user'));
 
         let num  = user.moblie;
+        let userId = user._id;
+
         $("#qrcode").qrcode({
-          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuwebapp/register&phone=${num}&response_type=code&scope=snsapi_userinfo&state=18584664675#wechat_redirect`,
+          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuwebapp/register&phone=${num}&response_type=code&scope=snsapi_userinfo&state=${userId}#wechat_redirect`,
           width:150,
           height:150
         });
       }
+    },
+    allmoney () {
+        let user = JSON.parse(sessionStorage.getItem('user'));
+        let userId = user._id;
+        this.allnumber = userId;
+    },
+    getmoney () {
+      console.log("--------------");
     },
     mounted () {    //钩子函数，等于vue1.0中的ready
       this.qrcode();
@@ -96,6 +119,16 @@
     margin-top: 4vh;
     margin-bottom: 4vh;
     background: #ecebeb;
+  }
+  .row-line-money{
+    width: 100%;
+    height: 0.2vh;
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+  }
+  .money{
+    margin-left: 5vh;
+    margin-bottom: 2vh;
   }
   .myinfo-message{
     position: relative;
