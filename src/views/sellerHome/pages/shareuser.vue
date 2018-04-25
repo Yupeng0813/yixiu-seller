@@ -79,7 +79,10 @@
         this.allnumber = userId;
     },
     getmoney () {
-      console.log("--------------");
+        let user = JSON.parse(sessionStorage.getItem('user'));
+        let userId = user._id;
+        this.allnumber = userId;
+        alert(this.allnumber);
     },
     mounted () {    //钩子函数，等于vue1.0中的ready
       this.qrcode();
