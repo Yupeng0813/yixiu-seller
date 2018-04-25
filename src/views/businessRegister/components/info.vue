@@ -208,6 +208,7 @@ export default {
 			cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			infos: {
 				name: '',
+				parentShop: sessionStorage.getItem('parentShop') ? sessionStorage.getItem('parentShop') : '',
 				cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 				contactNumber: '',
 				serviceWay: [],
@@ -334,8 +335,7 @@ export default {
 
 			this.infos.position.lng = position.lng;
 			this.infos.position.lat = position.lat;
-
-			console.log(this.infos);
+			
 
       this.infos.certificate.map( (item, index) => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
@@ -399,8 +399,6 @@ export default {
 					forbidClick: true,
 					message: '请稍后...'
 				})
-
-				console.log(this.infos);
 
 				let res = await this.$api.sendData('https://m.yixiutech.com/shop', this.infos);
 				

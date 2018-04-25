@@ -52,8 +52,7 @@
 
         let num  = user.moblie;
         let userId = user._id;
-
-        alert(userId);
+        
         $("#qrcode").qrcode({
           text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller/&response_type=code&scope=snsapi_userinfo&state=${userId}#wechat_redirect`,
           width:150,

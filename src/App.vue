@@ -24,9 +24,11 @@
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[10]));
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0]
+      let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0];
 
-      alert(state);
+      if (state != '123') {
+        sessionStorage.setItem('parentShop', state);
+      }
 
       if (code) {
         // 如果是微信
