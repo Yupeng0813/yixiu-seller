@@ -30,6 +30,8 @@
         // 获取微信信息
         let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
+        alert(JSON.stringify(res));
+
         sessionStorage.setItem('userInfo', JSON.stringify(res));
 
         sessionStorage.setItem("openid", res.openid);
