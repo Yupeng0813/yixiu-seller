@@ -27,7 +27,7 @@
         <div class="money">已返利：{{surplusnumber}}元</div>
         <div class="money">待返利：{{number}}元</div>
       </div>
-      <van-button size="large" @click="getmoney">提现</van-button>
+      <van-button size="large" @click="getmoney()">提现</van-button>
     </div>
   </div>
 
@@ -71,18 +71,18 @@
           width:150,
           height:150
         });
-      }
-    },
-    allmoney () {
+      },
+      allmoney () {
         let user = JSON.parse(sessionStorage.getItem('user'));
         let userId = user._id;
         this.allnumber = userId;
-    },
-    getmoney () {
+      },
+      getmoney () {
         let user = JSON.parse(sessionStorage.getItem('user'));
         let userId = user._id;
         this.allnumber = userId;
         alert(this.allnumber);
+      }
     },
     mounted () {    //钩子函数，等于vue1.0中的ready
       this.qrcode();
