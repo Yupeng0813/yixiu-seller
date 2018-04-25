@@ -51,9 +51,11 @@
         let user = JSON.parse(sessionStorage.getItem('user'));
 
         let num  = user.moblie;
-        alert(sessionStorage.getItem('user'));
+        let userId = user._id;
+
+        alert(userId);
         $("#qrcode").qrcode({
-          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller/&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`,
+          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller/&response_type=code&scope=snsapi_userinfo&state=${userId}#wechat_redirect`,
           width:150,
           height:150
         });

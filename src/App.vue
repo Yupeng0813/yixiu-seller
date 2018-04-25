@@ -24,13 +24,15 @@
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[10]));
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
+      let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0]
+
+      alert(state);
+
       if (code) {
         // 如果是微信
 
         // 获取微信信息
         let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
-
-        alert(JSON.stringify(res));
 
         sessionStorage.setItem('userInfo', JSON.stringify(res));
 
