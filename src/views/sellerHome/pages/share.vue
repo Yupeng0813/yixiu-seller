@@ -52,7 +52,7 @@
 
         let num  = user.moblie;
         $("#qrcode").qrcode({
-          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller/&phone=${num}&response_type=code&scope=snsapi_userinfo&state=18584664675#wechat_redirect`,
+          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller/&phone=${num}&response_type=code&scope=snsapi_userinfo&state=3#wechat_redirect`,
           width:150,
           height:150
         });
