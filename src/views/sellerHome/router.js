@@ -19,6 +19,7 @@ import entry from './pages/chooseEntry.vue'
 import manageCoupon from './pages/manageCoupon.vue'
 import showPhones from './pages/showPhones.vue'
 import updatePhone from './pages/updatePhone.vue'
+import shareuser from './pages/shareuser.vue'
 import share from './pages/share.vue'
 
 
@@ -113,4 +114,9 @@ export default [{
 {
   path: '/share',
   component: share
+},
+{
+  path: '/shareuser',
+  component: shareuser
 }]
+

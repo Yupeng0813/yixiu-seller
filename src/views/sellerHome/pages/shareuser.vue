@@ -8,7 +8,7 @@
     <div class="messageTag">
       <!-- 信息标题 -->
       <div class="myinfo-title-container">
-        <div class="myinfo-title">邀请商家二维码</div>
+        <div class="myinfo-title">邀请用户二维码</div>
       </div>
 
       <div class="row-line"></div>
@@ -17,7 +17,7 @@
         <div id="qrcode" ref="qrcode"></div>
       </div>
 
-      <p class="tips">邀请注册成功后，可获得商家 <span>2%</span></p>
+      <p class="tips">邀请注册成功后，可获得用户下单金额 <span>3%</span></p>
     </div>
   </div>
 
@@ -51,9 +51,8 @@
         let user = JSON.parse(sessionStorage.getItem('user'));
 
         let num  = user.moblie;
-        alert(sessionStorage.getItem('user'));
         $("#qrcode").qrcode({
-          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller/&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`,
+          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuwebapp/register&phone=${num}&response_type=code&scope=snsapi_userinfo&state=18584664675#wechat_redirect`,
           width:150,
           height:150
         });
