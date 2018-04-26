@@ -107,7 +107,7 @@
     
   }
   .topblank{
-    margin-top: 45.6px;
+    margin-top: 30.6px;
   }
   .funcbtn button.other{
         background: #fff;
