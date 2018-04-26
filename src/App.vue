@@ -27,7 +27,7 @@
       let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0];
 
       if (state != '123') {
-        sessionStorage.setItem('parentShop', state);
+        sessionStorage.setItem('parent', state);
       }
 
       if (code) {

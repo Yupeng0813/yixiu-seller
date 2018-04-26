@@ -208,7 +208,7 @@ export default {
 			cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			infos: {
 				name: '',
-				parentShop: sessionStorage.getItem('parentShop') ? sessionStorage.getItem('parentShop') : '',
+				parent: sessionStorage.getItem('parent') ? sessionStorage.getItem('parent') : '',
 				cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 				contactNumber: '',
 				serviceWay: [],

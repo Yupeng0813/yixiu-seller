@@ -105,8 +105,9 @@
 			// 		money: 0
 			// 	}
 			// })
-			// let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-			// 	collection: 'User',
+			// let user = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
+			// 	collection: 'Shop',
+			// 	_id: '5ae1eb64e3c2bf04344489e1'
 			// })
 			const toast = this.$createToast({
 				txt: '加载中...',
