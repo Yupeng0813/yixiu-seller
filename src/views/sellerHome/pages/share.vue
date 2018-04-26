@@ -81,9 +81,13 @@
         // let userId = user._id;
         // this.allnumber = userId;
 
-        let shopId = '5ad6cf52060e415f31618742';
+        // let shopId = '5ad21852ab85e142eaef9276';
+        // let shopId = '5ae17c86e3c2bf043444890a';
+        let shopId = '5ad243afab85e142eaef928d';
+        // let shopId = '5ad6cf52060e415f31618742';
+
         let shopList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
-            collection:'User',
+            collection:'Shop',
             parentShop: shopId,
 			      // shop: JSON.parse(sessionStorage.getItem('shopData'))._id
 			  // shop: '5ab93879d4e7f1497d58d94e'
