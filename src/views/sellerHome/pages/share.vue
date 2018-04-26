@@ -50,7 +50,7 @@
         infoName: '分享',
         allnumber: 100,
         surplusnumber: 100,
-        number: 100
+        number: this.allnumber - this.surplusnumber
       }
     },
     components: {
@@ -81,15 +81,28 @@
         // let userId = user._id;
         // this.allnumber = userId;
 
-        // let shopId = '5ad6cf52060e415f31618742';
-        // let shopInfo = await this.$api.sendData('https://m.yixiutech.com/shop', shopId);
+        let shopId = '5ad6cf52060e415f31618742';
+        let shopList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+            collection:'User',
+            parentShop: shopId,
+			      // shop: JSON.parse(sessionStorage.getItem('shopData'))._id
+			  // shop: '5ab93879d4e7f1497d58d94e'
+		    })
+        console.log(shopList);
+        // let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+        //   collection:'Order',
+        //   shop:{
+        //     $in:[shopList]//遍历childrenShoplist的_id放到这里面
+        //   }
+        // })
+        // console.log(userOrderlist);
         // alert(shopInfo);
-
-        let childrenShoplist = ajax.post('/sql/find',{
-          collection:'Shop',
-          parent:'5ad6cf52060e415f31618742'
-        })
-        alert(childrenShoplist);
+        
+        // let childrenShoplist = ajax.post('/sql/find',{
+        //   collection:'Shop',
+        //   parent:'5ad6cf52060e415f31618742'
+        // })
+        // alert(childrenShoplist);
         // alert(this.allnumber);
       }
     },

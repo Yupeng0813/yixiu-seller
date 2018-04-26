@@ -28,8 +28,8 @@
         <div class="money">待返利：{{number}}元</div>
       </div>
       <div class="funcbtn">
-        <button @click="serchmoney()">查询</button>
-        <button @click="getmoney()" class="other">提现</button>
+        <button @click="serchmoney">查询</button>
+        <button @click="getmoney" class="other">提现</button>
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@
         infoName: '分享',
         allnumber: 100,
         surplusnumber: 100,
-        number: 100
+        number: this.allnumber - this.surplusnumber
       }
     },
     components: {
@@ -70,15 +70,33 @@
         let userId = user._id;
 
         $("#qrcode").qrcode({
-          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuwebapp/register&phone=${num}&response_type=code&scope=snsapi_userinfo&state=${userId}#wechat_redirect`,
+          text: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuwebapp/register&id=${userId}&response_type=code&scope=snsapi_userinfo&state=${userId}#wechat_redirect`,
           width:150,
           height:150
         });
       },
-      allmoney () {
+      async serchmoney () {
+        //获取用户信息
         let user = JSON.parse(sessionStorage.getItem('user'));
         let userId = user._id;
-        this.allnumber = userId;
+        // let userId = '5ad6cf52060e415f31618742';
+        // 1.获取关联用户
+        let userList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+            collection:'User',
+            parent: userId,
+			      // shop: JSON.parse(sessionStorage.getItem('shopData'))._id
+			  // shop: '5ab93879d4e7f1497d58d94e'
+		    })
+        console.log(userList);
+        //2.根据获取到的列表,查询订单列表
+        let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+          collection:'Order',
+          shop:{
+            $in:[userList]//遍历childrenShoplist的_id放到这里面
+          }
+        })
+        console.log(userOrderlist);
+
       },
       getmoney () {
         let user = JSON.parse(sessionStorage.getItem('user'));
