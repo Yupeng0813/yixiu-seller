@@ -25,11 +25,11 @@
       <div class="money" >
         <div class="money">总返利：{{allnumber}}元</div>
         <div class="money">已返利：{{surplusnumber}}元</div>
-        <div class="money">待返利：{{number}}元</div>
+        <div class="money">待返利：{{allnumber-surplusnumber}}元</div>
       </div>
       <div class="funcbtn">
-        <button @click="serchmoney">查询</button>
-        <button @click="getmoney" class="other">提现</button>
+        <button @click="serchmoney" class="other">查询</button>
+        <button @click="getmoney">提现</button>
       </div>
     </div>
   </div>
@@ -77,8 +77,9 @@
       },
       async serchmoney () {
         //获取用户信息
-        let user = JSON.parse(sessionStorage.getItem('user'));
-        let userId = user._id;
+        // let user = JSON.parse(sessionStorage.getItem('user'));
+        // let userId = user._id;
+        let userId = '5ad21852ab85e142eaef9276';
         // let userId = '5ad6cf52060e415f31618742';
         // 1.获取关联用户
         let userList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
@@ -89,13 +90,13 @@
 		    })
         console.log(userList);
         //2.根据获取到的列表,查询订单列表
-        let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
-          collection:'Order',
-          shop:{
-            $in:[userList]//遍历childrenShoplist的_id放到这里面
-          }
-        })
-        console.log(userOrderlist);
+        // let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+        //   collection:'Order',
+        //   shop:{
+        //     $in:[userList]//遍历childrenShoplist的_id放到这里面
+        //   }
+        // })
+        // console.log(userOrderlist);
 
       },
       getmoney () {

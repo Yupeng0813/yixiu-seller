@@ -20,16 +20,16 @@
       <p class="tips">邀请注册成功后，可获得商家 <span>2%</span></p>
     </div>
     <div>
-      <div class="tips">邀请用户返利</div>
+      <div class="tips">邀请商户返利</div>
       <div class="row-line-money"></div>
       <div class="money" >
         <div class="money">总返利：{{allnumber}}元</div>
         <div class="money">已返利：{{surplusnumber}}元</div>
-        <div class="money">待返利：{{number}}元</div>
+        <div class="money">待返利：{{allnumber-surplusnumber}}元</div>
       </div>
       <div class="funcbtn">
-        <button @click="searchmoney">查询</button>
-        <button @click="getmoney()" class="other">提现</button>
+        <button @click="searchmoney" class="other">查询</button>
+        <button @click="getmoney">提现</button>
       </div>
     </div>
   </div>
