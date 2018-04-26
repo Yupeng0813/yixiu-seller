@@ -19,6 +19,19 @@
 
       <p class="tips">邀请注册成功后，可获得商家 <span>2%</span></p>
     </div>
+    <div>
+      <div class="tips">邀请用户返利</div>
+      <div class="row-line-money"></div>
+      <div class="money" >
+        <div class="money">总返利：{{allnumber}}元</div>
+        <div class="money">已返利：{{surplusnumber}}元</div>
+        <div class="money">待返利：{{number}}元</div>
+      </div>
+      <div class="funcbtn">
+        <button @click="searchmoney">查询</button>
+        <button @click="getmoney()" class="other">提现</button>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -28,17 +41,21 @@
   import '../modules/jquery.qrcode.min.js';
   import itemHeader from '../components/itemHeader.vue'
 
-  import { NavBar} from 'vant';
+  import { NavBar, Button} from 'vant';
 
 
   export default {
     data () {
       return {
-        infoName: '分享'
+        infoName: '分享',
+        allnumber: 100,
+        surplusnumber: 100,
+        number: 100
       }
     },
     components: {
       [NavBar.name]: NavBar,
+      [Button.name]: Button,
       itemHeader
     },
     methods: {
@@ -58,6 +75,22 @@
           width:150,
           height:150
         });
+      },
+      async searchmoney () {
+        // let user = JSON.parse(sessionStorage.getItem('user'));
+        // let userId = user._id;
+        // this.allnumber = userId;
+
+        // let shopId = '5ad6cf52060e415f31618742';
+        // let shopInfo = await this.$api.sendData('https://m.yixiutech.com/shop', shopId);
+        // alert(shopInfo);
+
+        let childrenShoplist = ajax.post('/sql/find',{
+          collection:'Shop',
+          parent:'5ad6cf52060e415f31618742'
+        })
+        alert(childrenShoplist);
+        // alert(this.allnumber);
       }
     },
     mounted () {    //钩子函数，等于vue1.0中的ready
@@ -75,6 +108,31 @@
   }
   .topblank{
     margin-top: 45.6px;
+  }
+  .funcbtn button.other{
+        background: #fff;
+        color: #2796CB;
+  }
+  .funcbtn{
+      position: absolute;
+      display: flex;
+      bottom: 0;
+      left: 0;
+      right: 0;
+  }
+  .funcbtn button{
+      flex: 1;
+      border: none;
+      background-color: #4991e5;
+      float: left;
+      padding: 0;
+      width: 100vw;
+      line-height: 60px;
+      text-align: center;
+      color: #fff;
+      font-size: 6vw;
+        
+      border-top: 1px solid #eee;
   }
   .messageTag{
     border: 0.1px solid rgb(240, 241, 245);
@@ -98,6 +156,16 @@
     margin-top: 4vh;
     margin-bottom: 4vh;
     background: #ecebeb;
+  }
+  .row-line-money{
+    width: 100%;
+    height: 0.2vh;
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+  }
+  .money{
+    margin-left: 5vh;
+    margin-bottom: 2vh;
   }
   .myinfo-message{
     position: relative;

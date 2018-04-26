@@ -27,7 +27,10 @@
         <div class="money">已返利：{{surplusnumber}}元</div>
         <div class="money">待返利：{{number}}元</div>
       </div>
-      <van-button size="large" @click="getmoney()">提现</van-button>
+      <div class="funcbtn">
+        <button @click="serchmoney()">查询</button>
+        <button @click="getmoney()" class="other">提现</button>
+      </div>
     </div>
   </div>
 
@@ -132,6 +135,31 @@
   .money{
     margin-left: 5vh;
     margin-bottom: 2vh;
+  }
+  .funcbtn button.other{
+        background: #fff;
+        color: #2796CB;
+  }
+  .funcbtn{
+      position: absolute;
+      display: flex;
+      bottom: 0;
+      left: 0;
+      right: 0;
+  }
+  .funcbtn button{
+      flex: 1;
+      border: none;
+      background-color: #4991e5;
+      float: left;
+      padding: 0;
+      width: 100vw;
+      line-height: 60px;
+      text-align: center;
+      color: #fff;
+      font-size: 6vw;
+        
+      border-top: 1px solid #eee;
   }
   .myinfo-message{
     position: relative;
