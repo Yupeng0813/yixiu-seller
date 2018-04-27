@@ -100,7 +100,6 @@
         let userids = [];
         if(userIdlist.length>0){
           for(var x= 0; x<userIdlist.length; x++){
-            console.log(userIdlist[x]._id);
             userids.push(userIdlist[x]._id);
           }
         }
@@ -126,8 +125,8 @@
           for(var y= 0; y<userOrderlists.length; y++){
             sum = sum + userOrderlists[y].payment;
            }
-         }
-         console.log("--------------------------3");
+        }
+        console.log("--------------------------3");
         console.log(sum);
         this.allnumber = (sum/100)*0.03;
         console.log(this.allnumber);

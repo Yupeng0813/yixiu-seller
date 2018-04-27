@@ -48,8 +48,8 @@
     data () {
       return {
         infoName: '分享',
-        allnumber: 100,
-        surplusnumber: 100,
+        allnumber: 0,
+        surplusnumber: 0,
         number: this.allnumber - this.surplusnumber
       }
     },
@@ -81,22 +81,46 @@
         });
       },
       async searchmoney () {
-        // let user = JSON.parse(sessionStorage.getItem('user'));
-        // let userId = user._id;
-        // this.allnumber = userId;
 
-        // let shopId = '5ad21852ab85e142eaef9276';
+        let shop = JSON.parse(sessionStorage.getItem('shopData'));
+        let shopId = shop._id;
         // let shopId = '5ae17c86e3c2bf043444890a';
-        let shopId = '5ad243afab85e142eaef928d';
-        // let shopId = '5ad6cf52060e415f31618742';
-
         let shopList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
             collection:'Shop',
-            parentShop: shopId,
-			      // shop: JSON.parse(sessionStorage.getItem('shopData'))._id
-			  // shop: '5ab93879d4e7f1497d58d94e'
+            parent: shopId,
+            limit: 0,
+            select:{_id:1},
 		    })
         console.log(shopList);
+        let shopLists = shopList.data;
+        let shopids = [];
+        if(shopLists.length>0){
+          for(var x= 0; x<shopLists.length; x++){
+            shopids.push(shopLists[x]._id);
+          }
+        }
+        //订单查询
+        let shopOrderList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+            collection:'Order',
+            shop: {
+                $in:shopids,
+            },
+            limit: 0,
+            select:{payment:1},
+		    })
+        console.log("--------------------------2");
+        console.log(shopOrderList);
+        let shopOrderLists = shopOrderList.data;
+        let sum = 0;
+        if(shopOrderLists.length>0){
+          for(var y= 0; y<shopOrderLists.length; y++){
+            sum = sum + shopOrderLists[y].payment;
+           }
+        }
+        console.log("--------------------------3");
+        console.log(sum);
+        this.allnumber = (sum/100)*0.02;
+        console.log(this.allnumber);
         // let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
         //   collection:'Order',
         //   shop:{
