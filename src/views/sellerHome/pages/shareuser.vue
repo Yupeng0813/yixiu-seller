@@ -47,9 +47,11 @@
     data () {
       return {
         infoName: '分享',
-        allnumber: 100,
-        surplusnumber: 100,
-        number: this.allnumber - this.surplusnumber
+        allnumber: 0,
+        surplusnumber: 0,
+        userlist: [],
+        // userids: [],
+        // userOrderlists: [],
       }
     },
     components: {
@@ -77,33 +79,65 @@
       },
       async serchmoney () {
         //获取用户信息
-        // let user = JSON.parse(sessionStorage.getItem('user'));
-        // let userId = user._id;
-        let userId = '5ad21852ab85e142eaef9276';
+        let user = JSON.parse(sessionStorage.getItem('user'));
+        let userId = user._id;
+        // let userId = "5ad21852ab85e142eaef9276";
         // let userId = '5ad6cf52060e415f31618742';
         // 1.获取关联用户
-        let userList = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+        let userLists = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
             collection:'User',
             parent: userId,
-			      // shop: JSON.parse(sessionStorage.getItem('shopData'))._id
-			  // shop: '5ab93879d4e7f1497d58d94e'
+            limit: 0,
+            // select:{_id:1},
 		    })
-        console.log(userList);
+        console.log('----------------------');
+        console.log(userLists);
+        let userIdlist = userLists.data;
+
+        console.log(userIdlist.length);
+        console.log(userIdlist);
+
+        let userids = [];
+        if(userIdlist.length>0){
+          for(var x= 0; x<userIdlist.length; x++){
+            console.log(userIdlist[x]._id);
+            userids.push(userIdlist[x]._id);
+          }
+        }
+        console.log('----------------------1');
+        console.log(userids);
         //2.根据获取到的列表,查询订单列表
-        // let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
-        //   collection:'Order',
-        //   shop:{
-        //     $in:[userList]//遍历childrenShoplist的_id放到这里面
-        //   }
-        // })
-        // console.log(userOrderlist);
+        // let iduser = "5ad209cfab85e142eaef9271"
+        let userOrderlist = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
+          collection:'Order',
+          user:{
+            $in:userids//遍历childrenShoplist的_id放到这里面
+            // $in:[iduser]
+          },
+          limit: 0,
+          state: 13,
+          select:{payment:1},
+        })
+        console.log("--------------------------2");
+        console.log(userOrderlist);
+        let userOrderlists = userOrderlist.data;
+        let sum = 0;
+        if(userOrderlists.length>0){
+          for(var y= 0; y<userOrderlists.length; y++){
+            sum = sum + userOrderlists[y].payment;
+           }
+         }
+         console.log("--------------------------3");
+        console.log(sum);
+        this.allnumber = (sum/100)*0.03;
+        console.log(this.allnumber);
 
       },
       getmoney () {
-        let user = JSON.parse(sessionStorage.getItem('user'));
-        let userId = user._id;
-        this.allnumber = userId;
-        alert(this.allnumber);
+        // let user = JSON.parse(sessionStorage.getItem('user'));
+        // let userId = user._id;
+        // this.allnumber = userId;
+        // alert(this.allnumber);
       }
     },
     mounted () {    //钩子函数，等于vue1.0中的ready
