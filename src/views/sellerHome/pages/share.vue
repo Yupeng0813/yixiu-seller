@@ -50,7 +50,6 @@
         infoName: '分享',
         allnumber: 0,
         surplusnumber: 0,
-        number: this.allnumber - this.surplusnumber
       }
     },
     components: {
@@ -135,6 +134,12 @@
         //   parent:'5ad6cf52060e415f31618742'
         // })
         // alert(childrenShoplist);
+        // alert(this.allnumber);
+      },
+      getmoney () {
+        // let user = JSON.parse(sessionStorage.getItem('user'));
+        // let userId = user._id;
+        // this.allnumber = userId;
         // alert(this.allnumber);
       }
     },
