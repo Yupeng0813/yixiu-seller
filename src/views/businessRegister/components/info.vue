@@ -208,7 +208,6 @@ export default {
 			cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			infos: {
 				name: '',
-				parent: sessionStorage.getItem('parent') ? sessionStorage.getItem('parent') : '',
 				cover: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 				contactNumber: '',
 				serviceWay: [],
@@ -335,7 +334,8 @@ export default {
 
 			this.infos.position.lng = position.lng;
 			this.infos.position.lat = position.lat;
-			
+
+			sessionStorage.getItem('parent') && this.infos.parent == sessionStorage.getItem('parent');
 
       this.infos.certificate.map( (item, index) => {
         if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
