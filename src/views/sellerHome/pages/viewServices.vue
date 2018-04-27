@@ -18,20 +18,24 @@ import serviceItem from '../components/serviceItem'
 import itemHeader from '../components/itemHeader'
 export default {
   async mounted () {
-		// let data = { shop: this.shop };
-		// let serviceMap = await this.$api.sendData('https://m.yixiutech.com/service/shop', data);
-		// serviceMap.code == 200 ? this.services = serviceMap.data : null;
 
+		// let search = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+		// 	collection: 'PhoneModel',
+		// 	_id: '5ae1a166e3c2bf0434448961'
+		// })
+		
 		// 已添加维修服务的手机型号
 		let phone = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 			collection: 'Service',
-			shop: this.shop
+			shop: this.shop,
+			limit: 1000
 		})
 
 		// 自有的手机型号
 		let ownModel = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 			collection: 'PhoneModel',
-			shop: this.shop
+			shop: this.shop,
+			limit: 1000
 		})
 
 		let temp = [];
@@ -50,7 +54,6 @@ export default {
 	},
 	methods: {
 		deleteTarget (data) {
-			console.log(data);
 			this.model.map( (item, index) => {
 				item._id == data ? this.model.splice(index, 1) : null;
 			})
