@@ -149,6 +149,7 @@ export default {
 			collection: 'Category',
 			shop: this.shop,
 			type: 'service',
+			limit: 1000
 		})
 
 		let tempArr = [];
@@ -162,7 +163,8 @@ export default {
 			shop: this.shop,
 			support: {
 				$in: [ this.model._id ]
-			}
+			},
+			limit: 1000
 		})
 
 		console.log(hasService);
