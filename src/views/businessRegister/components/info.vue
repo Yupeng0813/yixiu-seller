@@ -335,14 +335,14 @@ export default {
 			this.infos.position.lng = position.lng;
 			this.infos.position.lat = position.lat;
 
-			sessionStorage.getItem('parent') && this.infos.parent == sessionStorage.getItem('parent');
+			sessionStorage.getItem('parent') ? this.infos.parent = sessionStorage.getItem('parent') : null;
 
-      this.infos.certificate.map( (item, index) => {
-        if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
+			this.infos.certificate.map( (item, index) => {
+				if (item.src == 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png') {
 					this.prompt(this.certificateTips[index], 'error').show();
 					status = false;
-          return;
-        }
+					return;
+				}
 			})
 
 			if (this.infos.name == '') {
