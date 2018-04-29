@@ -84,12 +84,13 @@
         let userId = user._id;
         // let userId = "5ad21852ab85e142eaef9276";
         // let userId = '5ad6cf52060e415f31618742';
+        // let userId = "5ad2b050ab85e142eaef929c";
         // 1.获取关联用户
         let userLists = await this.$api.sendData('https://m.yixiutech.com/sql/find/', {
             collection:'User',
             parent: userId,
             limit: 0,
-            // select:{_id:1},
+            select:{_id:1},
 		    })
         console.log('----------------------');
         console.log(userLists);
@@ -97,6 +98,8 @@
         if(userIdlist.length == 0){
           alert("已推荐0人，加油哦！");
           return;
+        } else {
+          alert("已推荐" + userIdlist.length + "人");
         }
         
         console.log(userIdlist.length);

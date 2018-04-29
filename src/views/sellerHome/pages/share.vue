@@ -93,6 +93,7 @@
 		    })
         console.log(shopList);
         let shopLists = shopList.data;
+        alert("已推荐" + shopLists.length + "人");
         let shopids = [];
 
         if(shopLists.length>0){
