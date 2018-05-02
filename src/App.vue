@@ -30,6 +30,11 @@
         sessionStorage.setItem('parent', state);
       }
 
+      let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        collection: 'User',
+        mobile: '13708895560'
+      })
+
       if (code) {
         // 如果是微信
 
@@ -46,7 +51,29 @@
 
         let userInfo = this.initUserInfo(res);
 
-        
+        // 用获取到的openid去查商家表中的ownerOpenid
+
+        let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+          collection: 'Shop',
+          ownerOpenid: res.openid
+        })
+
+
+        // 用店铺的contactNumber字段去更新用户信息中的部分，包括mobile，wx信息，wxopenid
+
+        let updateUser = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+          collection: 'User',
+          find: {
+            _id: shop.data[0].owner
+          },
+          update: {
+            mobile: shop.data[0].contactNumber,
+            wx: res,
+            '$addToSet': {
+              wxopenid: res.openid
+            }
+          }
+        })
 
         this.isUserRegister(userInfo);
 
