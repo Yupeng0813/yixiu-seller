@@ -24,7 +24,7 @@
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
-      let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0];
+      let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0];  
 
       if (state != '123') {
         sessionStorage.setItem('parent', state);
@@ -36,6 +36,8 @@
         // 获取微信信息
         let res = await this.$api.getData('https://m.yixiutech.com/user/wx/' + code);
 
+        alert(JSON.stringify(res));
+
         sessionStorage.setItem('userInfo', JSON.stringify(res));
 
         sessionStorage.setItem("openid", res.openid);
@@ -44,11 +46,38 @@
 
         let userInfo = this.initUserInfo(res);
 
+        // let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        //   collection: 'Shop',
+        //   // owner: JSON.parse(sessionStorage.getItem('userInfo'))._id,
+        //   owner: '5ad243afab85e142eaef928d',
+        //   limit: 1000
+        // });
+
+        // let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+
+        // if (shop.code == 200) {
+        //   let updateUser = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+        //     collection: 'User',
+        //     find: {
+        //       _id: '5ad243afab85e142eaef928d'
+        //     },
+        //     update: {
+        //       mobile: shop.data[0].contactNumber,
+        //       name: userInfo.wx.nickname,
+        //       wx: userInfo.wx
+        //     }
+        //   })
+        //   let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        //     collection: 'User',
+        //     mobile: '13708895560'
+        //   })
+        // }
+
         this.isUserRegister(userInfo);
 
       } else {
         // 非微信环境
-        this.$router.push('/businessRegister');
+        this.$router.push('/retrieveInfo');
       }
     },
     data () {
@@ -122,6 +151,8 @@
             }
           
             sessionStorage.setItem("user", JSON.stringify(userInfo));
+
+            
 
             this.prompt('微信自动登录成功', 'correct').show();
 

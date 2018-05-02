@@ -5,6 +5,7 @@ import SellerHome from '../views/sellerHome/router'
 import login from '../views/login/router'
 import register from '../views/register/router'
 import App from '../App'
+import retrieveInfo from '../views/retrieveInfo/router'
 
 Vue.use(Router)
 export default new Router({
@@ -22,6 +23,7 @@ export default new Router({
     ...businessRegister,
     ...SellerHome,
     ...login,
-    ...register
+    ...register,
+    ...retrieveInfo
   ]
 })
