@@ -46,32 +46,7 @@
 
         let userInfo = this.initUserInfo(res);
 
-        // let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-        //   collection: 'Shop',
-        //   // owner: JSON.parse(sessionStorage.getItem('userInfo'))._id,
-        //   owner: '5ad243afab85e142eaef928d',
-        //   limit: 1000
-        // });
-
-        // let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
-
-        // if (shop.code == 200) {
-        //   let updateUser = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-        //     collection: 'User',
-        //     find: {
-        //       _id: '5ad243afab85e142eaef928d'
-        //     },
-        //     update: {
-        //       mobile: shop.data[0].contactNumber,
-        //       name: userInfo.wx.nickname,
-        //       wx: userInfo.wx
-        //     }
-        //   })
-        //   let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-        //     collection: 'User',
-        //     mobile: '13708895560'
-        //   })
-        // }
+        
 
         this.isUserRegister(userInfo);
 
