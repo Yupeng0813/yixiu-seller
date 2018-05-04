@@ -229,7 +229,7 @@ export default {
 				txt: '加载中...'
 			})
 			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/upload', formdata, config);
+			let res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
 			this.goods.cover = res.data;
 		},
 		addParamInfo (data) {
@@ -324,7 +324,7 @@ export default {
 				txt: '加载中...'
 			})
 			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/upload', formdata, config);
+			let res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
 			if (res.code !== 200) {
 				this.prompt('网络错误, 请重新上传', 'error').show();
 				return;

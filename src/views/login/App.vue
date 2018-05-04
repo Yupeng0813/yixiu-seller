@@ -16,7 +16,7 @@
         <button @click="login">立即登录</button>
       </div>
       <div class="register">
-        <span @click="toRegister">立即注册</span>
+        <span @click="forgetPassword">忘记密码?</span>|<span @click="toRegister">立即注册</span>
       </div>
     </div>
   </div>
@@ -30,6 +30,9 @@
       
     },
     methods: {
+      forgetPassword(){
+        this.$router.push("/forget");
+      },
       wechatLogin () {
         location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92877f3243727d9b&redirect_uri=http://m.yixiutech.com/yixiuseller&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
       },

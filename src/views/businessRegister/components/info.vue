@@ -274,7 +274,7 @@ export default {
 				forbidClick: true,
 				message: '请稍后...'
 			});
-			let res = await this.$api.sendData('https://m.yixiutech.com/upload', formdata, config);
+			let res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
 
 			this.infos.certificate.map( item => item.name == name ? item.src = res.data : null );
 

@@ -31,8 +31,7 @@
       }
 
       // let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-      //   collection: 'User',
-      //   mobile: '13708895560'
+      //   collection: 'User'
       // })
 
       if (code) {
@@ -50,6 +49,7 @@
         this.openid = res.openid;
 
         let userInfo = this.initUserInfo(res);
+
 
         // // 用获取到的openid去查商家表中的ownerOpenid
 
@@ -79,7 +79,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/retrieveInfo');
+        this.$router.push('/businessRegister');
       }
     },
     data () {
