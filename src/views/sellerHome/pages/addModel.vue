@@ -168,8 +168,13 @@ export default {
 		// 	})
 		// },
 		backParent () {
+			// 重置
 			this.phoneModelColor = [];
 			this.model.name = '';
+			this.models = [];
+			this.$refs.phone.map(item => {
+				item.hasBorder ? item.selectOn() : '';
+			})
 			this.$emit('backParent', true);
 		},
 		modelChange (value, index, text) {

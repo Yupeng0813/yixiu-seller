@@ -144,6 +144,10 @@ export default {
 			})
 		},
 		backParent () {
+			this.phones = [];
+			this.$refs.select.map(item => {
+				item.hasBorder ? item.selectOn() : '';
+			})
 			this.$emit('backParent', true);
 		},
 		change(value, index) {
@@ -158,6 +162,12 @@ export default {
 					return;	
 				}
 				this.prompt('添加成功', 'correct').show();
+
+				// 重置
+				this.phones = [];
+				this.$refs.select.map(item => {
+					item.hasBorder ? item.selectOn() : '';
+				})
 				this.$emit('updateBrand', true);
 			})
 		}

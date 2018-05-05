@@ -21,7 +21,14 @@
     async created() {
 
       // let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data[8]));
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[41]));
+
+      // let model = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
+      //   collection: 'PhoneModel',
+      //   shop: '5ae19f6ae3c2bf0434448946',
+      //   _id: '5ae6ad0b7f6c5011479e21d8'
+      // })
+
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
       let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0];  
@@ -79,7 +86,7 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/businessRegister');
+        this.$router.push('/sellerHome');
       }
     },
     data () {

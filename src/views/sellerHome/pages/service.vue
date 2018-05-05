@@ -89,6 +89,7 @@
 		<add-category 
 			v-show="categoryStatus"
 			@updateCategory="updateCategory"
+			:categoryinfos= "categoryinfos"
 			@backParent="backParent"
 		/>
 		
