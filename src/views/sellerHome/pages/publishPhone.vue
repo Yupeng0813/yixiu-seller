@@ -225,12 +225,22 @@ export default {
 				}
 			}
 
-			const toast = this.$createToast({
-				txt: '加载中...'
-			})
-			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后'
+			});
+			let res;
+			try {
+				res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
+				if (res.code !== 200) {
+					throw '网络错误,请重新上传图片,否则图片将无法显示!'
+				}
+			} catch (error) {
+				alert(error)
+			}
 			this.goods.cover = res.data;
+			toast.clear();
 		},
 		addParamInfo (data) {
 			this.goods.info.productParam = data;
@@ -320,18 +330,24 @@ export default {
 				}
 			}
 
-			const toast = this.$createToast({
-				txt: '加载中...'
-			})
-			toast.show();
-			let res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
-			if (res.code !== 200) {
-				this.prompt('网络错误, 请重新上传', 'error').show();
-				return;
+			const toast = Toast.loading({
+				duration: 0,
+				forbidClick: true,
+				message: '请稍后'
+			});
+			let res;
+			try {
+				res = await this.$api.sendData('https://m.yixiutech.com/upload2', formdata, config);
+				if (res.code !== 200) {
+					throw '网络错误,请重新上传图片,否则图片将无法显示!'
+				}
+			} catch (error) {
+				alert(error)
 			}
 			this.goods.info.photo.push({
 				url: res.data
 			});
+			toast.clear();
 		},
 		addNew () {
 			this.photos.push({
