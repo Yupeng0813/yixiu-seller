@@ -143,6 +143,11 @@ export default {
 		let data = { type: 'goods', shop: this.goods.shop }
 		let categoryRes = await this.$api.sendData('https://m.yixiutech.com/category/shop', data);
 
+		// let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+		// 	collection: 'Goods',
+		// 	limit: 3000
+		// })
+
 		if (categoryRes.data.length == 0) {
 			let addCate = await this.$api.sendData('https://m.yixiutech.com/category', {
 				type: 'goods',
@@ -201,6 +206,7 @@ export default {
 			let province = value[0].name;
 			let city = value[1].name;
 			this.goods.info.area = `${province} ${city}`;
+			this.area = `${province} ${city}`;
 			this.areaStatus = false;
 		},
 		showArea () {
@@ -239,8 +245,8 @@ export default {
 			} catch (error) {
 				alert(error)
 			}
-			this.goods.cover = res.data;
 			toast.clear();
+			this.goods.cover = res.data;
 		},
 		addParamInfo (data) {
 			this.goods.info.productParam = data;
@@ -344,10 +350,10 @@ export default {
 			} catch (error) {
 				alert(error)
 			}
+			toast.clear();
 			this.goods.info.photo.push({
 				url: res.data
 			});
-			toast.clear();
 		},
 		addNew () {
 			this.photos.push({

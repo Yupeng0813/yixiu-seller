@@ -30,12 +30,12 @@
 				<img class="upload__show" :src="license" alt="" />
 			</div>
 
-			<p class="head">运营资格证书</p>
+			<!-- <p class="head">运营资格证书</p>
 
 			<div class="upload">
 				<input class="upload__select" @change="certificateUpload($event)" type="file" accept="image/*" />
 				<img class="upload__show" :src="certificate" alt="" />
-			</div>
+			</div> -->
 
 			<p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议-1525711197.docx">翼修入驻协议.docx</a></p>
 
@@ -222,7 +222,6 @@ export default {
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'license', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
-					{ name: 'certificate', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'protocol', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' }
 				]
 			},
