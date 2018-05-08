@@ -328,16 +328,19 @@ export default {
 				},
 				update: data
 			});
-			let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-				collection: 'User',
-				find: {
-					_id: JSON.parse(sessionStorage.getItem('user'))._id
-				},
-				// 把订单的80%更新到用户的钱包中
-				update: {
-					money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
-				}
-			})
+			// 当只有微信手机才把money更新
+			if (this.type == 'service') {
+				let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+					collection: 'User',
+					find: {
+						_id: JSON.parse(sessionStorage.getItem('user'))._id
+					},
+					// 把订单的80%更新到用户的钱包中
+					update: {
+						money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
+					}
+				})
+			}
 			
 			let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('user')).wx.openid}`)
 
