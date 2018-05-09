@@ -349,7 +349,7 @@ export default {
 				_id: JSON.parse(sessionStorage.getItem('user'))._id
 			})
 
-			sessionStorage.setItem('user', JSON.stringify(newUserInfo.data));
+			sessionStorage.setItem('user', JSON.stringify(newUserInfo.data[0]));
 			
 			toast.hide();
 			if (res.code == 200) {

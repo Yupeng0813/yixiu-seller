@@ -57,7 +57,7 @@ export default {
         //     this.wallentMoney = res.data[0].money / 100;
         // }
         // toast.hide();
-        this.wallentMoney = JSON.parse(sessionStorage.getItem('user')).money;
+        this.wallentMoney = JSON.parse(sessionStorage.getItem('user')).money / 100;
     },
     methods: {
 				confirm () {
