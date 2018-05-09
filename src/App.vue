@@ -21,7 +21,7 @@
     async created() {
 
       // let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data[64]));
+			// sessionStorage.setItem('shopData', JSON.stringify(res.data[67]));
 
       // let model = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
       //   collection: 'PhoneModel',

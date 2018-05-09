@@ -23,6 +23,7 @@
       <div class="tips">邀请商户返利</div>
       <div class="row-line-money"></div>
       <div class="money" >
+        <div class="money">已邀请：{{shopnumber}}户</div>
         <div class="money">总返利：{{allnumber}}元</div>
         <div class="money">已返利：{{surplusnumber}}元</div>
         <div class="money">待返利：{{allnumber-surplusnumber}}元</div>
@@ -51,6 +52,7 @@
         allnumber: 0,
         surplusnumber: 0,
         allShopIds: [],
+        shopnumber: 0,
       }
     },
     components: {
@@ -93,7 +95,8 @@
 		    })
         console.log(shopList);
         let shopLists = shopList.data;
-        alert("已推荐" + shopLists.length + "人");
+        this.shopnumber = shopLists.length;
+        // alert("已推荐" + shopLists.length + "人");
         let shopids = [];
 
         if(shopLists.length>0){
