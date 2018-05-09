@@ -51,7 +51,6 @@ export default {
 				let userInfo = JSON.parse(sessionStorage.getItem('user'));
         let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 			collection: 'User',
-            findType: 'findOne',
             _id: userInfo._id
 		});
         if(res.code == 200){
