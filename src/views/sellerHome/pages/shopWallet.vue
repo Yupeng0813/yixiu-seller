@@ -51,8 +51,10 @@ export default {
 				let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 			collection: 'User',
-			findType: 'findOne',
-			'wx.openid': userInfo.openid
+            findType: 'findOne',
+            wxopenid: {
+                '$in': userInfo.openid
+            }
 		});
         if(res.code == 200){
             this.wallentMoney = res.data.money / 100;

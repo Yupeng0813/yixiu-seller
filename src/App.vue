@@ -20,8 +20,8 @@
     name: 'App',
     async created() {
 
-      // let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
-			// sessionStorage.setItem('shopData', JSON.stringify(res.data[67]));
+      let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
+			sessionStorage.setItem('shopData', JSON.stringify(res.data[67]));
 
       // let model = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
       //   collection: 'PhoneModel',
@@ -37,9 +37,20 @@
         sessionStorage.setItem('parent', state);
       }
 
-      // let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-      //   collection: 'User'
+      // let updateM = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
+      //   collection: 'User',
+      //   find: {
+      //     _id: '5ad243afab85e142eaef928d'
+      //   },
+      //   update: {
+      //     money: 800
+      //   }
       // })
+
+      let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        collection: 'User',
+        limit: 10000
+      })
 
       if (code) {
         // 如果是微信
