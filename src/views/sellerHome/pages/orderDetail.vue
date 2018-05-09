@@ -342,7 +342,12 @@ export default {
 				})
 			}
 			
-			let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('userInfo')).openid}`)
+			// let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('userInfo')).openid}`)
+
+			let newUserInfo = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+				collection: 'User',
+				_id: JSON.parse(sessionStorage.getItem('user'))._id
+			})
 
 			sessionStorage.setItem('user', JSON.stringify(newUserInfo.data));
 			

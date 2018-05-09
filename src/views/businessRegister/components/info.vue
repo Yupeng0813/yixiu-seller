@@ -37,7 +37,7 @@
 				<img class="upload__show" :src="certificate" alt="" />
 			</div> -->
 
-			<p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议-1525711197.docx">翼修入驻协议.docx</a></p>
+			<p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议-1525885823.docx">翼修入驻协议.docx</a></p>
 
 			<p class="links">温馨提示: 如果上述链接点击不能下载，请手动复制以下地址到浏览器上进行下载!</p>
 
@@ -50,7 +50,7 @@
 			<p class="head">拍照上传翼修入驻协议</p>
 			
 			<div class="upload">
-				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file"  />
+				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file" accept="image/*" />
 				<img class="upload__show" :src="protocol" alt="" />
 			</div>
 
@@ -198,7 +198,7 @@ export default {
 			areaList: areaList,
 			files: file,
 			address: '',
-			linkAddress: 'http://oss2.yixiutech.com/翼修入驻协议-1525711197.docx',
+			linkAddress: 'http://oss2.yixiutech.com/翼修入驻协议-1525885823.docx',
 			file: file,
 			id1: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			id2: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
