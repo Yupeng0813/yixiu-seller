@@ -43,20 +43,21 @@ export default {
         }
     },
     async mounted() {
-        const toast = this.$createToast({
-			txt: '加载中...',
-			type: 'correct'
-        });
-				// let userData = JSON.parse(sessionStorage.getItem('user'));
-				let userInfo = JSON.parse(sessionStorage.getItem('user'));
-        let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-			collection: 'User',
-            _id: userInfo._id
-		});
-        if(res.code == 200){
-            this.wallentMoney = res.data[0].money / 100;
-        }
-        toast.hide();
+        // const toast = this.$createToast({
+		// 	txt: '加载中...',
+		// 	type: 'correct'
+        // });
+		// 		// let userData = JSON.parse(sessionStorage.getItem('user'));
+		// 		let userInfo = JSON.parse(sessionStorage.getItem('user'));
+        // let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+		// 	collection: 'User',
+        //     _id: userInfo._id
+		// });
+        // if(res.code == 200){
+        //     this.wallentMoney = res.data[0].money / 100;
+        // }
+        // toast.hide();
+        this.wallentMoney = JSON.parse(sessionStorage.getItem('user')).money;
     },
     methods: {
 				confirm () {
