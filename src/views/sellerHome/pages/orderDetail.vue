@@ -243,7 +243,6 @@ export default {
 		}
 	},
 	async mounted () {
-		alert(JSON.parse(sessionStorage.getItem('user'))._id)
 		window.status = false;
 		this.details = JSON.parse(sessionStorage.getItem('detail'));
 		
@@ -330,7 +329,6 @@ export default {
 				update: data
 			});
 			// 当只有微信手机才把money更新
-			alert(JSON.parse(sessionStorage.getItem('user'))._id)
 			if (this.type == 'service') {
 				let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
 					collection: 'User',
@@ -344,7 +342,7 @@ export default {
 				})
 			}
 			
-			let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('user')).wx.openid}`)
+			let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('userInfo')).openid}`)
 
 			sessionStorage.setItem('user', JSON.stringify(newUserInfo.data));
 			

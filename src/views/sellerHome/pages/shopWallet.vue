@@ -47,11 +47,12 @@ export default {
 			txt: '加载中...',
 			type: 'correct'
         });
-        let userData = JSON.parse(sessionStorage.getItem('user'));
+				// let userData = JSON.parse(sessionStorage.getItem('user'));
+				let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         let res = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
 			collection: 'User',
 			findType: 'findOne',
-			'wx.openid': userData.wx.openid
+			'wx.openid': userInfo.openid
 		});
         if(res.code == 200){
             this.wallentMoney = res.data.money / 100;

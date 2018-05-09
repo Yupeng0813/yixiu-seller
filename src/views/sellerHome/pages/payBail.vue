@@ -106,7 +106,7 @@ export default {
 	  totalFee: 1,
 	  // totalFee: 0.01,//测试用
     shopId: "",
-    name: '缴纳保证金'
+    name: '缴纳平台使用费'
     };
   },
   methods: {
