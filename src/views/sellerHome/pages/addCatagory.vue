@@ -11,6 +11,8 @@
 			/> -->
 		</div>
 
+		<van-button  type="default" class="select" @click="changeSelect">{{ selectName }}</van-button>
+
 		<div class="info__name">
 			<div class="service">
 				<selects ref="select" v-for="(item, index) in brand.list"
@@ -74,6 +76,7 @@ export default {
 			categoryList: [],
 			categoryName: [],
 			infoName: '添加手机分类',
+			selectName: '全选',
 			brand: {
 				type: 'category',
 				list: []
@@ -112,6 +115,17 @@ export default {
 		}
 	},
 	methods: {
+		changeSelect () {
+			this.$refs.select.map( (item, index) => {
+				item.selectOn();
+			})
+			if (this.selectName == '全选') {
+				this.selectName = '全不选';
+			} else {
+				this.selectName = '全选';
+			}
+			console.log(this.categorys);
+		},
 		sendMsg (index, data) {
 			this.categorys.push({
 				type: sessionStorage.getItem('category'),
@@ -191,5 +205,9 @@ export default {
 
 .info__name .cube-select {
 	width: 60%;
+}
+
+.select {
+	margin: 0 15px;
 }
 </style>

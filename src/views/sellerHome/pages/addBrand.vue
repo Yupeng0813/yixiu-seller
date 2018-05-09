@@ -9,6 +9,8 @@
 			<p>品牌名称</p>
 		</div>
 
+		<van-button  type="default" class="select" @click="changeSelect">{{ selectName }}</van-button>
+
 		<div class="info__name">
 			<div class="service">
 				<selects ref="select" v-for="(item, index) in brand.list"
@@ -75,6 +77,7 @@ export default {
 				type: 'brand',
 				list: []
 			},
+			selectName: '全选',
 			phones: [],
 			phoneRes: {
 				name: '',
@@ -115,6 +118,16 @@ export default {
 		toast.hide();
 	},
 	methods: {
+		changeSelect () {
+			this.$refs.select.map( (item, index) => {
+				item.selectOn();
+			})
+			if (this.selectName == '全选') {
+				this.selectName = '全不选';
+			} else {
+				this.selectName = '全选';
+			}
+		},
 		sendMsg (index) {
 			this.phones.push({
 				name: this.phoneInfo[ index ].name,
@@ -205,5 +218,9 @@ export default {
 
 .info__name .cube-select {
 	width: 60%;
+}
+
+.select {
+	margin: 0 15px;
 }
 </style>

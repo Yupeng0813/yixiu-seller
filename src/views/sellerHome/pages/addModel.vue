@@ -23,6 +23,8 @@
 			<p>系统推荐型号</p>
 		</div>
 
+		<van-button  type="default" class="select" @click="changeSelect">{{ selectName }}</van-button>
+
 		<div class="info__name">
 			<div class="service">
 				<selects ref="phone" v-for="(item, index) in phoneModel"
@@ -118,6 +120,7 @@ export default {
 			infoName: '添加手机型号',
 			colors: ['黑色', '白色', '银灰色'],
 			otherColors: [],
+			selectName: '全选',
 			phoneName: [],
 			models: [],
 			phoneInfo: [],
@@ -138,6 +141,16 @@ export default {
 		}
 	},
 	methods: {
+		changeSelect () {
+			this.$refs.phone.map( (item, index) => {
+				item.selectOn();
+			})
+			if (this.selectName == '全选') {
+				this.selectName = '全不选';
+			} else {
+				this.selectName = '全选';
+			}
+		},
 		sendMsg (index, name) {
 
 			// console.log(this.modelNames);
@@ -255,5 +268,9 @@ export default {
 
 .info__name .cube-select {
 	width: 60%;
+}
+
+.select {
+	margin: 0 30px;
 }
 </style>
