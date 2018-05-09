@@ -205,7 +205,7 @@
     
   }
   .topblank{
-    margin-top: 15.6px;
+    margin-top: 5.6px;
   }
   .messageTag{
     border: 0.1px solid rgb(240, 241, 245);
