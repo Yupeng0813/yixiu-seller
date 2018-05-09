@@ -54,7 +54,7 @@ export default {
             _id: userInfo._id
 		});
         if(res.code == 200){
-            this.wallentMoney = res.data.money / 100;
+            this.wallentMoney = res.data[0].money / 100;
         }
         toast.hide();
     },
