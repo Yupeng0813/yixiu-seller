@@ -186,7 +186,7 @@
     
   }
   .topblank{
-    margin-top: 5.6px;
+    margin-top: 0px;
   }
   .funcbtn button.other{
         background: #fff;
@@ -259,7 +259,7 @@
   }
   .tips{
     font-size: 3.8vw;
-    margin-top: 4vh;
+    margin-top: 3vh;
     text-align: center;
     color: #323643;
   }
