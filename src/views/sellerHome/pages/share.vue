@@ -91,7 +91,7 @@
             collection:'Shop',
             parent: shopId,
             limit: 0,
-            select:{_id:1},
+            select:{_id:1}
 		    })
         console.log(shopList);
         let shopLists = shopList.data;
@@ -112,7 +112,8 @@
                 $in:shopids,
             },
             limit: 0,
-            select:{payment:1},
+            state: 13,
+            select:{payment:1, service:1},
 		    })
         console.log("--------------------------2");
         console.log(shopOrderList);
@@ -120,7 +121,9 @@
         let sumMoney = 0;
         if(shopOrderLists.length>0){
           for(var y= 0; y<shopOrderLists.length; y++){
-            sumMoney = sumMoney + shopOrderLists[y].payment;
+            if(shopOrderLists[y].service.length !== 0){
+              sumMoney = sumMoney + shopOrderLists[y].payment;
+            }
            }
         }
         console.log("--------------------------3");
@@ -134,7 +137,9 @@
                 $in:shopids,
             },
             limit: 0,
-            select:{payment:1},
+            state: 13,
+            rebate: true,
+            select:{payment:1, service:1},
 		    })
         console.log("--------------------------2");
         console.log(shopOrderList);
@@ -142,7 +147,9 @@
         let sum = 0;
         if(shopOrderListHadGet.length>0){
           for(var y= 0; y<shopOrderListHadGet.length; y++){
-            sum = sum + shopOrderListHadGet[y].payment;
+            if(shopOrderListHadGet[y].service.length !== 0){
+              sum = sum + shopOrderListHadGet[y].payment;
+            }
            }
         }
         console.log("--------------------------4");
