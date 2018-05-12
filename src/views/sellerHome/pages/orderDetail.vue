@@ -38,7 +38,7 @@
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递公司 : </span>{{ details.trackingCom }} </p>
 			<p class="content__desc" v-show="details.serviceWay == '快递维修'"><span>快递单号 : </span>{{ details.trackingNumber }} </p>
 			<p class="content__desc"><span>备注 : </span>{{ details.remark }} </p>
-			<p class="content__desc"><span>成交额 : </span>{{ details.payment / 100 * 0.8 }} </p>
+			<p class="content__desc"><span>成交额 : </span>{{ (details.payment / 100 * 0.8).toFixed(2) }} </p>
 		</div>
 
 		<div class="content" v-show="details.state == 12">			
@@ -245,6 +245,7 @@ export default {
 	async mounted () {
 		window.status = false;
 		this.details = JSON.parse(sessionStorage.getItem('detail'));
+		console.log(this.details);
 		
 		if (this.details.service.length !== 0) {
 			this.type = 'service'
@@ -328,7 +329,7 @@ export default {
 				},
 				update: data
 			});
-			// 当只有微信手机才把money更新
+			// 当只有维修手机才把money更新
 			if (this.type == 'service') {
 				let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
 					collection: 'User',
