@@ -60,7 +60,7 @@
 					// { name: '二手手机交易', icon: 'publish', link: '/publishPhone' },
 					// { name: '删除已发布二手手机', icon: 'delete', link: '/deletePhone' },
 					// { name: '完善信息', icon: 'identification', link: '/updateMsg' },
-					// { name: '缴纳保证金', icon: 'baozhengjin', link: '/payBail' },
+					// { name: '缴纳平台服务费', icon: 'baozhengjin', link: '/payBail' },
 					// { name: '商家钱包', icon: 'wallet', link: '/shopWallet' }
 				],
 				shop: '',
@@ -133,7 +133,7 @@
 			}
 
 
-			if (this.shopData.pay) { //已缴纳保证金
+			if (this.shopData.pay) { //已缴纳平台服务费
 				this.content = [
 					{ name: '添加手机维修服务', icon: service, link: '/service' },
 					{ name: '管理手机服务列表', icon: manageService, link: '/viewServices' },
@@ -154,11 +154,11 @@
 						name: '管理精品手机', icon: managePhone, link: '/showPhones'
 					});
 				}
-			} else { // 未缴纳保证金
+			} else { // 未缴纳平台服务费
 				this.content = [
-					{ name: '缴纳保证金', icon: wallet, link: '/payBail' }
+					{ name: '缴纳平台服务费', icon: wallet, link: '/payBail' }
 				]
-				this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show()
+				this.prompt('您还未缴纳平台服务费，请缴纳平台服务费', 'error').show()
 			}
 
 			let i = 3;
@@ -218,7 +218,7 @@
           return;
         }
 
-				if (this.shopData.pay) { //已缴纳保证金
+				if (this.shopData.pay) { //已缴纳平台服务费
 					this.content = [
 						{ name: '添加手机维修服务', icon: service, link: '/service' },
 						{ name: '管理手机服务列表', icon: manageService, link: '/viewServices' },
@@ -239,11 +239,11 @@
 							name: '管理精品手机', icon: managePhone, link: '/showPhones'
 						});
 					}
-				} else { // 未缴纳保证金
+				} else { // 未缴纳平台服务费
 					this.content = [
-						{ name: '缴纳保证金', icon: wallet, link: '/payBail' }
+						{ name: '缴纳平台服务费', icon: wallet, link: '/payBail' }
 					]
-					this.prompt('您还未缴纳保证金，请缴纳保证金', 'error').show();
+					this.prompt('您还未缴纳平台服务费，请缴纳平台服务费', 'error').show();
 				}
 
 				this.modules.slice(0, 3).map( async item => {

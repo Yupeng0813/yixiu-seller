@@ -37,7 +37,7 @@
 				<img class="upload__show" :src="certificate" alt="" />
 			</div> -->
 
-			<p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议-1525885823.docx">翼修入驻协议.docx</a></p>
+			<p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议+-1526211424.docx">翼修入驻协议.docx</a></p>
 
 			<p class="links">温馨提示: 如果上述链接点击不能下载，请手动复制以下地址到浏览器上进行下载!</p>
 
@@ -198,7 +198,7 @@ export default {
 			areaList: areaList,
 			files: file,
 			address: '',
-			linkAddress: 'http://oss2.yixiutech.com/翼修入驻协议-1525885823.docx',
+			linkAddress: 'http://oss2.yixiutech.com/翼修入驻协议+-1526211424.docx',
 			file: file,
 			id1: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
 			id2: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png',
@@ -283,30 +283,49 @@ export default {
 		},
 		coverUpload (event, name) {
 			this.file = event.target.files[0];
+			if (Math.round(this.file.size/1024 * 100) / 100 > 300) {
+				alert('上传的图片不能大于300kb');
+			}
 			let url = window.URL.createObjectURL(this.file);
 			this.infos.cover = url;
 			this.uploadPic(this.file, 'cover');
 		},
 		protocolUpload (event, name) {
 			this.file = event.target.files[0];
+			if (Math.round(this.file.size/1024 * 100) / 100 > 300) {
+				alert('上传的图片不能大于300kb');
+				return;
+			}
 			let url = window.URL.createObjectURL(this.file);
 			this.protocol = url;
 			this.uploadPic(this.file, 'protocol');
 		},
 		async idcardUpload1 (event, name) {
 			this.file = event.target.files[0];
+			if (Math.round(this.file.size/1024 * 100) / 100 > 300) {
+				alert('上传的图片不能大于300kb');
+				return;
+			}
 			let url = window.URL.createObjectURL(this.file);
 			this.id1 = url;
 			this.uploadPic(this.file, 'idcard1');
 		},
 		async idcardUpload2 (event) {
 			this.file = event.target.files[0];
+			if (Math.round(this.file.size/1024 * 100) / 100 > 300) {
+				alert('上传的图片不能大于300kb');
+				return;
+			}
 			let url = window.URL.createObjectURL(this.file);
 			this.id2 = url;
 			this.uploadPic(this.file, 'idcard2');
 		},
 		async licenseUpload (event) {
 			this.file = event.target.files[0];
+			if (Math.round(this.file.size/1024 * 100) / 100 > 300) {
+				alert('上传的图片不能大于300kb');
+				return;
+			}
 			let url = window.URL.createObjectURL(this.file);
 			this.license = url;
 

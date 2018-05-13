@@ -13,7 +13,7 @@
         <!-- </van-pull-refresh> -->
         <div class="funcbtn">
             <button @click="getMoney">提现</button>
-            <button @click="returnMoney" class="other">退保证金</button>
+            <button @click="returnMoney" class="other">退平台服务费</button>
         </div>
         <cube-popup :center="false" type="my-popup" ref="getMyMoney">
             <div class="moneyBox">

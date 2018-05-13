@@ -1,7 +1,7 @@
 <template>
   <div class="header">
 		<div class="back" @click="back"></div>
-		<sicon @click="back" name="left" scale="3"></sicon>
+		<sicon @click="back" name="left" scale="4"></sicon>
 		<p class="header__title">{{ name }}</p>
   </div>
 </template>
