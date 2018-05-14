@@ -37,7 +37,7 @@
 				<img class="upload__show" :src="certificate" alt="" />
 			</div> -->
 
-			<p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议+-1526211424.docx">翼修入驻协议.docx</a></p>
+			<!-- <p class="head">下载协议 <a class="link" href="http://oss2.yixiutech.com/翼修入驻协议+-1526211424.docx">翼修入驻协议.docx</a></p>
 
 			<p class="links">温馨提示: 如果上述链接点击不能下载，请手动复制以下地址到浏览器上进行下载!</p>
 
@@ -52,7 +52,7 @@
 			<div class="upload">
 				<input class="upload__select" @change="protocolUpload($event, 'protocol')" type="file" accept="image/*" />
 				<img class="upload__show" :src="protocol" alt="" />
-			</div>
+			</div> -->
 
 			<p class="head">商铺封面</p>
 
@@ -221,8 +221,7 @@ export default {
 				certificate: [
 					{ name: 'idcard1', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
 					{ name: 'idcard2', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
-					{ name: 'license', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' },
-					{ name: 'protocol', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' }
+					{ name: 'license', src: 'https://xuhaichao-1253369066.cos.ap-chengdu.myqcloud.com/camera.png' }
 				]
 			},
 			time: timeJson,
