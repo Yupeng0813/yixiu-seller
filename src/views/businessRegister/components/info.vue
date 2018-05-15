@@ -9,21 +9,21 @@
 
 			<img class="info__logo" :src="logo" alt="" />
 
-			<p class="head">身份证正面</p>
+			<p class="head">身份证正面(限制图片大小300KB)</p>
 
 			<div class="upload">
 				<input class="upload__select" @change="idcardUpload1($event, 'idcard1')" type="file" accept="image/*" />
 				<img class="upload__show" :src="id1" alt="" />
 			</div>
 
-			<p class="head">身份证反面</p>
+			<p class="head">身份证反面(限制图片大小300KB)</p>
 
 			<div class="upload">
 				<input class="upload__select" @change="idcardUpload2($event)" type="file" accept="image/*" />
 				<img class="upload__show" :src="id2" alt="" />
 			</div>
 
-			<p class="head">营业执照</p>
+			<p class="head">营业执照(限制图片大小300KB)</p>
 
 			<div class="upload">
 				<input class="upload__select" @change="licenseUpload($event)" type="file" accept="image/*" />
@@ -54,7 +54,7 @@
 				<img class="upload__show" :src="protocol" alt="" />
 			</div> -->
 
-			<p class="head">商铺封面</p>
+			<p class="head">商铺封面(限制图片大小300KB)</p>
 
 			<div class="upload">
 				<input class="upload__select" @change="coverUpload($event)" type="file" accept="image/*" />
