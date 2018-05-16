@@ -25,7 +25,7 @@
 			<p class="content__desc" v-show="type == 'service'">
 				<span>预约时间 : </span>
 				{{ new Date(details.appointment).getFullYear() }} - 
-				{{ new Date(details.appointment).getMonth() }} - 
+				{{ new Date(details.appointment).getMonth() + 1 }} - 
 				{{ new Date(details.appointment).getDate() }}  
 				{{ new Date(details.appointment).getHours() }} : 
 				{{ new Date(details.appointment).getMinutes() }}
