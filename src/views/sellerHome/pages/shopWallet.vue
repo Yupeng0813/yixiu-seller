@@ -100,7 +100,6 @@ export default {
                         },
                         onConfirm: async () => {
                             let withdrawCash = await this.$api.sendData('https://m.yixiutech.com/shop/withdrawals', {
-								_id: JSON.parse(sessionStorage.getItem('shopData'))._id,
 								openid: sessionStorage.getItem('openid'),
 								payment: that.MoneyValue
 							})
