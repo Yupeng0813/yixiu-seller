@@ -332,13 +332,13 @@ export default {
 			// 当只有维修手机才把money更新
 			if (this.type == 'service') {
 				let updateMoney = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-					collection: 'User',
+					collection: 'Shop',
 					find: {
-						_id: JSON.parse(sessionStorage.getItem('user'))._id
+						_id: JSON.parse(sessionStorage.getItem('shopData'))._id
 					},
 					// 把订单的80%更新到用户的钱包中
 					update: {
-						money: JSON.parse(sessionStorage.getItem('user')).money + this.details.price * 0.8
+						money: JSON.parse(sessionStorage.getItem('shopData')).money + this.details.price * 0.8
 					}
 				})
 			}
@@ -346,11 +346,11 @@ export default {
 			// let newUserInfo = await this.$api.getData(`https://m.yixiutech.com/user/openid/${JSON.parse(sessionStorage.getItem('userInfo')).openid}`)
 
 			let newUserInfo = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-				collection: 'User',
-				_id: JSON.parse(sessionStorage.getItem('user'))._id
+				collection: 'Shop',
+				_id: JSON.parse(sessionStorage.getItem('shopData'))._id
 			})
 
-			sessionStorage.setItem('user', JSON.stringify(newUserInfo.data[0]));
+			sessionStorage.setItem('shopData', JSON.stringify(newUserInfo.data[0]));
 			
 			toast.hide();
 			if (res.code == 200) {

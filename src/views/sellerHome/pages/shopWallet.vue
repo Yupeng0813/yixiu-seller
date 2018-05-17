@@ -81,7 +81,7 @@ export default {
                     time: 1000,
                     txt: '你没有那么多钱'
                 }).show()
-                }else{
+                } else {
                     this.$createDialog({
                         type: 'confirm',
                         title: '提现到微信',
@@ -100,8 +100,9 @@ export default {
                         },
                         onConfirm: async () => {
                             let withdrawCash = await this.$api.sendData('https://m.yixiutech.com/shop/withdrawals', {
+								_id: JSON.parse(sessionStorage.getItem('shopData'))._id,
 								openid: sessionStorage.getItem('openid'),
-								payment: that.MoneyValue
+								payment: that.MoneyValue * 100
 							})
 
 							if (withdrawCash.code !== 200) {
