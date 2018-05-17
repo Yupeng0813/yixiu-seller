@@ -99,19 +99,19 @@ export default {
                             href: 'javascript:;'
                         },
                         onConfirm: async () => {
-                            let withdrawCash = await this.$api.sendData('https://m.yixiutech.com/shop/withdrawals', {
-								_id: JSON.parse(sessionStorage.getItem('shopData'))._id,
-								openid: sessionStorage.getItem('openid'),
-								payment: that.MoneyValue * 100
-							})
+                            // let withdrawCash = await this.$api.sendData('https://m.yixiutech.com/shop/withdrawals', {
+							// 	_id: JSON.parse(sessionStorage.getItem('shopData'))._id,
+							// 	openid: sessionStorage.getItem('openid'),
+							// 	payment: that.MoneyValue * 100
+							// })
 
-							if (withdrawCash.code !== 200) {
-								alert(withdrawCash.errMsg);
-								return;
-							}
+							// if (withdrawCash.code !== 200) {
+							// 	alert(withdrawCash.errMsg);
+							// 	return;
+							// }
 
-							this.prompt('提现成功', 'correct').show();
-							this.wallentMoney = this.wallentMoney - that.MoneyValue
+							// this.prompt('提现成功', 'correct').show();
+							// this.wallentMoney = this.wallentMoney - that.MoneyValue
                         },
                         onCancel: () => {
                             getMyMoney.hide();
