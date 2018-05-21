@@ -17,7 +17,7 @@ export default {
   methods: {
     async wechatLogin(){
       let appid = 'wx09e56891c8a3ff17';
-      let redirect_uri = 'https://m.yixiutech.com/yixiuwebapp/home';
+      let redirect_uri = 'https://m.yixiutech.com/yixiuseller';
       let response_type = 'code';
       let scope = 'snsapi_base';
       let state = '2';
