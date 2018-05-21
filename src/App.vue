@@ -82,6 +82,17 @@
 
       } else {
         // 非微信环境
+        var auths=null;
+        // 监听plusready事件  
+        document.addEventListener( "plusready", function(){
+          // 扩展API加载完毕，现在可以正常调用扩展API
+          plus.oauth.getServices( function(services){
+            console.log(services);
+            auths = services;
+          }, function(e){
+            alert( "获取分享服务列表失败："+e.message+" - "+e.code );
+          } );
+        }, false );
         // plusReady();
         // document.addEventListener('plusready', plusReady, false);
 
