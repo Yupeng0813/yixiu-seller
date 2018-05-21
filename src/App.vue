@@ -82,8 +82,8 @@
 
       } else {
         // 非微信环境
-        plusReady();
-        document.addEventListener('plusready', plusReady, false);
+        // plusReady();
+        // document.addEventListener('plusready', plusReady, false);
 
         let shop = plus.storage.getItem('shopData');
         let user = JSON.parse(plus.storage.getItem('user'));
