@@ -24,12 +24,6 @@
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[65]));
       // sessionStorage.setItem('shopData', JSON.stringify(res.data[74]));
 
-      // let model = await this.$api.sendData('https://m.yixiutech.com/sql/remove', {
-      //   collection: 'PhoneModel',
-      //   shop: '5ae19f6ae3c2bf0434448946',
-      //   _id: '5ae6ad0b7f6c5011479e21d8'
-      // })
-
       let code = location.href.indexOf('code') !== -1 && location.href.split('=')[1].split('&')[0];
 
       let state = location.href.indexOf('state') !== -1 && location.href.split('state=')[1].split('#')[0];  
@@ -37,16 +31,6 @@
       if (state != '123') {
         sessionStorage.setItem('parent', state);
       }
-
-      // let updateM = await this.$api.sendData('https://m.yixiutech.com/sql/update', {
-      //   collection: 'User',
-      //   find: {
-      //     _id: '5ad243afab85e142eaef928d'
-      //   },
-      //   update: {
-      //     money: 800
-      //   }
-      // })
 
       let user = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
         collection: 'User',
@@ -98,7 +82,43 @@
 
       } else {
         // 非微信环境
-        this.$router.push('/sellerHome');
+        plusReady();
+        document.addEventListener('plusready', plusReady, false);
+
+        let shop = plus.storage.getItem('shopData');
+        let user = JSON.parse(plus.storage.getItem('user'));
+
+        // 先判断用户是否注册过
+
+        if (user) {
+          if (shop) {
+            // 登录过店铺
+            this.$router.push('/sellerHome');
+            this.prompt('自动登录成功', 'correct').show();
+          } else {
+            // 没有登录过店铺
+
+            let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+              collection: 'Shop',
+              findType: 'findOne',
+              owner: user._id
+            })
+
+            // 店铺不存在
+            if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
+              this.$router.push('/enterRules');
+            } else {
+              // 店铺存在，跳转用户页
+              sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+              // 在webapp上运行时的数据
+              plus.storage.setItem('shopData', JSON.stringify(shop.data));
+              this.$router.push('/sellerHome');
+            }
+          }
+        } else {
+          this.$router.push('/login');
+        }
+
       }
     },
     data () {
@@ -109,6 +129,9 @@
       }
     },
     methods: {
+      setStorage (user, phone) {
+        plus.storage.setItem('xuhaichao', '18883994599');
+      },
       initUserInfo(data) { //初始化用户信息
         const information = {
           headimgurl: data.headimgurl || '',//用户头像

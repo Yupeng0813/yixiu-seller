@@ -108,6 +108,8 @@
           }
 
           this.prompt("登录成功", 'correct').show();
+
+          plus.storage.setItem('user', JSON.stringify(res));
           
           let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
             collection: 'Shop',
@@ -121,6 +123,8 @@
           } else {
             // 店铺存在，跳转用户页
             sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+            // 在webapp上运行时的数据
+            plus.storage.setItem('shopData', JSON.stringify(shop.data));
             this.$router.push('/sellerHome');
           }
 
