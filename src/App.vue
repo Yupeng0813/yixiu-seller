@@ -82,53 +82,62 @@
 
       } else {
         // 非微信环境
-        var auths=null;
-        // 监听plusready事件  
+        // plusReady();
+        // document.addEventListener('plusready', plusReady, false);
+
+        // let shop = plus.storage.getItem('shopData');
+        // let user = JSON.parse(plus.storage.getItem('user'));
+
+        let that = this;
+        
+        // this.$router.push("/userlogin");
+        let auths = null;
         document.addEventListener( "plusready", function(){
-          // 扩展API加载完毕，现在可以正常调用扩展API
+        // 扩展API加载完毕，现在可以正常调用扩展API
           plus.oauth.getServices( function(services){
-            console.log(services);
+            console.log(JSON.stringify(services));
             auths = services;
+            alert("webapp调用");
+            that.authLogin(auths);
+            // alert("webapp获取信息");
+            // that.authUserInfo(auths);
           }, function(e){
             alert( "获取分享服务列表失败："+e.message+" - "+e.code );
           } );
         }, false );
-        // plusReady();
-        // document.addEventListener('plusready', plusReady, false);
-
-        let shop = plus.storage.getItem('shopData');
-        let user = JSON.parse(plus.storage.getItem('user'));
 
         // 先判断用户是否注册过
 
-        if (user) {
-          if (shop) {
-            // 登录过店铺
-            this.$router.push('/sellerHome');
-            this.prompt('自动登录成功', 'correct').show();
-          } else {
-            // 没有登录过店铺
+        // if (user) {
+        //   if (shop) {
+        //     // 登录过店铺
+        //     this.$router.push('/sellerHome');
+        //     this.prompt('自动登录成功', 'correct').show();
+        //   } else {
+        //     // 没有登录过店铺
 
-            let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-              collection: 'Shop',
-              findType: 'findOne',
-              owner: user._id
-            })
+        //     let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        //       collection: 'Shop',
+        //       findType: 'findOne',
+        //       owner: user._id
+        //     })
 
-            // 店铺不存在
-            if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
-              this.$router.push('/enterRules');
-            } else {
-              // 店铺存在，跳转用户页
-              sessionStorage.setItem('shopData', JSON.stringify(shop.data));
-              // 在webapp上运行时的数据
-              plus.storage.setItem('shopData', JSON.stringify(shop.data));
-              this.$router.push('/sellerHome');
-            }
-          }
-        } else {
-          this.$router.push('/login');
-        }
+        //     // 店铺不存在
+        //     if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
+        //       this.$router.push('/enterRules');
+        //     } else {
+        //       // 店铺存在，跳转用户页
+        //       sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+        //       // 在webapp上运行时的数据
+        //       plus.storage.setItem('shopData', JSON.stringify(shop.data));
+        //       this.$router.push('/sellerHome');
+        //     }
+        //   }
+        // } else {
+        //   this.$router.push('/login');
+        // }
+
+        this.$router.push('/login');
 
       }
     },
@@ -140,6 +149,37 @@
       }
     },
     methods: {
+      authLogin(auths) {
+			  let s = auths[0];
+			  if ( !s.authResult ) {
+				  s.login( function(e){
+				    alert( "登录认证成功！" );
+				  }, function(e){
+					  alert( "登录认证失败！" );
+				  } );
+				  s.getUserInfo( function(e){
+					  alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
+            sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
+				  }, function(e){
+					  alert( "获取用户信息失败："+e.message+" - "+e.code );
+				  } );
+			  }else{
+				  alert( "已经登录认证！" );
+			  }
+      },
+		  authUserInfo(auths) {
+			  var s = auths[0];
+			  if ( !s.authResult ) {
+				  alert("未登录授权！");
+			  } else {
+				  s.getUserInfo( function(e){
+					  alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
+            sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
+				  }, function(e){
+					  alert( "获取用户信息失败："+e.message+" - "+e.code );
+				  } );
+			  }
+		  },
       setStorage (user, phone) {
         plus.storage.setItem('xuhaichao', '18883994599');
       },
