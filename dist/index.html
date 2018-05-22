@@ -1,1 +1,35 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>翼修</title><link href=/yixiuseller/css/app.035f6f7cf4f7c63bbce4cd99b31255c6.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src="https://api.map.baidu.com/api?v=2.0&ak=Kd6A7YiZccDlgzFaz71DAxFhQziojKUT"></script><script type=text/javascript src=/yixiuseller/js/manifest.758e032ac570a031f2bb.js></script><script type=text/javascript src=/yixiuseller/js/vendor.f551f2dcd76663fb3835.js></script><script type=text/javascript src=/yixiuseller/js/app.d37fe88f34523226be8c.js></script></body></html>
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>翼修商户</title><script type=text/javascript charset=utf-8>var auths=null;
+		  // 监听plusready事件  
+		  document.addEventListener( "plusready", function(){
+			  // 扩展API加载完毕，现在可以正常调用扩展API
+			  plus.oauth.getServices( function(services){
+				  console.log(JSON.stringify(services));
+				  auths = services;
+			  }, function(e){
+				  alert( "获取分享服务列表失败："+e.message+" - "+e.code );
+			  } );
+		  }, false );
+      function authLogin(){
+        // sessionStorage.setItem("longdong", "18584664675555");
+			  console.log(JSON.stringify(auths));
+			  var s = auths[0];
+			  if ( !s.authResult ) {
+				  s.login( function(e){
+					  alert( "登录认证成功！" );
+				  }, function(e){
+					  alert( "登录认证失败！" );
+				  } );
+			  }else{
+				    alert( "已经登录认证！" );
+			  }
+				s.getUserInfo( function(e){
+					alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
+          sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
+          return JSON.stringify(s.userInfo);
+				}, function(e){
+					alert( "获取用户信息失败："+e.message+" - "+e.code );
+				} );
+		  }
+      var infoOfWX = authLogin();
+      infoOfWX();
+      infoOfWX();</script><link href=/yixiuseller/css/app.035f6f7cf4f7c63bbce4cd99b31255c6.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src="https://api.map.baidu.com/api?v=2.0&ak=Kd6A7YiZccDlgzFaz71DAxFhQziojKUT"></script><script type=text/javascript src=/yixiuseller/js/manifest.758e032ac570a031f2bb.js></script><script type=text/javascript src=/yixiuseller/js/vendor.f551f2dcd76663fb3835.js></script><script type=text/javascript src=/yixiuseller/js/app.d37fe88f34523226be8c.js></script></body></html>
