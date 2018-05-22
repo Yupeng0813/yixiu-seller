@@ -81,7 +81,8 @@
         this.isUserRegister(userInfo);
 
       } else {
-        alert("webapp调用");
+        console.log("------------------");
+        alert("webapp入口");
         // 非微信环境
         // plusReady();
         // document.addEventListener('plusready', plusReady, false);
@@ -95,6 +96,7 @@
         let auths = null;
         document.addEventListener( "plusready", function(){
         // 扩展API加载完毕，现在可以正常调用扩展API
+          alert("webapp调用api");
           plus.oauth.getServices( function(services){
             console.log(JSON.stringify(services));
             auths = services;
