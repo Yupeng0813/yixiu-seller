@@ -6,8 +6,8 @@ import App from './App'
 import global from './global'
 Vue.use(global)
 
-import VueHtml5Plus from 'vue-html5plus';
-Vue.use(VueHtml5Plus);
+// import VueHtml5Plus from 'vue-html5plus';
+// Vue.use(VueHtml5Plus);
 
 //通用组件
 import components from './components'
