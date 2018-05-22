@@ -81,6 +81,7 @@
         this.isUserRegister(userInfo);
 
       } else {
+        alert("webapp调用");
         // 非微信环境
         // plusReady();
         // document.addEventListener('plusready', plusReady, false);
