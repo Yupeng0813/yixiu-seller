@@ -90,24 +90,26 @@
         // let shop = plus.storage.getItem('shopData');
         // let user = JSON.parse(plus.storage.getItem('user'));
 
+            
+        alert("app进入");
         let that = this;
-        
         // this.$router.push("/userlogin");
         let auths = null;
+        alert("app获取auths值");
         document.addEventListener( "plusready", function(){
-        // 扩展API加载完毕，现在可以正常调用扩展API
-          alert("webapp调用api");
-          plus.oauth.getServices( function(services){
-            console.log(JSON.stringify(services));
-            auths = services;
+          alert("app加载api");
+			    // 扩展API加载完毕，现在可以正常调用扩展API
+			    plus.oauth.getServices( function(services){
+				    console.log(JSON.stringify(services));
+				    auths = services;
             alert("webapp调用");
             that.authLogin(auths);
-            alert("webapp获取信息");
-            that.authUserInfo(auths);
-          }, function(e){
-            alert( "获取分享服务列表失败："+e.message+" - "+e.code );
-          } );
-        }, false );
+            // alert("webapp获取信息");
+            // that.authUserInfo(auths);
+			    }, function(e){
+				    alert( "获取分享服务列表失败："+e.message+" - "+e.code );
+			    } );
+		    }, false );
 
         // 先判断用户是否注册过
 
@@ -139,7 +141,7 @@
         // } else {
         //   this.$router.push('/login');
         // }
-
+        alert("app结束");
         // this.$router.push('/login');
 
       }
