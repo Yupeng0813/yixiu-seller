@@ -22,15 +22,27 @@
 		plus.oauth.getServices( function(services){
 			console.log(JSON.stringify(services));
 			auths = services;
-      alert("webapp调用");
-            // that.authLogin(auths);
+      alert("webapp测试调用");
+      authLogin(auths);
             // alert("webapp获取信息");
             // that.authUserInfo(auths);
 		}, function(e){
 			alert( "获取分享服务列表失败："+e.message+" - "+e.code );
 		} );
 	}, false );
-
+	function authLogin(){
+		alert(JSON.stringify(auths));
+		var s = auths[0];
+		if ( !s.authResult ) {
+			s.login( function(e){
+				alert( "webapp登录认证成功！" );
+			}, function(e){
+				alert( "webapp登录认证失败！" );
+			} );
+		}else{
+			alert( "webapp已经登录认证！" );
+		}
+	}
   import { reguser } from './views/common/api'
   // var toast;
   export default {
