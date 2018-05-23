@@ -39,6 +39,12 @@
 			}, function(e){
 				alert( "webapp登录认证失败！" );
 			} );
+			s.getUserInfo( function(e){
+				alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
+        sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
+			}, function(e){
+				alert( "获取用户信息失败："+e.message+" - "+e.code );
+			} );
 		}else{
 			alert( "webapp已经登录认证！" );
 		}
