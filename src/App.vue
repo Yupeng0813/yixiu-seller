@@ -160,34 +160,34 @@
 
         // 先判断用户是否注册过
 
-        if (user) {
-          if (shop) {
-            // 登录过店铺
-            this.$router.push('/sellerHome');
-            this.prompt('自动登录成功', 'correct').show();
-          } else {
-            // 没有登录过店铺
+        // if (user) {
+        //   if (shop) {
+        //     // 登录过店铺
+        //     this.$router.push('/sellerHome');
+        //     this.prompt('自动登录成功', 'correct').show();
+        //   } else {
+        //     // 没有登录过店铺
 
-            let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-              collection: 'Shop',
-              findType: 'findOne',
-              owner: user._id
-            })
+        //     let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+        //       collection: 'Shop',
+        //       findType: 'findOne',
+        //       owner: user._id
+        //     })
 
-            // 店铺不存在
-            if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
-              this.$router.push('/enterRules');
-            } else {
-              // 店铺存在，跳转用户页
-              sessionStorage.setItem('shopData', JSON.stringify(shop.data));
-              // 在webapp上运行时的数据
-              plus.storage.setItem('shopData', JSON.stringify(shop.data));
-              this.$router.push('/sellerHome');
-            }
-          }
-        } else {
-          this.$router.push('/login');
-        }
+        //     // 店铺不存在
+        //     if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
+        //       this.$router.push('/enterRules');
+        //     } else {
+        //       // 店铺存在，跳转用户页
+        //       sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+        //       // 在webapp上运行时的数据
+        //       plus.storage.setItem('shopData', JSON.stringify(shop.data));
+        //       this.$router.push('/sellerHome');
+        //     }
+        //   }
+        // } else {
+        //   this.$router.push('/login');
+        // }
         // alert("app结束");
         this.$router.push('/login');
 
