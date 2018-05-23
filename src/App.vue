@@ -17,12 +17,12 @@
 <script>
   var auths = null;
   document.addEventListener( "plusready", function(){
-    alert("app测试api");
+    // alert("app测试api");
 		// 扩展API加载完毕，现在可以正常调用扩展API
 		plus.oauth.getServices( function(services){
-			console.log(JSON.stringify(services));
+			// console.log(JSON.stringify(services));
 			auths = services;
-      alert("webapp测试调用");
+      // alert("webapp测试调用");
       authLogin(auths);
             // alert("webapp获取信息");
             // that.authUserInfo(auths);
@@ -31,24 +31,28 @@
 		} );
 	}, false );
 	function authLogin(){
-		alert(JSON.stringify(auths));
+		// alert(JSON.stringify(auths));
 		var s = auths[0];
 		if ( !s.authResult ) {
 			s.login( function(e){
-				alert( "webapp登录认证成功！" );
+				alert( "登录认证成功！" );
 			}, function(e){
-				alert( "webapp登录认证失败！" );
+				alert( "登录认证失败！" );
 			} );
 			s.getUserInfo( function(e){
-				alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
+				// alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
         sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
+        plus.storage.setItem('wxuserinfo', JSON.stringify(s.userInfo));
 			}, function(e){
 				alert( "获取用户信息失败："+e.message+" - "+e.code );
 			} );
 		}else{
-			alert( "webapp已经登录认证！" );
+			alert( "已经登录认证！" );
 		}
 	}
+  plusReady();
+  document.addEventListener('plusready', plusReady, false);
+
   import { reguser } from './views/common/api'
   // var toast;
   export default {
@@ -124,68 +128,68 @@
         this.isUserRegister(userInfo);
 
       } else {
-        console.log("------------------");
-        alert("webapp入口");
+        // console.log("------------------");
+        // alert("webapp入口");
         // 非微信环境
         // plusReady();
         // document.addEventListener('plusready', plusReady, false);
-
+        let wxuserinfo = plus.storage.getItem('wxuserinfo');
         // let shop = plus.storage.getItem('shopData');
         // let user = JSON.parse(plus.storage.getItem('user'));
 
             
-        alert("app进入");
-        let that = this;
-        // this.$router.push("/userlogin");
-        let auths = null;
-        alert("app获取auths值");
-        document.addEventListener( "plusready", function(){
-          alert("app加载api");
-			    // 扩展API加载完毕，现在可以正常调用扩展API
-			    plus.oauth.getServices( function(services){
-				    console.log(JSON.stringify(services));
-				    auths = services;
-            alert("webapp调用");
-            that.authLogin(auths);
-            // alert("webapp获取信息");
-            // that.authUserInfo(auths);
-			    }, function(e){
-				    alert( "获取分享服务列表失败："+e.message+" - "+e.code );
-			    } );
-		    }, false );
+        // alert("app进入");
+        // let that = this;
+        // // this.$router.push("/userlogin");
+        // let auths = null;
+        // alert("app获取auths值");
+        // document.addEventListener( "plusready", function(){
+        //   alert("app加载api");
+			  //   // 扩展API加载完毕，现在可以正常调用扩展API
+			  //   plus.oauth.getServices( function(services){
+				//     console.log(JSON.stringify(services));
+				//     auths = services;
+        //     alert("webapp调用");
+        //     that.authLogin(auths);
+        //     // alert("webapp获取信息");
+        //     // that.authUserInfo(auths);
+			  //   }, function(e){
+				//     alert( "获取分享服务列表失败："+e.message+" - "+e.code );
+			  //   } );
+		    // }, false );
 
         // 先判断用户是否注册过
 
-        // if (user) {
-        //   if (shop) {
-        //     // 登录过店铺
-        //     this.$router.push('/sellerHome');
-        //     this.prompt('自动登录成功', 'correct').show();
-        //   } else {
-        //     // 没有登录过店铺
+        if (user) {
+          if (shop) {
+            // 登录过店铺
+            this.$router.push('/sellerHome');
+            this.prompt('自动登录成功', 'correct').show();
+          } else {
+            // 没有登录过店铺
 
-        //     let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
-        //       collection: 'Shop',
-        //       findType: 'findOne',
-        //       owner: user._id
-        //     })
+            let shop = await this.$api.sendData('https://m.yixiutech.com/sql/find', {
+              collection: 'Shop',
+              findType: 'findOne',
+              owner: user._id
+            })
 
-        //     // 店铺不存在
-        //     if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
-        //       this.$router.push('/enterRules');
-        //     } else {
-        //       // 店铺存在，跳转用户页
-        //       sessionStorage.setItem('shopData', JSON.stringify(shop.data));
-        //       // 在webapp上运行时的数据
-        //       plus.storage.setItem('shopData', JSON.stringify(shop.data));
-        //       this.$router.push('/sellerHome');
-        //     }
-        //   }
-        // } else {
-        //   this.$router.push('/login');
-        // }
-        alert("app结束");
-        // this.$router.push('/login');
+            // 店铺不存在
+            if (shop == undefined || JSON.stringify(shop.data) == '{}' ) {
+              this.$router.push('/enterRules');
+            } else {
+              // 店铺存在，跳转用户页
+              sessionStorage.setItem('shopData', JSON.stringify(shop.data));
+              // 在webapp上运行时的数据
+              plus.storage.setItem('shopData', JSON.stringify(shop.data));
+              this.$router.push('/sellerHome');
+            }
+          }
+        } else {
+          this.$router.push('/login');
+        }
+        // alert("app结束");
+        this.$router.push('/login');
 
       }
     },
@@ -208,6 +212,7 @@
 				  s.getUserInfo( function(e){
 					  alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
             sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
+            plus.storage.setItem('wxuser', JSON.stringify(s.userInfo));
 				  }, function(e){
 					  alert( "获取用户信息失败："+e.message+" - "+e.code );
 				  } );
