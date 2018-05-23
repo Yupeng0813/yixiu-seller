@@ -15,20 +15,36 @@
 </template>
 
 <script>
+  var auths = null;
+  document.addEventListener( "plusready", function(){
+    alert("app测试api");
+		// 扩展API加载完毕，现在可以正常调用扩展API
+		plus.oauth.getServices( function(services){
+			console.log(JSON.stringify(services));
+			auths = services;
+      alert("webapp调用");
+            // that.authLogin(auths);
+            // alert("webapp获取信息");
+            // that.authUserInfo(auths);
+		}, function(e){
+			alert( "获取分享服务列表失败："+e.message+" - "+e.code );
+		} );
+	}, false );
+
   import { reguser } from './views/common/api'
-  var toast;
+  // var toast;
   export default {
     name: 'App',
-    components: {
-      // mainApp
-    },
+    // components: {
+    //   // mainApp
+    // },
     async created() {
-      toast = this.$createToast({
-        txt: 'Loading...',
-        mask: true,
-        time: 2000
-      })
-      toast.show();
+      // toast = this.$createToast({
+      //   txt: 'Loading...',
+      //   mask: true,
+      //   time: 2000
+      // })
+      // toast.show();
       // let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[65]));
       // sessionStorage.setItem('shopData', JSON.stringify(res.data[74]));
