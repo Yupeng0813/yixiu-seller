@@ -42,7 +42,7 @@
 			s.getUserInfo( function(e){
 				// alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
         sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
-        plus.storage.setItem('wxuserinfo', JSON.stringify(s.userInfo));
+        // plus.storage.setItem('wxuserinfo', JSON.stringify(s.userInfo));
 			}, function(e){
 				alert( "获取用户信息失败："+e.message+" - "+e.code );
 			} );
@@ -50,8 +50,9 @@
 			alert( "已经登录认证！" );
 		}
 	}
-  plusReady();
-  document.addEventListener('plusready', plusReady, false);
+  
+  // plusReady();
+  // document.addEventListener('plusready', plusReady, false);
 
   import { reguser } from './views/common/api'
   // var toast;
