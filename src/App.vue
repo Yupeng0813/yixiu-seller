@@ -42,7 +42,7 @@
 			s.getUserInfo( function(e){
 				// alert( "获取用户信息成功："+JSON.stringify(s.userInfo) );
         sessionStorage.setItem("infoOfWX", JSON.stringify(s.userInfo));
-        // plus.storage.setItem('wxuserinfo', JSON.stringify(s.userInfo));
+        plus.storage.setItem('wxuserinfo', JSON.stringify(s.userInfo));
 			}, function(e){
 				alert( "获取用户信息失败："+e.message+" - "+e.code );
 			} );
@@ -134,7 +134,7 @@
         // 非微信环境
         // plusReady();
         // document.addEventListener('plusready', plusReady, false);
-        let wxuserinfo = plus.storage.getItem('wxuserinfo');
+        // let wxuserinfo = plus.storage.getItem('wxuserinfo');
         // let shop = plus.storage.getItem('shopData');
         // let user = JSON.parse(plus.storage.getItem('user'));
 
