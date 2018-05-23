@@ -18,6 +18,8 @@ export default {
     async wechatLogin(){
       let wxuserinfo = plus.storage.getItem('wxuserinfo');
       alert(wxuserinfo);
+      alert('2');
+      alert(sessionStorage.getItem("infoOfWX"));
       // let appid = 'wx09e56891c8a3ff17';
       // let redirect_uri = 'https://m.yixiutech.com/yixiuseller';
       // let response_type = 'code';
