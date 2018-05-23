@@ -16,10 +16,19 @@
 
 <script>
   import { reguser } from './views/common/api'
+  var toast;
   export default {
     name: 'App',
+    components: {
+      // mainApp
+    },
     async created() {
-
+      toast = this.$createToast({
+        txt: 'Loading...',
+        mask: true,
+        time: 2000
+      })
+      toast.show();
       // let res = await this.$api.sendData('https://m.yixiutech.com/shop/filter', {limit: 100, skip: 0});
 			// sessionStorage.setItem('shopData', JSON.stringify(res.data[65]));
       // sessionStorage.setItem('shopData', JSON.stringify(res.data[74]));
