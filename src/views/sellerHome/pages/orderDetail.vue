@@ -338,7 +338,7 @@ export default {
 					},
 					// 把订单的80%更新到用户的钱包中
 					update: {
-						money: JSON.parse(sessionStorage.getItem('shopData')).money + this.details.price * 0.8
+						money: JSON.parse(sessionStorage.getItem('shopData')).money + this.details.price * 0.95
 					}
 				})
 			}
